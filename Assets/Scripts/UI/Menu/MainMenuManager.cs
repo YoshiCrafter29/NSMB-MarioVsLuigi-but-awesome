@@ -786,7 +786,8 @@ public class MainMenuManager : MonoBehaviour, ILobbyCallbacks, IInRoomCallbacks,
     }
     public void ChangeLevel(int index) {
         levelDropdown.SetValueWithoutNotify(index);
-        Camera.main.transform.position = levelCameraPositions[index].transform.position;
+        if (index < levelCameraPositions.Length)
+            Camera.main.transform.position = levelCameraPositions[index].transform.position;
     }
     public void SetLevelIndex() {
         if (!PhotonNetwork.IsMasterClient)
@@ -798,7 +799,7 @@ public class MainMenuManager : MonoBehaviour, ILobbyCallbacks, IInRoomCallbacks,
 
         ChangeLevel(newLevelIndex);
         string message = null;
-        if (mapsSpecialMessages != null && newLevelIndex < mapsSpecialMessages.Count & mapsSpecialMessages[newLevelIndex] != null)
+        if (mapsSpecialMessages != null && newLevelIndex < mapsSpecialMessages.Count && mapsSpecialMessages[newLevelIndex] != null)
         {
             message = mapsSpecialMessages[newLevelIndex];
         }
