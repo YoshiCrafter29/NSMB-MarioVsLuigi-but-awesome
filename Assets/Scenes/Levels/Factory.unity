@@ -478,7 +478,7 @@ PrefabInstance:
     - target: {fileID: 5500062339093502114, guid: 43d56bd18d06e9b4abe323618a20a228,
         type: 3}
       propertyPath: richPresenceId
-      value: block factory
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 5500062339093502114, guid: 43d56bd18d06e9b4abe323618a20a228,
         type: 3}
@@ -995,6 +995,37 @@ PrefabInstance:
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 946c21a210ac3094bba96c7e4190a452, type: 3}
+--- !u!1 &644044180
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 644044181}
+  m_Layer: 0
+  m_Name: StarSpawn (7)
+  m_TagString: StarSpawn
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 2147483647
+  m_IsActive: 1
+--- !u!4 &644044181
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 644044180}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.7500114, y: 4.500018, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1292545025}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &734426327 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5780648777663731100, guid: 946c21a210ac3094bba96c7e4190a452,
@@ -1227,6 +1258,52 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &860273386
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 860273387}
+  - component: {fileID: 860273388}
+  m_Layer: 0
+  m_Name: GoombaSpawn (6)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 2147483647
+  m_IsActive: 1
+--- !u!4 &860273387
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 860273386}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -15.000062, y: -0.500002, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1292545025}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &860273388
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 860273386}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cd6e70ad40a93f419db4c4118455d7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: Prefabs/Enemy/Garnet
+  currentEntity: {fileID: 0}
 --- !u!4 &866938952 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5780648777663731100, guid: 946c21a210ac3094bba96c7e4190a452,
@@ -1372,6 +1449,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: Prefabs/Enemy/Goomba
   currentEntity: {fileID: 0}
+--- !u!1 &1096774241
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1096774242}
+  m_Layer: 0
+  m_Name: StarSpawn (5)
+  m_TagString: StarSpawn
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 2147483647
+  m_IsActive: 1
+--- !u!4 &1096774242
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1096774241}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -16.500067, y: -2.7500114, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1292545025}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1235561975
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1552,6 +1660,13 @@ Transform:
   - {fileID: 555613790}
   - {fileID: 1933107610}
   - {fileID: 1327638137}
+  - {fileID: 2019152059}
+  - {fileID: 1429470853}
+  - {fileID: 1096774242}
+  - {fileID: 2087376724}
+  - {fileID: 644044181}
+  - {fileID: 1661383176}
+  - {fileID: 860273387}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1806,6 +1921,37 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 819096060}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1429470852
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1429470853}
+  m_Layer: 0
+  m_Name: StarSpawn (4)
+  m_TagString: StarSpawn
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 2147483647
+  m_IsActive: 1
+--- !u!4 &1429470853
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1429470852}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 10.750044, y: 11.250046, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1292545025}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1532911249 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5780648777663731100, guid: 946c21a210ac3094bba96c7e4190a452,
@@ -1899,6 +2045,37 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1714704402}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1661383175
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1661383176}
+  m_Layer: 0
+  m_Name: StarSpawn (8)
+  m_TagString: StarSpawn
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 2147483647
+  m_IsActive: 1
+--- !u!4 &1661383176
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1661383175}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.50001, y: 4.500018, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1292545025}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1714704402
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3104,8 +3281,8 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 48
-      m_TileSpriteIndex: 51
-      m_TileMatrixIndex: 2
+      m_TileSpriteIndex: 42
+      m_TileMatrixIndex: 1
       m_TileColorIndex: 6
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
@@ -3854,8 +4031,8 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 48
-      m_TileSpriteIndex: 51
-      m_TileMatrixIndex: 1
+      m_TileSpriteIndex: 42
+      m_TileMatrixIndex: 2
       m_TileColorIndex: 6
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
@@ -3864,8 +4041,8 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 48
-      m_TileSpriteIndex: 41
-      m_TileMatrixIndex: 2
+      m_TileSpriteIndex: 44
+      m_TileMatrixIndex: 1
       m_TileColorIndex: 6
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
@@ -4614,7 +4791,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 48
-      m_TileSpriteIndex: 36
+      m_TileSpriteIndex: 44
       m_TileMatrixIndex: 1
       m_TileColorIndex: 6
       m_TileObjectToInstantiateIndex: 65535
@@ -4624,7 +4801,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 48
-      m_TileSpriteIndex: 41
+      m_TileSpriteIndex: 44
       m_TileMatrixIndex: 2
       m_TileColorIndex: 6
       m_TileObjectToInstantiateIndex: 65535
@@ -5374,8 +5551,8 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 48
-      m_TileSpriteIndex: 36
-      m_TileMatrixIndex: 1
+      m_TileSpriteIndex: 38
+      m_TileMatrixIndex: 2
       m_TileColorIndex: 6
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
@@ -5384,7 +5561,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 48
-      m_TileSpriteIndex: 41
+      m_TileSpriteIndex: 44
       m_TileMatrixIndex: 2
       m_TileColorIndex: 6
       m_TileObjectToInstantiateIndex: 65535
@@ -6134,8 +6311,8 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 48
-      m_TileSpriteIndex: 41
-      m_TileMatrixIndex: 1
+      m_TileSpriteIndex: 38
+      m_TileMatrixIndex: 2
       m_TileColorIndex: 6
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
@@ -6144,8 +6321,8 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 48
-      m_TileSpriteIndex: 36
-      m_TileMatrixIndex: 2
+      m_TileSpriteIndex: 44
+      m_TileMatrixIndex: 1
       m_TileColorIndex: 6
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
@@ -6894,8 +7071,8 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 48
-      m_TileSpriteIndex: 41
-      m_TileMatrixIndex: 1
+      m_TileSpriteIndex: 38
+      m_TileMatrixIndex: 2
       m_TileColorIndex: 6
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
@@ -6904,7 +7081,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 48
-      m_TileSpriteIndex: 41
+      m_TileSpriteIndex: 38
       m_TileMatrixIndex: 2
       m_TileColorIndex: 6
       m_TileObjectToInstantiateIndex: 65535
@@ -7654,7 +7831,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 48
-      m_TileSpriteIndex: 41
+      m_TileSpriteIndex: 44
       m_TileMatrixIndex: 1
       m_TileColorIndex: 6
       m_TileObjectToInstantiateIndex: 65535
@@ -7664,7 +7841,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 48
-      m_TileSpriteIndex: 47
+      m_TileSpriteIndex: 48
       m_TileMatrixIndex: 2
       m_TileColorIndex: 6
       m_TileObjectToInstantiateIndex: 65535
@@ -8414,7 +8591,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 48
-      m_TileSpriteIndex: 47
+      m_TileSpriteIndex: 56
       m_TileMatrixIndex: 1
       m_TileColorIndex: 6
       m_TileObjectToInstantiateIndex: 65535
@@ -15091,38 +15268,38 @@ Tilemap:
     m_Data: {fileID: 0}
   - m_RefCount: 0
     m_Data: {fileID: 0}
-  - m_RefCount: 19
+  - m_RefCount: 16
     m_Data: {fileID: -456271804, guid: ad3de27574a028b45ac509a9ad22abc5, type: 3}
   - m_RefCount: 35
     m_Data: {fileID: 955899589, guid: ad3de27574a028b45ac509a9ad22abc5, type: 3}
-  - m_RefCount: 245
+  - m_RefCount: 249
     m_Data: {fileID: 934842933, guid: ad3de27574a028b45ac509a9ad22abc5, type: 3}
   - m_RefCount: 0
     m_Data: {fileID: 0}
   - m_RefCount: 64
     m_Data: {fileID: 1087931379, guid: ad3de27574a028b45ac509a9ad22abc5, type: 3}
-  - m_RefCount: 21
+  - m_RefCount: 14
     m_Data: {fileID: 595581569, guid: ad3de27574a028b45ac509a9ad22abc5, type: 3}
-  - m_RefCount: 133
+  - m_RefCount: 135
     m_Data: {fileID: -1076678767, guid: ad3de27574a028b45ac509a9ad22abc5, type: 3}
   - m_RefCount: 0
     m_Data: {fileID: 0}
-  - m_RefCount: 212
+  - m_RefCount: 218
     m_Data: {fileID: 947971501, guid: ad3de27574a028b45ac509a9ad22abc5, type: 3}
   - m_RefCount: 17
     m_Data: {fileID: 1586660091, guid: ad3de27574a028b45ac509a9ad22abc5, type: 3}
   - m_RefCount: 38
     m_Data: {fileID: 948398763, guid: ad3de27574a028b45ac509a9ad22abc5, type: 3}
-  - m_RefCount: 10
+  - m_RefCount: 8
     m_Data: {fileID: 643915760, guid: ad3de27574a028b45ac509a9ad22abc5, type: 3}
-  - m_RefCount: 55
+  - m_RefCount: 56
     m_Data: {fileID: -831424576, guid: ad3de27574a028b45ac509a9ad22abc5, type: 3}
   - m_RefCount: 0
     m_Data: {fileID: 0}
   - m_RefCount: 36
     m_Data: {fileID: -3318003699947615551, guid: f4b7221be8b79c94c9c8919163014cb0,
       type: 3}
-  - m_RefCount: 14
+  - m_RefCount: 12
     m_Data: {fileID: 430058671, guid: ad3de27574a028b45ac509a9ad22abc5, type: 3}
   - m_RefCount: 28
     m_Data: {fileID: 1778087341, guid: ad3de27574a028b45ac509a9ad22abc5, type: 3}
@@ -15133,7 +15310,7 @@ Tilemap:
   - m_RefCount: 4
     m_Data: {fileID: 8270874794024937302, guid: a4f9db535870eae41abdc512667ac3d3,
       type: 3}
-  - m_RefCount: 7
+  - m_RefCount: 8
     m_Data: {fileID: -1848021212, guid: ad3de27574a028b45ac509a9ad22abc5, type: 3}
   - m_RefCount: 12
     m_Data: {fileID: 3684821612489964542, guid: f4b7221be8b79c94c9c8919163014cb0,
@@ -15162,7 +15339,7 @@ Tilemap:
       e31: 0
       e32: 0
       e33: 1
-  - m_RefCount: 356
+  - m_RefCount: 355
     m_Data:
       e00: -1
       e01: 0
@@ -15180,7 +15357,7 @@ Tilemap:
       e31: 0
       e32: 0
       e33: 1
-  - m_RefCount: 662
+  - m_RefCount: 663
     m_Data:
       e00: 1
       e01: 0
@@ -15289,6 +15466,68 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1795547738}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2019152058
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2019152059}
+  m_Layer: 0
+  m_Name: StarSpawn (3)
+  m_TagString: StarSpawn
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 2147483647
+  m_IsActive: 1
+--- !u!4 &2019152059
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2019152058}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -10.750044, y: 11.250046, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1292545025}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2087376723
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2087376724}
+  m_Layer: 0
+  m_Name: StarSpawn (6)
+  m_TagString: StarSpawn
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 2147483647
+  m_IsActive: 1
+--- !u!4 &2087376724
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2087376723}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -19.250078, y: 4.500018, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1292545025}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2113704063
 GameObject:
   m_ObjectHideFlags: 0
