@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 902954096586121819}
   - component: {fileID: -3964062451811810513}
   m_Layer: 9
-  m_Name: WalterWhite
+  m_Name: Bruh
   m_TagString: goomba
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -38,8 +38,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7523289063499453450}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.4884, y: -0.9129, z: 0}
-  m_LocalScale: {x: 0.2128381, y: 0.23495694, z: 1}
+  m_LocalPosition: {x: -0.6244, y: -1.1452, z: 0}
+  m_LocalScale: {x: 0.14999919, y: 0.15429257, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7523289063554791169}
@@ -63,9 +63,9 @@ MonoBehaviour:
   collide: 1
   iceCarryable: 1
   flying: 0
-  body: {fileID: 0}
-  hitbox: {fileID: 0}
-  speed: 10
+  body: {fileID: 7523289063499453455}
+  hitbox: {fileID: 7523289063499453452}
+  speed: 5
   deathTimer: -1
   terminalVelocity: -8
 --- !u!212 &7523289063499453457
@@ -109,7 +109,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300000, guid: 604c0988cfda14a48a4d67ddadfaeaf4, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ddcfb500be41da944b419d473287a375, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -132,7 +132,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 1
-  m_Mass: 2.0132337
+  m_Mass: 0.5805334
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 3
@@ -158,14 +158,14 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 5.4, y: 7.2}
+    oldSize: {x: 4.33, y: 5.76}
     newSize: {x: 0.22, y: 0.06}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 5.53, y: 7.28}
+  m_Size: {x: 4.37, y: 5.74}
   m_EdgeRadius: 0
 --- !u!95 &7523289063499453454
 Animator:
