@@ -55,13 +55,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92a2c7e0961057346829575aceae0464, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 2
+  speed: 7.5
   bouncePower: 0
   terminalVelocity: 8
   blinkingRate: 6
   avoidPlayers: 0
   followMe: {fileID: 0}
-  followMeCounter: 0
+  followMeCounter: 99999
   despawnCounter: 15
   ignoreCounter: 0
   powerupScriptable: {fileID: 11400000, guid: b3cbb6a3699975d4fb0a2e641a09684c, type: 2}
@@ -155,7 +155,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0}
-    oldSize: {x: 0.6875, y: 0.625}
+    oldSize: {x: 1, y: 1}
     newSize: {x: 0.6875, y: 0.625}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -188,11 +188,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7d0b50aa454f0d4e9eeef5ebac67e30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  goUpSlopes: 0
+  goUpSlopes: 1
   onGround: 0
-  hitRoof: 0
-  hitRight: 0
-  hitLeft: 0
+  hitRoof: 1
+  hitRight: 1
+  hitLeft: 1
   crushableGround: 0
   floorAngle: 0
   currentCollider: {fileID: 3379984366894124866}
