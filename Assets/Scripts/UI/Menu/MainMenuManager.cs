@@ -49,7 +49,7 @@ public class MainMenuManager : MonoBehaviour, ILobbyCallbacks, IInRoomCallbacks,
 
     public Selectable[] roomSettings;
 
-    public List<string> maps, debugMaps;
+    public List<string> maps, debugMaps, mapsSpecialMessages;
 
     private bool pingsReceived, joinedLate;
     private List<string> formattedRegions;
@@ -797,8 +797,14 @@ public class MainMenuManager : MonoBehaviour, ILobbyCallbacks, IInRoomCallbacks,
             return;
 
         ChangeLevel(newLevelIndex);
-        GlobalChatMessage("Map set to: " + levelDropdown.captionText.text, ColorToVector(Color.red));
-
+        string message = null;
+        if (mapsSpecialMessages != null && newLevelIndex < mapsSpecialMessages.Count & mapsSpecialMessages[newLevelIndex] != null)
+        {
+            message = mapsSpecialMessages[newLevelIndex];
+        }
+        GlobalChatMessage("Map set to: " + levelDropdown.captionText.text + (message == null ? "" : $"\n{message}"), ColorToVector(Color.red));
+        
+        
         ExitGames.Client.Photon.Hashtable table = new() {
             [Enums.NetRoomProperties.Level] = levelDropdown.value
         };
