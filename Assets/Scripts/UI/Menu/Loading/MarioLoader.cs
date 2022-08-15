@@ -24,10 +24,10 @@ public class MarioLoader : MonoBehaviour {
         }
 
         if (scaleDisplay == 0) {
-            transform.localScale = Vector3.one;
+            transform.localScale = Vector3.one / 2;
             image.sprite = data.loadingSmallSprite;
         } else if (scaleDisplay == 1) {
-            transform.localScale = Vector3.one;
+            transform.localScale = Vector3.one * 1;
             image.sprite = data.loadingBigSprite;
         } else {
             transform.localScale = Vector3.one * 2;
