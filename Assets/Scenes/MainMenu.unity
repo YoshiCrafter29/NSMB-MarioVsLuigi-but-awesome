@@ -32771,11 +32771,15 @@ MonoBehaviour:
   - '[C] Jungle'
   - '[C] Sky'
   - '[C] Volcano'
+  - '[WIP] Desert'
+  - '[WIP] Bonus'
   - Shrex World
   debugMaps:
   - '[WIP] Desert'
   - '[WIP] Bonus'
   mapsSpecialMessages:
+  - 
+  - 
   - 
   - 
   - 
