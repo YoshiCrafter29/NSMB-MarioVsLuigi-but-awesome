@@ -251,6 +251,7 @@ public class PlayerAnimationController : MonoBehaviourPun {
             Enums.PowerupState.IceFlower => 3,
             Enums.PowerupState.Suit => 4,
             Enums.PowerupState.McDonalds => 5,
+            Enums.PowerupState.BombFlower => 6,
             _ => 0
         };
         materialBlock.SetFloat("PowerupState", ps);
