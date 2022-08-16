@@ -43,6 +43,7 @@ public class GameManager : MonoBehaviour, IOnEventCallback, IInRoomCallbacks, IC
     BoundsInt origin;
     GameObject currentStar = null;
     GameObject[] starSpawns;
+    GameObject[] moonSpawns;
     readonly List<GameObject> remainingSpawns = new();
     float spawnStarCount;
     public int startServerTime, endServerTime = -1;
@@ -409,6 +410,7 @@ public class GameManager : MonoBehaviour, IOnEventCallback, IInRoomCallbacks, IC
 
         //Star spawning
         starSpawns = GameObject.FindGameObjectsWithTag("StarSpawn");
+        moonSpawns = GameObject.FindGameObjectsWithTag("MoonSpawn");
         Utils.GetCustomProperty(Enums.NetRoomProperties.StarRequirement, out starRequirement);
         Utils.GetCustomProperty(Enums.NetRoomProperties.CoinRequirement, out coinRequirement);
 
@@ -601,6 +603,7 @@ public class GameManager : MonoBehaviour, IOnEventCallback, IInRoomCallbacks, IC
                 if ((spawnStarCount -= Time.deltaTime) <= 0) {
                     if (remainingSpawns.Count <= 0)
                         remainingSpawns.AddRange(starSpawns);
+                        remainingSpawns.AddRange(moonSpawns);
 
                     int index = Random.Range(0, remainingSpawns.Count);
                     Vector3 spawnPos = remainingSpawns[index].transform.position;
@@ -874,6 +877,10 @@ public class GameManager : MonoBehaviour, IOnEventCallback, IInRoomCallbacks, IC
         foreach (GameObject starSpawn in GameObject.FindGameObjectsWithTag("StarSpawn")) {
             Gizmos.DrawCube(starSpawn.transform.position, Vector3.one);
             Gizmos.DrawIcon(starSpawn.transform.position, "star", true, new Color(1, 1, 1, 0.5f));
+        }
+        foreach (GameObject moonSpawn in GameObject.FindGameObjectsWithTag("MoonSpawn")) {
+            Gizmos.DrawCube(moonSpawn.transform.position, Vector3.one);
+            Gizmos.DrawIcon(moonSpawn.transform.position, "moon", true, new Color(1, 1, 1, 0.5f));
         }
     }
 
