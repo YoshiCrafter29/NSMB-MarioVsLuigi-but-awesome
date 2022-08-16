@@ -705,32 +705,46 @@ public class PlayerController : MonoBehaviourPun, IFreezableEntity, ICustomSeria
             return;
 
         switch (state) {
-        case Enums.PowerupState.IceFlower:
-        case Enums.PowerupState.FireFlower: {
-            if (wallSlideLeft || wallSlideRight || groundpound || triplejump || flying || drill || crouching || sliding)
-                return;
+            case Enums.PowerupState.IceFlower:
+            case Enums.PowerupState.McDonalds:
+            case Enums.PowerupState.FireFlower: {
+                    if (wallSlideLeft || wallSlideRight || groundpound || triplejump || flying || drill || crouching || sliding)
+                        return;
 
-            int count = 0;
-            foreach (FireballMover existingFire in FindObjectsOfType<FireballMover>()) {
-                if (existingFire.photonView.IsMine && ++count >= 6)
-                    return;
-            }
+                    int count = 0;
+                    foreach (FireballMover existingFire in FindObjectsOfType<FireballMover>()) {
+                        if (existingFire.photonView.IsMine && ++count >= 6)
+                            return;
+                    }
 
-            if (count <= 1) {
-                fireballTimer = 1.25f;
-                canShootProjectile = count == 0;
-            } else if (fireballTimer <= 0) {
-                fireballTimer = 1.25f;
-                canShootProjectile = true;
-            } else if (canShootProjectile) {
-                canShootProjectile = false;
-            } else {
-                return;
-            }
+                    if (count <= 1) {
+                        fireballTimer = 1.25f;
+                        canShootProjectile = count == 0;
+                    } else if (fireballTimer <= 0) {
+                        fireballTimer = 1.25f;
+                        canShootProjectile = true;
+                    } else if (canShootProjectile) {
+                        canShootProjectile = false;
+                    } else {
+                        return;
+                    }
 
-            bool ice = state == Enums.PowerupState.IceFlower;
-            string projectile = ice ? "Iceball" : "Fireball";
-            Enums.Sounds sound = ice ? Enums.Sounds.Powerup_Iceball_Shoot : Enums.Sounds.Powerup_Fireball_Shoot;
+                    string projectile = "";
+                    Enums.Sounds sound = Enums.Sounds.Enemy_Bobomb_Explode;
+                    switch (state) {
+                        case Enums.PowerupState.FireFlower:
+                            projectile = "Fireball";
+                            sound = Enums.Sounds.Powerup_Fireball_Shoot;
+                            break;
+                        case Enums.PowerupState.IceFlower:
+                            projectile = "IceBall";
+                            sound = Enums.Sounds.Powerup_Iceball_Shoot;
+                            break;
+                        case Enums.PowerupState.McDonalds:
+                            projectile = "Hamburger";
+                            sound = Enums.Sounds.Powerup_Hamburger;
+                            break;
+                    }
 
             Vector2 pos = body.position + new Vector2(facingRight ^ animator.GetCurrentAnimatorStateInfo(0).IsName("turnaround") ? 0.5f : -0.5f, 0.3f);
             if (Utils.IsTileSolidAtWorldLocation(pos)) {
@@ -922,10 +936,7 @@ public class PlayerController : MonoBehaviourPun, IFreezableEntity, ICustomSeria
             SpawnStars(1, false);
             break;
         }
-        case Enums.PowerupState.FireFlower:
-        case Enums.PowerupState.IceFlower:
-        case Enums.PowerupState.PropellerMushroom:
-        case Enums.PowerupState.BlueShell: {
+        default: {
             state = Enums.PowerupState.Mushroom;
             powerupFlash = 2f;
             SpawnStars(1, false);
@@ -1194,6 +1205,12 @@ public class PlayerController : MonoBehaviourPun, IFreezableEntity, ICustomSeria
         particle.GetComponent<RespawnParticle>().player = this;
 
         gameObject.SetActive(false);
+
+        if (GameManager.Instance.localPlayer == this.gameObject && GameManager.Instance.mainMusic != GameManager.Instance._mainMusic)
+        {
+            GameManager.Instance.musicState = null;
+            GameManager.Instance.PlaySong(Enums.MusicState.Normal, GameManager.Instance._mainMusic);
+        }
     }
 
 

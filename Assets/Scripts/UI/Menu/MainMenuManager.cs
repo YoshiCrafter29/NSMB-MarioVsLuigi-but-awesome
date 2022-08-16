@@ -402,7 +402,7 @@ public class MainMenuManager : MonoBehaviour, ILobbyCallbacks, IInRoomCallbacks,
             GlobalController.Instance.disconnectCause = null;
         }
 
-        Camera.main.transform.position = levelCameraPositions[Random.Range(0, maps.Count)].transform.position;
+        ChangeLevel(Random.Range(0, maps.Count));
         levelDropdown.AddOptions(maps);
         LoadSettings(!PhotonNetwork.InRoom);
 
