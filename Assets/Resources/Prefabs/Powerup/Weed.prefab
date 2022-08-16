@@ -55,8 +55,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92a2c7e0961057346829575aceae0464, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 50
-  bouncePower: 0
+  speed: 0
+  bouncePower: 10
   terminalVelocity: 8
   blinkingRate: 6
   avoidPlayers: 1
