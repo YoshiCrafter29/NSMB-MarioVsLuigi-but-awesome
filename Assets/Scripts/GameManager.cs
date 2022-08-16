@@ -43,7 +43,6 @@ public class GameManager : MonoBehaviour, IOnEventCallback, IInRoomCallbacks, IC
     BoundsInt origin;
     GameObject currentStar = null;
     GameObject[] starSpawns;
-    GameObject[] moonSpawns;
     readonly List<GameObject> remainingSpawns = new();
     float spawnStarCount;
     public int startServerTime, endServerTime = -1;
@@ -409,8 +408,16 @@ public class GameManager : MonoBehaviour, IOnEventCallback, IInRoomCallbacks, IC
         originalTiles = tilemap.GetTilesBlock(origin);
 
         //Star spawning
-        starSpawns = GameObject.FindGameObjectsWithTag("StarSpawn");
-        moonSpawns = GameObject.FindGameObjectsWithTag("MoonSpawn");
+        GameObject[] stars = GameObject.FindGameObjectsWithTag("StarSpawn");
+        GameObject[] moons = GameObject.FindGameObjectsWithTag("MoonSpawn");
+        starSpawns = new GameObject[stars.Length + moons.Length];
+
+        for(int i = 0; i < stars.Length; i++)
+            starSpawns[i] = stars[i];
+        for (int i = 0; i < moons.Length; i++)
+            starSpawns[i + stars.Length] = moons[i];
+
+
         Utils.GetCustomProperty(Enums.NetRoomProperties.StarRequirement, out starRequirement);
         Utils.GetCustomProperty(Enums.NetRoomProperties.CoinRequirement, out coinRequirement);
 
@@ -603,10 +610,10 @@ public class GameManager : MonoBehaviour, IOnEventCallback, IInRoomCallbacks, IC
                 if ((spawnStarCount -= Time.deltaTime) <= 0) {
                     if (remainingSpawns.Count <= 0)
                         remainingSpawns.AddRange(starSpawns);
-                        remainingSpawns.AddRange(moonSpawns);
 
                     int index = Random.Range(0, remainingSpawns.Count);
                     Vector3 spawnPos = remainingSpawns[index].transform.position;
+                    bool isMoon = remainingSpawns[index].tag == "MoonSpawn";
                     //Check for people camping spawn
                     foreach (var hit in Physics2D.OverlapCircleAll(spawnPos, 4)) {
                         if (hit.gameObject.CompareTag("Player")) {
@@ -616,7 +623,8 @@ public class GameManager : MonoBehaviour, IOnEventCallback, IInRoomCallbacks, IC
                         }
                     }
 
-                    currentStar = PhotonNetwork.InstantiateRoomObject("Prefabs/BigStar", spawnPos, Quaternion.identity);
+                    var prefab = isMoon ? "DaMoon" : "BigStar";
+                    currentStar = PhotonNetwork.InstantiateRoomObject($"Prefabs/{prefab}", spawnPos, Quaternion.identity);
                     remainingSpawns.RemoveAt(index);
                     spawnStarCount = 10.4f - (playerCount / 5f);
                 }
