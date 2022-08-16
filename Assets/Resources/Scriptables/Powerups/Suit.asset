@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   state: 9
   prefab: Suit
-  soundEffect: 88
+  soundEffect: 78
   spawnChance: 10
   losingSpawnBonus: -5
   big: 0

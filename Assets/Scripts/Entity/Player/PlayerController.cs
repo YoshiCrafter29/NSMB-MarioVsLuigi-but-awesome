@@ -718,16 +718,29 @@ public class PlayerController : MonoBehaviourPun, IFreezableEntity, ICustomSeria
                             return;
                     }
 
-                    if (count <= 1) {
-                        fireballTimer = 1.25f;
-                        canShootProjectile = count == 0;
-                    } else if (fireballTimer <= 0) {
-                        fireballTimer = 1.25f;
+                    if (state == Enums.PowerupState.McDonalds)
+                    {
                         canShootProjectile = true;
-                    } else if (canShootProjectile) {
-                        canShootProjectile = false;
-                    } else {
-                        return;
+                    } else
+                    {
+                        if (count <= 1)
+                        {
+                            fireballTimer = 1.25f;
+                            canShootProjectile = count == 0;
+                        }
+                        else if (fireballTimer <= 0)
+                        {
+                            fireballTimer = 1.25f;
+                            canShootProjectile = true;
+                        }
+                        else if (canShootProjectile)
+                        {
+                            canShootProjectile = false;
+                        }
+                        else
+                        {
+                            return;
+                        }
                     }
 
                     string projectile = "";
