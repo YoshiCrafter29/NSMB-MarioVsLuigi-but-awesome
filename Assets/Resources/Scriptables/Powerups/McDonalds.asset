@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   state: 10
   prefab: McDonalds
-  soundEffect: 16
+  soundEffect: 90
   spawnChance: 0.3
   losingSpawnBonus: 0
   big: 0
