@@ -47,4 +47,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Levels/Factory.unity
     guid: 125788cb2e394b6478713d9b0b747bf6
+  - enabled: 1
+    path: Assets/Scenes/Levels/HolyShitPipes.unity
+    guid: 96b967d4018413041bbf3e55cf5ac34d
   m_configObjects: {}
