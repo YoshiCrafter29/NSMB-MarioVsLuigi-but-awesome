@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef39e92abd243b443989359aab9cf267, type: 3}
+  m_Name: GayTile
+  m_EditorClassIdentifier: 
+  m_AnimatedSprites:
+  - {fileID: -1990979327, guid: 00630c2de13d20d45bb4e26cda46c3d1, type: 3}
+  - {fileID: -362963457, guid: 00630c2de13d20d45bb4e26cda46c3d1, type: 3}
+  - {fileID: 463876819, guid: 00630c2de13d20d45bb4e26cda46c3d1, type: 3}
+  - {fileID: 2121121685, guid: 00630c2de13d20d45bb4e26cda46c3d1, type: 3}
+  - {fileID: -1990979327, guid: 00630c2de13d20d45bb4e26cda46c3d1, type: 3}
+  m_MinSpeed: 8
+  m_MaxSpeed: 8
+  m_AnimationStartTime: 0
+  m_AnimationStartFrame: 0
+  m_TileColliderType: 2
+  particleColor: {r: 0, g: 0, b: 0, a: 0}
+  breakableBySmallMario: 0
+  breakableByLargeMario: 0
+  breakableByGiantMario: 1
+  breakableByShells: 0
+  breakableByBombs: 1
+  bumpIfNotBroken: 0
+  bumpIfBroken: 0
+  resultTile: SpecialTiles/EmptyYellowQuestion
