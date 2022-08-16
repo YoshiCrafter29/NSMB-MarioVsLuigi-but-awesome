@@ -57,8 +57,8 @@ TextureImporter:
   textureType: 0
   textureShape: 4
   singleChannelComponent: 0
-  flipbookRows: 16
-  flipbookColumns: 1
+  flipbookRows: 6
+  flipbookColumns: 3
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0

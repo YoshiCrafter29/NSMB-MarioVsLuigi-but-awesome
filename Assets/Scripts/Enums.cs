@@ -27,6 +27,7 @@ public static class Enums {
         [PowerupState.BlueShell] = new(2),
         [PowerupState.Suit] = new(2),
         [PowerupState.McDonalds] = new(2),
+        [PowerupState.BombFlower] = new(2),
         [PowerupState.MegaMushroom] = new(4),
     };
     public enum PowerupState : byte {
@@ -40,7 +41,8 @@ public static class Enums {
         BlueShell,
         MegaMushroom,
         Suit,
-        McDonalds
+        McDonalds,
+        BombFlower
     }
     #endregion
     #region ANIMATION & MUSIC
