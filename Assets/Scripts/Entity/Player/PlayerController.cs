@@ -707,6 +707,7 @@ public class PlayerController : MonoBehaviourPun, IFreezableEntity, ICustomSeria
         switch (state) {
             case Enums.PowerupState.IceFlower:
             case Enums.PowerupState.McDonalds:
+            case Enums.PowerupState.BombFlower:
             case Enums.PowerupState.FireFlower: {
                     if (wallSlideLeft || wallSlideRight || groundpound || triplejump || flying || drill || crouching || sliding)
                         return;
@@ -746,6 +747,10 @@ public class PlayerController : MonoBehaviourPun, IFreezableEntity, ICustomSeria
                             projectile = "Hamburger";
                             sound = Enums.Sounds.Powerup_BigMac;
                             wallProjectile = "HamburgerWall";
+                            break;
+                        case Enums.PowerupState.BombFlower:
+                            projectile = "BobombProj";
+                            sound = Enums.Sounds.Powerup_Fireball_Shoot;
                             break;
                     }
 
