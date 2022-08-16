@@ -745,6 +745,7 @@ public class PlayerController : MonoBehaviourPun, IFreezableEntity, ICustomSeria
                         case Enums.PowerupState.McDonalds:
                             projectile = "Hamburger";
                             sound = Enums.Sounds.Powerup_BigMac;
+                            wallProjectile = "HamburgerWall";
                             break;
                     }
 
