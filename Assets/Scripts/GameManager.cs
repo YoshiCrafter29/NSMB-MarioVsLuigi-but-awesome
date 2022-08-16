@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour, IOnEventCallback, IInRoomCallbacks, IC
     }
 
     public MusicData mainMusic, invincibleMusic, megaMushroomMusic;
+    public MusicData _mainMusic;
 
     public int levelMinTileX, levelMinTileY, levelWidthTile, levelHeightTile;
     public float cameraMinY, cameraHeightY, cameraMinX = -1000, cameraMaxX = 1000;
@@ -426,6 +427,8 @@ public class GameManager : MonoBehaviour, IOnEventCallback, IInRoomCallbacks, IC
         }
 
         brickBreak = ((GameObject) Instantiate(Resources.Load("Prefabs/Particle/BrickBreak"))).GetComponent<ParticleSystem>();
+
+        _mainMusic = mainMusic;
     }
 
     IEnumerator LoadingComplete(int startTimestamp) {
@@ -683,7 +686,7 @@ public class GameManager : MonoBehaviour, IOnEventCallback, IInRoomCallbacks, IC
         }
     }
 
-    private void PlaySong(Enums.MusicState state, MusicData musicToPlay) {
+    public void PlaySong(Enums.MusicState state, MusicData musicToPlay) {
         if (musicState == state)
             return;
 

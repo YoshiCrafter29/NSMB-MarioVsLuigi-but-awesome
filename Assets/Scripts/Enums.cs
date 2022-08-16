@@ -25,10 +25,22 @@ public static class Enums {
         [PowerupState.IceFlower] = new(2),
         [PowerupState.PropellerMushroom] = new(2),
         [PowerupState.BlueShell] = new(2),
+        [PowerupState.Suit] = new(2),
+        [PowerupState.McDonalds] = new(2),
         [PowerupState.MegaMushroom] = new(4),
     };
     public enum PowerupState : byte {
-        None, MiniMushroom, Small, Mushroom, FireFlower, IceFlower, PropellerMushroom, BlueShell, MegaMushroom
+        None,
+        MiniMushroom,
+        Small,
+        Mushroom, 
+        FireFlower,
+        IceFlower,
+        PropellerMushroom,
+        BlueShell,
+        MegaMushroom,
+        Suit,
+        McDonalds
     }
     #endregion
     #region ANIMATION & MUSIC
@@ -41,6 +53,7 @@ public static class Enums {
         Normal,
         MegaMushroom,
         Starman,
+        Underground
     }
     //Sound effects
     public enum Sounds : byte {
@@ -144,7 +157,10 @@ public static class Enums {
         [SoundData("world/star_nearby")]                        World_Star_Nearby = 75,
         [SoundData("world/star_spawn")]                         World_Star_Spawn = 76,
         [SoundData("world/water_splash")]                       World_Water_Splash = 77,
+
+        // ADDON SHIT LMAO
         [SoundData("powerup/smoke_weed_everyday")]              Powerup_Weed = 88,
+        [SoundData("powerup/hamburger")]                        Powerup_Hamburger = 89,
     }
 
     #endregion

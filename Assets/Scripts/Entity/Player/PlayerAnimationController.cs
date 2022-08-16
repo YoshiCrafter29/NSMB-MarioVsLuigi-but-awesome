@@ -249,6 +249,8 @@ public class PlayerAnimationController : MonoBehaviourPun {
             Enums.PowerupState.FireFlower => 1,
             Enums.PowerupState.PropellerMushroom => 2,
             Enums.PowerupState.IceFlower => 3,
+            Enums.PowerupState.Suit => 4,
+            Enums.PowerupState.McDonalds => 5,
             _ => 0
         };
         materialBlock.SetFloat("PowerupState", ps);
@@ -356,6 +358,16 @@ public class PlayerAnimationController : MonoBehaviourPun {
             transform.position = body.position = new Vector3(pe.otherPipe.transform.position.x, pe.otherPipe.transform.position.y, 1) - (Vector3) offset;
             photonView.RPC("PlaySound", RpcTarget.All, Enums.Sounds.Player_Sound_Powerdown);
             controller.cameraController.Recenter();
+
+            if (pe.otherPipe.destData != null && GameManager.Instance.localPlayer == this.gameObject)
+            {
+                GameManager.Instance.mainMusic = pe.otherPipe.destData;
+                if (GameManager.Instance.musicState == Enums.MusicState.Normal)
+                {
+                    GameManager.Instance.musicState = null;
+                    GameManager.Instance.PlaySong(Enums.MusicState.Normal, GameManager.Instance.mainMusic);
+                }
+            }
         }
         if (pipeTimer >= pipeDuration) {
             controller.pipeEntering = null;
