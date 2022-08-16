@@ -252,10 +252,18 @@ public class PlayerAnimationController : MonoBehaviourPun {
             Enums.PowerupState.Suit => 4,
             Enums.PowerupState.McDonalds => 5,
             Enums.PowerupState.BombFlower => 6,
+            Enums.PowerupState.Weed => 7,
+            _ => 0
+        };
+
+        int esOff = controller.state switch
+        {
+            Enums.PowerupState.Weed => 1,
+            Enums.PowerupState.BombFlower => 2,
             _ => 0
         };
         materialBlock.SetFloat("PowerupState", ps);
-        materialBlock.SetFloat("EyeState", (int) eyeState);
+        materialBlock.SetFloat("EyeState", (int) eyeState + (esOff * 4));
         materialBlock.SetFloat("ModelScale", transform.lossyScale.x);
         if (enableGlow)
             materialBlock.SetColor("GlowColor", GlowColor);
