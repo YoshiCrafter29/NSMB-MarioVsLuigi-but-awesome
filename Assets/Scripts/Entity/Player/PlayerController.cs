@@ -686,7 +686,7 @@ public class PlayerController : MonoBehaviourPun, IFreezableEntity, ICustomSeria
         if (Frozen)
             return;
 
-        if (running && (state == Enums.PowerupState.FireFlower || state == Enums.PowerupState.IceFlower) && GlobalController.Instance.settings.fireballFromSprint)
+        if (running && GlobalController.Instance.settings.fireballFromSprint)
             ActivatePowerupAction();
     }
 
@@ -730,6 +730,7 @@ public class PlayerController : MonoBehaviourPun, IFreezableEntity, ICustomSeria
                     }
 
                     string projectile = "";
+                    string wallProjectile = "FireballWall";
                     Enums.Sounds sound = Enums.Sounds.Enemy_Bobomb_Explode;
                     switch (state) {
                         case Enums.PowerupState.FireFlower:
@@ -739,16 +740,18 @@ public class PlayerController : MonoBehaviourPun, IFreezableEntity, ICustomSeria
                         case Enums.PowerupState.IceFlower:
                             projectile = "IceBall";
                             sound = Enums.Sounds.Powerup_Iceball_Shoot;
+                            wallProjectile = "IceBallWall";
                             break;
                         case Enums.PowerupState.McDonalds:
                             projectile = "Hamburger";
-                            sound = Enums.Sounds.Powerup_Hamburger;
+                            sound = Enums.Sounds.Powerup_BigMac;
+                            wallProjectile = "HamburgerWall";
                             break;
                     }
 
             Vector2 pos = body.position + new Vector2(facingRight ^ animator.GetCurrentAnimatorStateInfo(0).IsName("turnaround") ? 0.5f : -0.5f, 0.3f);
             if (Utils.IsTileSolidAtWorldLocation(pos)) {
-                photonView.RPC("SpawnParticle", RpcTarget.All, $"Prefabs/Particle/{projectile}Wall", pos);
+                photonView.RPC("SpawnParticle", RpcTarget.All, $"Prefabs/Particle/{wallProjectile}", pos);
             } else {
                 PhotonNetwork.Instantiate($"Prefabs/{projectile}", pos, Quaternion.identity, 0, new object[] { !facingRight ^ animator.GetCurrentAnimatorStateInfo(0).IsName("turnaround"), body.velocity.x });
             }
