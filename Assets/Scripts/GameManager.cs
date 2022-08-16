@@ -408,7 +408,16 @@ public class GameManager : MonoBehaviour, IOnEventCallback, IInRoomCallbacks, IC
         originalTiles = tilemap.GetTilesBlock(origin);
 
         //Star spawning
-        starSpawns = GameObject.FindGameObjectsWithTag("StarSpawn");
+        GameObject[] stars = GameObject.FindGameObjectsWithTag("StarSpawn");
+        GameObject[] moons = GameObject.FindGameObjectsWithTag("MoonSpawn");
+        starSpawns = new GameObject[stars.Length + moons.Length];
+
+        for(int i = 0; i < stars.Length; i++)
+            starSpawns[i] = stars[i];
+        for (int i = 0; i < moons.Length; i++)
+            starSpawns[i + stars.Length] = moons[i];
+
+
         Utils.GetCustomProperty(Enums.NetRoomProperties.StarRequirement, out starRequirement);
         Utils.GetCustomProperty(Enums.NetRoomProperties.CoinRequirement, out coinRequirement);
 
@@ -604,6 +613,7 @@ public class GameManager : MonoBehaviour, IOnEventCallback, IInRoomCallbacks, IC
 
                     int index = Random.Range(0, remainingSpawns.Count);
                     Vector3 spawnPos = remainingSpawns[index].transform.position;
+                    bool isMoon = remainingSpawns[index].tag == "MoonSpawn";
                     //Check for people camping spawn
                     foreach (var hit in Physics2D.OverlapCircleAll(spawnPos, 4)) {
                         if (hit.gameObject.CompareTag("Player")) {
@@ -613,7 +623,8 @@ public class GameManager : MonoBehaviour, IOnEventCallback, IInRoomCallbacks, IC
                         }
                     }
 
-                    currentStar = PhotonNetwork.InstantiateRoomObject("Prefabs/BigStar", spawnPos, Quaternion.identity);
+                    var prefab = isMoon ? "DaMoon" : "BigStar";
+                    currentStar = PhotonNetwork.InstantiateRoomObject($"Prefabs/{prefab}", spawnPos, Quaternion.identity);
                     remainingSpawns.RemoveAt(index);
                     spawnStarCount = 10.4f - (playerCount / 5f);
                 }
@@ -874,6 +885,10 @@ public class GameManager : MonoBehaviour, IOnEventCallback, IInRoomCallbacks, IC
         foreach (GameObject starSpawn in GameObject.FindGameObjectsWithTag("StarSpawn")) {
             Gizmos.DrawCube(starSpawn.transform.position, Vector3.one);
             Gizmos.DrawIcon(starSpawn.transform.position, "star", true, new Color(1, 1, 1, 0.5f));
+        }
+        foreach (GameObject moonSpawn in GameObject.FindGameObjectsWithTag("MoonSpawn")) {
+            Gizmos.DrawCube(moonSpawn.transform.position, Vector3.one);
+            Gizmos.DrawIcon(moonSpawn.transform.position, "moon", true, new Color(1, 1, 1, 0.5f));
         }
     }
 

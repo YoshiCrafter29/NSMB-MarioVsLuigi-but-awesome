@@ -1067,10 +1067,14 @@ public class PlayerController : MonoBehaviourPun, IFreezableEntity, ICustomSeria
         num.text.text = Utils.GetSymbolString((coins + 1).ToString(), Utils.numberSymbols);
         num.color = AnimationController.GlowColor;
 
-        coins++;
+        if (state == Enums.PowerupState.Suit)
+            coins += 3;
+        else
+            coins++;
+        
         if (coins >= GameManager.Instance.coinRequirement) {
             SpawnCoinItem();
-            coins = 0;
+            coins %= GameManager.Instance.coinRequirement;
         }
 
         UpdateGameState();
