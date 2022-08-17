@@ -13,6 +13,7 @@ using ExitGames.Client.Photon;
 using TMPro;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 using NSMB.Utils;
+using System.IO;
 
 public class GameManager : MonoBehaviour, IOnEventCallback, IInRoomCallbacks, IConnectionCallbacks, IMatchmakingCallbacks {
     private static GameManager _instance;
@@ -401,6 +402,9 @@ public class GameManager : MonoBehaviour, IOnEventCallback, IInRoomCallbacks, IC
             PhotonNetwork.CreateRoom("Debug", new() {
                 CustomRoomProperties = NetworkUtils.DefaultRoomProperties
             });
+            string path = InputSystem.file.FullName;
+            if (File.Exists(path))
+                InputSystem.controls.LoadBindingOverridesFromJson(File.ReadAllText(path));
         }
 
         //Respawning Tilemaps

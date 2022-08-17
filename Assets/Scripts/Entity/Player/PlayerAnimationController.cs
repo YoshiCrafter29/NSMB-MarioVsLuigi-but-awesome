@@ -108,7 +108,7 @@ public class PlayerAnimationController : MonoBehaviourPun {
                 }
             }
             propellerVelocity = Mathf.Clamp(propellerVelocity + (1800 * ((controller.flying || controller.propeller || controller.usedPropellerThisJump) ? -1 : 1) * Time.deltaTime), -2500, -300);
-            propeller.transform.Rotate(Vector3.forward, propellerVelocity * Time.deltaTime);
+            if (propeller != null) propeller.transform.Rotate(Vector3.forward, propellerVelocity * Time.deltaTime);
 
             if (instant) {
                 models.transform.rotation = Quaternion.Euler(targetEuler);
@@ -291,11 +291,11 @@ public class PlayerAnimationController : MonoBehaviourPun {
 
         largeModel.SetActive(large);
         smallModel.SetActive(!large);
-        blueShell.SetActive(controller.state == Enums.PowerupState.BlueShell);
 
-        largeShellExclude.SetActive(!animator.GetCurrentAnimatorStateInfo(0).IsName("in-shell"));
-        propellerHelmet.SetActive(controller.state == Enums.PowerupState.PropellerMushroom);
-        if (suitcase != null) suitcase.SetActive(controller.state == Enums.PowerupState.Suit);
+        if (blueShell != null)          blueShell.SetActive(controller.state == Enums.PowerupState.BlueShell);
+        if (largeShellExclude != null)  largeShellExclude.SetActive(!animator.GetCurrentAnimatorStateInfo(0).IsName("in-shell"));
+        if (propellerHelmet != null)    propellerHelmet.SetActive(controller.state == Enums.PowerupState.PropellerMushroom);
+        if (suitcase != null)           suitcase.SetActive(controller.state == Enums.PowerupState.Suit);
         animator.avatar = large ? largeAvatar : smallAvatar;
         animator.runtimeAnimatorController = large ? controller.character.largeOverrides : controller.character.smallOverrides;
 
@@ -397,8 +397,8 @@ public class PlayerAnimationController : MonoBehaviourPun {
     public void DisableAllModels() {
         smallModel.SetActive(false);
         largeModel.SetActive(false);
-        blueShell.SetActive(false);
-        propellerHelmet.SetActive(false);
+        if (blueShell != null) blueShell.SetActive(false);
+        if (propellerHelmet != null) propellerHelmet.SetActive(false);
         animator.avatar = smallAvatar;
     }
 }
