@@ -91,7 +91,7 @@ Material:
     m_Ints: []
     m_Floats:
     - IsEyeTexture: 0
-    - PowerupState: 0
+    - PowerupState: 6
     - _AlphaClip: 0
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
@@ -110,7 +110,7 @@ Material:
     - _GlossyReflections: 1
     - _Metallic: 0
     - _Mode: 0
-    - _MultiPowerupMaterial: 0
+    - _MultiPowerupMaterial: 1
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _QueueControl: 0
