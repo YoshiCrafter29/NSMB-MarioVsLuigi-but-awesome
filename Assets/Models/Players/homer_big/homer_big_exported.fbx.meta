@@ -648,6 +648,9 @@ ModelImporter:
   - first:
       74: -2133009574828120171
     second: mario_model_mg|zero_g_walk_mario_model_mg
+  - first:
+      74: -4130286846154595228
+    second: mario_model_mg|char_swatches_lit_mAction
   externalObjects: {}
   materials:
     materialImportMode: 2
