@@ -651,7 +651,27 @@ ModelImporter:
   - first:
       74: -4130286846154595228
     second: mario_model_mg|char_swatches_lit_mAction
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material
+    second: {fileID: 2100000, guid: 4c8c91758a5077e43b41feab1f8fb1dc, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.001
+    second: {fileID: 2100000, guid: 5116f41decc67fe4e80a0c7f566a016d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: char_swatches_lit
+    second: {fileID: 2100000, guid: 9ff550585db2ee84fbc611a8a4afdfca, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: eyeball.bmp
+    second: {fileID: 2100000, guid: 74879dbeac3cde6438e61c4b441b541b, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
