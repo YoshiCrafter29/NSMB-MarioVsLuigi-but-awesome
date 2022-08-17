@@ -9869,6 +9869,7 @@ MonoBehaviour:
   largeAvatar: {fileID: 9000000, guid: 024ceb223bceebd488dbc425555f4df0, type: 3}
   primaryColor: {r: 0, g: 0, b: 0, a: 0}
   secondaryColor: {r: 0, g: 0, b: 0, a: 0}
+  shrinkBigModel: 1
   normalDrill: {fileID: 8300000, guid: 80e6fe6f66166f04e8beccc08fe56422, type: 3}
   propellerDrill: {fileID: 8300000, guid: c8ae9349c885145468011889cafc470b, type: 3}
   deathUp: 0
@@ -25082,7 +25083,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 83efa06cb7e376b4cbb1b9c9b60aab12,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.01
+      value: -0.01
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 83efa06cb7e376b4cbb1b9c9b60aab12,
         type: 3}
@@ -25097,7 +25098,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 83efa06cb7e376b4cbb1b9c9b60aab12,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.1144
+      value: 0.075
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 83efa06cb7e376b4cbb1b9c9b60aab12,
         type: 3}

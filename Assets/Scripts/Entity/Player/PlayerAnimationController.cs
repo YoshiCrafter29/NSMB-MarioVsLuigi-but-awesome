@@ -18,6 +18,7 @@ public class PlayerAnimationController : MonoBehaviourPun {
     [SerializeField] float blinkDuration = 0.1f, pipeDuration = 2f, deathUpTime = 0.6f, deathForce = 7f;
     [SerializeField] Avatar smallAvatar, largeAvatar;
     [SerializeField] Color primaryColor = Color.clear, secondaryColor = Color.clear;
+    [SerializeField] bool shrinkBigModel = false;
 
     [SerializeField] [ColorUsage(true, false)] Color? _glowColor = null;
 
@@ -282,6 +283,7 @@ public class PlayerAnimationController : MonoBehaviourPun {
             renderer.SetPropertyBlock(materialBlock);
         foreach (SkinnedMeshRenderer renderer in GetComponentsInChildren<SkinnedMeshRenderer>())
             renderer.SetPropertyBlock(materialBlock);
+        Debug.Log(ps);
 
         //hit flash
         models.SetActive(GameManager.Instance.gameover || controller.dead || !(controller.hitInvincibilityCounter > 0 && controller.hitInvincibilityCounter * (controller.hitInvincibilityCounter <= 0.75f ? 5 : 2) % (blinkDuration * 2f) < blinkDuration));
@@ -289,15 +291,25 @@ public class PlayerAnimationController : MonoBehaviourPun {
         //Model changing
         bool large = controller.state >= Enums.PowerupState.Mushroom;
 
-        largeModel.SetActive(large);
-        smallModel.SetActive(!large);
+        if (shrinkBigModel) {
+            largeModel.SetActive(true);
+            smallModel.SetActive(false);
+            Transform t = largeModel.gameObject.transform;
+            t.localScale = new Vector3(t.localScale.x, t.localScale.x * (large ? 1f : 0.5f), t.localScale.z);
+            animator.avatar = largeAvatar;
+            animator.runtimeAnimatorController = controller.character.largeOverrides;
+        } else
+        {
+            largeModel.SetActive(large);
+            smallModel.SetActive(!large);
+            animator.avatar = large ? largeAvatar : smallAvatar;
+            animator.runtimeAnimatorController = large ? controller.character.largeOverrides : controller.character.smallOverrides;
+        }
 
         if (blueShell != null)          blueShell.SetActive(controller.state == Enums.PowerupState.BlueShell);
         if (largeShellExclude != null)  largeShellExclude.SetActive(!animator.GetCurrentAnimatorStateInfo(0).IsName("in-shell"));
         if (propellerHelmet != null)    propellerHelmet.SetActive(controller.state == Enums.PowerupState.PropellerMushroom);
         if (suitcase != null)           suitcase.SetActive(controller.state == Enums.PowerupState.Suit);
-        animator.avatar = large ? largeAvatar : smallAvatar;
-        animator.runtimeAnimatorController = large ? controller.character.largeOverrides : controller.character.smallOverrides;
 
         GameManager.Instance.tilemap.GetComponent<Collider2D>().enabled = controller.pipeEntering == null;
         HandleDeathAnimation();
