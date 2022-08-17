@@ -160,6 +160,8 @@ public class PlayerAnimationController : MonoBehaviourPun {
         } else if (controller.wallSlideLeft || controller.wallSlideRight) {
             dust.transform.localPosition = new Vector2(mainHitbox.size.x * (3f / 4f) * (controller.wallSlideLeft ? -1 : 1), mainHitbox.size.y * (3f / 4f));
         }
+
+        mainHitbox.enabled = controller.pipeEntering == null;
     }
     private void SetParticleEmission(ParticleSystem particle, bool value) {
         if (value) {
@@ -311,7 +313,6 @@ public class PlayerAnimationController : MonoBehaviourPun {
         if (propellerHelmet != null)    propellerHelmet.SetActive(controller.state == Enums.PowerupState.PropellerMushroom);
         if (suitcase != null)           suitcase.SetActive(controller.state == Enums.PowerupState.Suit);
 
-        GameManager.Instance.tilemap.GetComponent<Collider2D>().enabled = controller.pipeEntering == null;
         HandleDeathAnimation();
         HandlePipeAnimation();
 

@@ -9,7 +9,7 @@ public class MovingPowerup : MonoBehaviourPun {
     public float speed, bouncePower, terminalVelocity = 4, blinkingRate = 4;
     private Rigidbody2D body;
     private SpriteRenderer sRenderer;
-    private bool right = true;
+    public bool right = true;
     public bool avoidPlayers;
     public PlayerController followMe;
     public float followMeCounter, despawnCounter = 15, ignoreCounter;

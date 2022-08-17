@@ -398,7 +398,13 @@ public class GameManager : MonoBehaviour, IOnEventCallback, IInRoomCallbacks, IC
 
         //Spawning in editor??
         if (!PhotonNetwork.IsConnectedAndReady) {
+
             PhotonNetwork.OfflineMode = true;
+            
+            Hashtable prop = new() {
+                { Enums.NetPlayerProperties.Character, 2 }
+            };
+            PhotonNetwork.LocalPlayer.SetCustomProperties(prop);
             PhotonNetwork.CreateRoom("Debug", new() {
                 CustomRoomProperties = NetworkUtils.DefaultRoomProperties
             });
