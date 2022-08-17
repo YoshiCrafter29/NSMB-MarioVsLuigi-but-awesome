@@ -13,7 +13,7 @@ public class PlayerAnimationController : MonoBehaviourPun {
 
     [SerializeField] Material glowMaterial;
 
-    [SerializeField] GameObject models, smallModel, largeModel, largeShellExclude, blueShell, propellerHelmet, propeller;
+    [SerializeField] GameObject models, smallModel, largeModel, largeShellExclude, blueShell, propellerHelmet, propeller, suitcase;
     [SerializeField] ParticleSystem dust, sparkles, drillParticle, giantParticle, fireParticle;
     [SerializeField] float blinkDuration = 0.1f, pipeDuration = 2f, deathUpTime = 0.6f, deathForce = 7f;
     [SerializeField] Avatar smallAvatar, largeAvatar;
@@ -294,6 +294,7 @@ public class PlayerAnimationController : MonoBehaviourPun {
 
         largeShellExclude.SetActive(!animator.GetCurrentAnimatorStateInfo(0).IsName("in-shell"));
         propellerHelmet.SetActive(controller.state == Enums.PowerupState.PropellerMushroom);
+        if (suitcase != null) suitcase.SetActive(controller.state == Enums.PowerupState.Suit);
         animator.avatar = large ? largeAvatar : smallAvatar;
         animator.runtimeAnimatorController = large ? controller.character.largeOverrides : controller.character.smallOverrides;
 

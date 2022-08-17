@@ -2029,7 +2029,7 @@ public class PlayerController : MonoBehaviourPun, IFreezableEntity, ICustomSeria
         float airPenalty = onGround ? 1 : 0.5f;
         float xVel = Mathf.Abs(body.velocity.x);
         float invincibleSpeedBoost = onGround && invincible > 0 ? 2f : 1f;
-        invincibleSpeedBoost *= state == Enums.PowerupState.Weed ? 5f : 1f;
+        invincibleSpeedBoost *= state == Enums.PowerupState.Weed ? 1.75f : 1f;
         float runSpeedTotal = runningMaxSpeed * invincibleSpeedBoost;
         float walkSpeedTotal = walkingMaxSpeed;
         bool reverseDirection = (left ? 1 : -1) == Mathf.Sign(body.velocity.x); // ((left && body.velocity.x > 0.02) || (right && body.velocity.x < -0.02));
@@ -2616,7 +2616,7 @@ public class PlayerController : MonoBehaviourPun, IFreezableEntity, ICustomSeria
         if (!inShell && !(sliding && Mathf.Abs(floorAngle) > slopeSlidingAngle * 2 && !uphill)) {
             bool abovemax = false;
             float invincibleSpeedBoost = invincible > 0 ? 1.5f : 1;
-            invincibleSpeedBoost *= state == Enums.PowerupState.Weed ? 3f : 1f;
+            invincibleSpeedBoost *= state == Enums.PowerupState.Weed ? 2f : 1f;
             float uphillChange = uphill ? (1 - (Mathf.Abs(floorAngle) / 360f)) : 1;
             float max;
             if (onGround) {
