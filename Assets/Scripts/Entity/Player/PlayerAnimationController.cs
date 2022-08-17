@@ -252,6 +252,7 @@ public class PlayerAnimationController : MonoBehaviourPun {
             Enums.PowerupState.Suit => 4,
             Enums.PowerupState.McDonalds => 5,
             Enums.PowerupState.BombFlower => 6,
+            Enums.PowerupState.Bikini => 7,
             _ => 0
         };
 
@@ -298,6 +299,7 @@ public class PlayerAnimationController : MonoBehaviourPun {
         animator.avatar = large ? largeAvatar : smallAvatar;
         animator.runtimeAnimatorController = large ? controller.character.largeOverrides : controller.character.smallOverrides;
 
+        GameManager.Instance.tilemap.GetComponent<Collider2D>().enabled = controller.pipeEntering == null;
         HandleDeathAnimation();
         HandlePipeAnimation();
 

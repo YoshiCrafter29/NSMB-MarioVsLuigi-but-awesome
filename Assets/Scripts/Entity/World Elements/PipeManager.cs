@@ -6,4 +6,7 @@ public class PipeManager : MonoBehaviour {
     public PipeManager otherPipe;
     public MusicData destData;
     public MusicState destState;
+    public PipeEntryType entryType = PipeEntryType.AllowAll;
+    public string[] playerList;
+    public PowerupState[] powerupList;
 }

@@ -1700,6 +1700,21 @@ public class PlayerController : MonoBehaviourPun, IFreezableEntity, ICustomSeria
                 continue;
             if (!pipe.entryAllowed)
                 continue;
+            if (pipe.entryType != Enums.PipeEntryType.AllowAll && pipe.playerList != null)
+            {
+                bool isAllowed = false;
+                foreach (string p in pipe.playerList)
+                {
+                    if (p.ToLower() == photonView.Owner.NickName.ToLower())
+                    {
+                        isAllowed = true;
+                        break;
+                    }
+                }
+                if (pipe.entryType == Enums.PipeEntryType.Blacklist) isAllowed = !isAllowed;
+                if (!isAllowed)
+                    continue;
+            }
 
             //Enter pipe
             pipeEntering = pipe;
@@ -1733,7 +1748,40 @@ public class PlayerController : MonoBehaviourPun, IFreezableEntity, ICustomSeria
                 continue;
             if (!pipe.entryAllowed)
                 continue;
+            if (pipe.entryType != Enums.PipeEntryType.AllowAll)
+            {
+                if (pipe.entryType == Enums.PipeEntryType.PowerupOnly && pipe.powerupList != null)
+                {
+                    bool allowed = false;
+                    foreach(Enums.PowerupState state in pipe.powerupList)
+                    {
+                        if (state == this.state)
+                        {
+                            allowed = true;
+                            break;
+                        }
+                    }
+                    if (!allowed)
+                    {
+                        continue;
+                    }
+                } else if (pipe.playerList != null)
+                {
+                    bool isAllowed = false;
+                    foreach (string p in pipe.playerList)
+                    {
+                        if (p.ToLower() == photonView.Owner.NickName.ToLower())
+                        {
+                            isAllowed = true;
+                            break;
+                        }
+                    }
+                    if (pipe.entryType == Enums.PipeEntryType.Blacklist) isAllowed = !isAllowed;
+                    if (!isAllowed)
+                        continue;
+                }
 
+            }
             //pipe found
             pipeEntering = pipe;
             pipeDirection = Vector2.up;

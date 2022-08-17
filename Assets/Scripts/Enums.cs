@@ -30,6 +30,7 @@ public static class Enums {
         [PowerupState.BombFlower] = new(2),
         [PowerupState.Weed] = new(2),
         [PowerupState.MegaMushroom] = new(4),
+        [PowerupState.Bikini] = new(2),
     };
     public enum PowerupState : byte {
         None,
@@ -44,7 +45,8 @@ public static class Enums {
         Suit,
         McDonalds,
         BombFlower,
-        Weed
+        Weed,
+        Bikini
     }
     #endregion
     #region ANIMATION & MUSIC
@@ -225,6 +227,14 @@ public static class Enums {
         PlayerDamagePlayer = 40,
     }
     #endregion
+
+    public enum PipeEntryType : byte
+    {
+        AllowAll = 0,
+        Whitelist = 1,
+        Blacklist = 2,
+        PowerupOnly = 3
+    }
 }
 
 public class SoundData : Attribute {
