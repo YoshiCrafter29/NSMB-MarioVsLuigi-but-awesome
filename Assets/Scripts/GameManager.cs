@@ -65,6 +65,7 @@ public class GameManager : MonoBehaviour, IOnEventCallback, IInRoomCallbacks, IC
     public int starRequirement, timedGameDuration = -1, coinRequirement;
     public bool hurryup = false;
 
+    public int defaultCharacter = 0;
     public int playerCount = 1;
     public List<PlayerController> allPlayers = new();
     public EnemySpawnpoint[] enemySpawnpoints;
@@ -402,7 +403,7 @@ public class GameManager : MonoBehaviour, IOnEventCallback, IInRoomCallbacks, IC
             PhotonNetwork.OfflineMode = true;
             
             Hashtable prop = new() {
-                { Enums.NetPlayerProperties.Character, 2 }
+                { Enums.NetPlayerProperties.Character, defaultCharacter }
             };
             PhotonNetwork.LocalPlayer.SetCustomProperties(prop);
             PhotonNetwork.CreateRoom("Debug", new() {

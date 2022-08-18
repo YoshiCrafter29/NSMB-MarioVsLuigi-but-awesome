@@ -5,40 +5,38 @@ using UnityEngine;
 public class MushroomAutoFollow : MonoBehaviour
 {
     MovingPowerup move;
+    Rigidbody2D body;
+    public GameObject playerWhoSpawnedIt;
     // Start is called before the first frame update
     void Start()
     {
         move = GetComponent<MovingPowerup>();
+        body = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
-        PlayerController closestPlayer = null;
-        float lastDist = 0;
+        if (!move.photonView.IsMine) return;
 
-        foreach(PlayerController p in GameManager.Instance.allPlayers)
+        Collider2D closest = null;
+        Vector2 closestPosition = Vector2.zero;
+        float distance = float.MaxValue;
+        foreach (var hit in Physics2D.OverlapCircleAll(body.position, 30f))
         {
-            if (closestPlayer == null)
-            {
-                closestPlayer = p;
-            }
-
-            float dist = (gameObject.transform.position.x - (p.transform.position.x));
-            while(dist < 0)
-                dist += GameManager.Instance.levelWidthTile * 0.5f;
-            dist %= GameManager.Instance.levelWidthTile * 0.5f;
-            if (dist > GameManager.Instance.levelWidthTile * 0.25f)
-                dist -= GameManager.Instance.levelWidthTile * 0.5f;
-
-            if (Mathf.Abs(lastDist) > Mathf.Abs(dist))
-            {
-                lastDist = dist;
-                closestPlayer = p;
-            }
+            if (hit.attachedRigidbody.gameObject == playerWhoSpawnedIt)
+                continue;
+            if (!hit.CompareTag("Player"))
+                continue;
+            Vector2 actualPosition = hit.attachedRigidbody.position + hit.offset;
+            float tempDistance = Vector2.Distance(actualPosition, body.position);
+            if (tempDistance > distance)
+                continue;
+            distance = tempDistance;
+            closest = hit;
+            closestPosition = actualPosition;
         }
-
-        if (closestPlayer != null)
-            move.right = lastDist > 0;
+        if (closest)
+            move.right = (closestPosition.x - body.position.x) > 0;
     }
 }

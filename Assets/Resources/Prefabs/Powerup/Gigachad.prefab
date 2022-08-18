@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 8556432279231082637}
   - component: {fileID: -1565466705953719887}
   m_Layer: 9
-  m_Name: Mushroom
+  m_Name: Gigachad
   m_TagString: Powerup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -65,7 +65,7 @@ MonoBehaviour:
   followMeCounter: 0
   despawnCounter: 15
   ignoreCounter: 0
-  powerupScriptable: {fileID: 11400000, guid: a3c6d7fa6c939be4ead398f0d82b5eb9, type: 2}
+  powerupScriptable: {fileID: 11400000, guid: 5bf00405c7e05bc42a736bb0c2882123, type: 2}
 --- !u!212 &1017215213198693198
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -107,8 +107,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 9
-  m_Sprite: {fileID: 3410918491446568398, guid: 794bc215dd02bf34ab2cfae7702bfdfd,
-    type: 3}
+  m_Sprite: {fileID: 21300000, guid: 78abf742c76fd7746b1a57d7489e0408, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -156,8 +155,8 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0.45}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0}
-    oldSize: {x: 1, y: 1}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.16, y: 0.21}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0

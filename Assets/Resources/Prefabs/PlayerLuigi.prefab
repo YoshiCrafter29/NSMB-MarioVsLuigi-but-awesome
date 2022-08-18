@@ -21539,6 +21539,7 @@ MonoBehaviour:
   alreadyGroundpounded: 0
   character: {fileID: 11400000, guid: 083779ae7bd92ab4295d580d757b328e, type: 2}
   doIceSkidding: 0
+  megachad: {fileID: 0}
 --- !u!114 &4962373736136367448
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21573,6 +21574,7 @@ MonoBehaviour:
   largeAvatar: {fileID: 9000000, guid: 024ceb223bceebd488dbc425555f4df0, type: 3}
   primaryColor: {r: 0, g: 0, b: 0, a: 0}
   secondaryColor: {r: 0, g: 0, b: 0, a: 0}
+  shrinkBigModel: 0
   normalDrill: {fileID: 8300000, guid: 80e6fe6f66166f04e8beccc08fe56422, type: 3}
   propellerDrill: {fileID: 8300000, guid: c8ae9349c885145468011889cafc470b, type: 3}
   deathUp: 0

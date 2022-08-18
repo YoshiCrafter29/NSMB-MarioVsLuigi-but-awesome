@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: 5111157548884678091}
   - component: {fileID: 1327096901491533370}
   - component: {fileID: 3348339991063947105}
+  - component: {fileID: 4306316904476104937}
   m_Layer: 9
   m_Name: MiniMushroom
   m_TagString: Powerup
@@ -59,9 +60,10 @@ MonoBehaviour:
   bouncePower: 0
   terminalVelocity: 8
   blinkingRate: 6
+  right: 1
   avoidPlayers: 0
   followMe: {fileID: 0}
-  followMeCounter: 99999
+  followMeCounter: 0
   despawnCounter: 15
   ignoreCounter: 0
   powerupScriptable: {fileID: 11400000, guid: b3cbb6a3699975d4fb0a2e641a09684c, type: 2}
@@ -273,6 +275,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interpolate: 1
   body: {fileID: 3379984366894124869}
+--- !u!114 &4306316904476104937
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3379984366894124873}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a944b8608587f274a8e0996ebe290575, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6433809598137731468
 GameObject:
   m_ObjectHideFlags: 0

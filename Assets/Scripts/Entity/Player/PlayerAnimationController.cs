@@ -65,8 +65,19 @@ public class PlayerAnimationController : MonoBehaviourPun {
 
     public void Update() {
         HandleAnimations();
+        HandleAdditionalStuff();
+
     }
 
+    void HandleAdditionalStuff()
+    {
+        bool shouldPlayMegachad = (controller.state == Enums.PowerupState.Gigachad) && !controller.dead;
+        if (shouldPlayMegachad != controller.megachad.isPlaying)
+            if (shouldPlayMegachad)
+                controller.megachad.Play();
+            else
+                controller.megachad.Stop();
+    }
     void HandleAnimations() {
         bool gameover = GameManager.Instance.gameover;
 
@@ -285,7 +296,6 @@ public class PlayerAnimationController : MonoBehaviourPun {
             renderer.SetPropertyBlock(materialBlock);
         foreach (SkinnedMeshRenderer renderer in GetComponentsInChildren<SkinnedMeshRenderer>())
             renderer.SetPropertyBlock(materialBlock);
-        Debug.Log(ps);
 
         //hit flash
         models.SetActive(GameManager.Instance.gameover || controller.dead || !(controller.hitInvincibilityCounter > 0 && controller.hitInvincibilityCounter * (controller.hitInvincibilityCounter <= 0.75f ? 5 : 2) % (blinkDuration * 2f) < blinkDuration));

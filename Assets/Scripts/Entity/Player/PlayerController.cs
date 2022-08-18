@@ -98,6 +98,8 @@ public class PlayerController : MonoBehaviourPun, IFreezableEntity, ICustomSeria
     public BoxCollider2D MainHitbox => hitboxes[0];
     public Vector2 WorldHitboxSize => MainHitbox.size * transform.lossyScale;
 
+    public AudioSource megachad;
+
     #endregion
 
     #region -- SERIALIZATION / EVENTS --
@@ -176,6 +178,16 @@ public class PlayerController : MonoBehaviourPun, IFreezableEntity, ICustomSeria
         //hitboxManager = GetComponent<WrappingHitbox>();
         AnimationController = GetComponent<PlayerAnimationController>();
         fadeOut = GameObject.FindGameObjectWithTag("FadeUI").GetComponent<FadeOutManager>();
+
+
+        megachad = gameObject.AddComponent<AudioSource>();
+        megachad.clip = Resources.Load("Sound/music/gigachad") as AudioClip;
+        megachad.loop = true;
+        megachad.spatialize = true;
+        megachad.spatialBlend = 1.0f;
+        megachad.minDistance = 2.5f;
+        megachad.maxDistance = 7.5f;
+        megachad.rolloffMode = AudioRolloffMode.Logarithmic;
 
         body.position = transform.position = GameManager.Instance.GetSpawnpoint(playerId);
 
@@ -1098,7 +1110,11 @@ public class PlayerController : MonoBehaviourPun, IFreezableEntity, ICustomSeria
             return;
 
         string prefab = storedPowerup.prefab;
-        PhotonNetwork.Instantiate("Prefabs/Powerup/" + prefab, body.position + Vector2.up * 5f, Quaternion.identity, 0, new object[] { photonView.ViewID });
+        GameObject e = PhotonNetwork.Instantiate("Prefabs/Powerup/" + prefab, body.position + Vector2.up * 5f, Quaternion.identity, 0, new object[] { photonView.ViewID });
+        MushroomAutoFollow followThing = e.GetComponent<MushroomAutoFollow>();
+        if (followThing != null)
+            followThing.playerWhoSpawnedIt = this.gameObject;
+
         photonView.RPC("PlaySound", RpcTarget.All, Enums.Sounds.Player_Sound_PowerupReserveUse);
         storedPowerup = null;
         UpdateGameState();
