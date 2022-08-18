@@ -31,7 +31,7 @@ public static class Enums {
         [PowerupState.Weed] = new(2),
         [PowerupState.Bikini] = new(2),
         [PowerupState.MegaMushroom] = new(4),
-        [PowerupState.Gigachad] = new(4),
+        [PowerupState.Gigachad] = new(2),
     };
     public enum PowerupState : byte {
         None,

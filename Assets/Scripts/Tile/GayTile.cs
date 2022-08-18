@@ -14,37 +14,23 @@ public class GayTile : BreakableBrickTile
 
         Vector3Int tileLocation = Utils.WorldToTilemapPosition(worldLocation);
 
-
-        Powerup[] powerups = Resources.LoadAll<Powerup>("Scriptables/Powerups");
-        List<string> availablePowerups = new List<string>();
-        string[] forbiddenPowerups = new string[]
+        string spawnResult = "";
+        if (interacter is PlayerController pl)
         {
-            "1-Up",
-            "8BitMushroom",
-            "BlueShell",
-            "FireFlower",
-            "IceFlower",
-            "MegaMushroom",
-            "MiniMushroom",
-            "Mushroom",
-            "PropellerMushroom",
-            "Star",
-        };
-        foreach (Powerup powerup in powerups)
+            spawnResult = Utils.GetRandomItem(pl, true).prefab;
+        } else
         {
-            bool canAdd = true;
-            foreach (string forbidden in forbiddenPowerups)
+            Powerup[] powerups = Resources.LoadAll<Powerup>("Scriptables/Powerups");
+            List<string> availablePowerups = new List<string>();
+            foreach (Powerup powerup in powerups)
             {
-                if (powerup.name.ToLower() == forbidden.ToLower())
-                {
-                    canAdd = false;
-                    break;
-                }
+                if (powerup.state < Enums.PowerupState.Suit) continue;
+                availablePowerups.Add(powerup.prefab);
             }
-            if (canAdd) availablePowerups.Add(powerup.name);
+
+            spawnResult = availablePowerups[Random.Range(0, availablePowerups.Count)];
         }
 
-        string spawnResult = availablePowerups[Random.Range(0, availablePowerups.Count)];
 
         Bump(interacter, direction, worldLocation);
 

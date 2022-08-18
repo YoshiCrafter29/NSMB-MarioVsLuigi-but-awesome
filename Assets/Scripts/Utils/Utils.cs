@@ -385,9 +385,79 @@ namespace NSMB.Utils {
         }
 
         public static Powerup[] powerups = null;
-        public static Powerup GetRandomItem(PlayerController player) {
+        public static Powerup GetRandomItem(PlayerController player, bool customOnly = false)
+        {
             GameManager gm = GameManager.Instance;
+            #region i coded all of this only to realize its pretty close to the old system
 
+            int offset = Mathf.Min(5, Mathf.Max(0, FirstPlaceStars - player.stars));
+            float _rand = Random.value;
+            float randSquared = Mathf.Pow(_rand, 2);
+
+            float losing = Mathf.Log(offset + 1, 2.71828f);
+            float losingMax = Mathf.Log(6, 2.71828f);
+            float loseRatio = offset / 5;
+
+            float rand = Mathf.Lerp(randSquared, _rand, loseRatio);
+
+            bool big = gm.spawnBigPowerups;
+            bool vertical = gm.spawnVerticalPowerups;
+
+            GetCustomProperty(Enums.NetRoomProperties.NewPowerups, out bool custom);
+            GetCustomProperty(Enums.NetRoomProperties.Lives, out int livesOn);
+            bool lives = livesOn > 0;
+
+            List<Powerup> curPowers = new List<Powerup>();
+            if (powerups == null)
+                powerups = Resources.LoadAll<Powerup>("Scriptables/Powerups");
+
+            float totalChance = 0.0f;
+            foreach (Powerup p in powerups)
+            {
+                if (p == null) continue;
+                if (p.state <= Enums.PowerupState.Mushroom && player.state >= Enums.PowerupState.Mushroom) continue;
+                if (p.custom && !custom) continue;
+                if (p.big && !big) continue;
+                if (p.vertical && !vertical) continue;
+                if (p.lives && !lives) continue;
+                if (customOnly && p.state < Enums.PowerupState.Suit) continue;
+
+                totalChance += p.GetModifiedChance(losing);
+                curPowers.Add(p);
+            }
+            curPowers.Sort(delegate (Powerup p1, Powerup p2)
+            {
+                float diff = (p2.spawnChance - p1.spawnChance);
+                if (diff < 0)   return -1;
+                if (diff > 0)   return 1;
+
+                return (Random.Range(0, 2) * 2) - 1;
+            });
+            rand *= totalChance;
+
+            #region -- DEBUG SHIT --
+            string t = $"rand: {rand} ({Mathf.Round(rand / totalChance * 100) / 100 * 100}%) | ";
+            foreach (Powerup p in curPowers)
+            {
+                t += $"{p.name} ({p.spawnChance}) | ";
+            }
+            Debug.Log(t);
+            #endregion
+
+            foreach(Powerup p in curPowers)
+            {
+                float chance = p.GetModifiedChance(losing);
+                if (rand < chance)
+                    return p;
+                else
+                    rand -= chance;
+            }
+
+            return curPowers[0];
+            #endregion
+
+            #region old code
+            /*
             // "losing" variable based on ln(x+1), x being the # of stars we're behind (max being 5)
             int x = Mathf.Max(0, FirstPlaceStars - player.stars);
             float losing = Mathf.Log(x + 1, 2.71828f);
@@ -429,6 +499,8 @@ namespace NSMB.Utils {
             }
 
             return powerups[0];
+            */
+            #endregion
         }
 
         public static float QuadraticEaseOut(float v) {

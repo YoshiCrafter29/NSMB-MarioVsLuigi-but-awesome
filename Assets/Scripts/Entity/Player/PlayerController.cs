@@ -1130,8 +1130,6 @@ public class PlayerController : MonoBehaviourPun, IFreezableEntity, ICustomSeria
         string prefab = Utils.GetRandomItem(this).prefab;
         PhotonNetwork.Instantiate("Prefabs/Powerup/" + prefab, body.position + Vector2.up * 5f, Quaternion.identity, 0, new object[] { photonView.ViewID });
         photonView.RPC("PlaySound", RpcTarget.All, Enums.Sounds.Player_Sound_PowerupReserveUse);
-
-        coins = 0;
     }
 
     void SpawnStars(int amount, bool deathplane) {
