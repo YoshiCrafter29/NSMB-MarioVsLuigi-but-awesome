@@ -22,7 +22,7 @@ public class GayTile : BreakableBrickTile
         } else
         {
             Utils.GetCustomProperty(Enums.NetRoomProperties.ModdedPowerups, out bool modded);
-            if (!modded)
+            if (modded)
             {
                 Powerup[] powerups = Resources.LoadAll<Powerup>("Scriptables/Powerups");
                 List<string> availablePowerups = new List<string>();

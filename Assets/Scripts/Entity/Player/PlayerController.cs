@@ -307,7 +307,7 @@ public class PlayerController : MonoBehaviourPun, IFreezableEntity, ICustomSeria
         }
 
         previousOnGround = onGround;
-        if (!dead) {
+        if (!dead && !pipeEntering) {
             HandleBlockSnapping();
             bool snapped = GroundSnapCheck();
             HandleGroundCollision();
