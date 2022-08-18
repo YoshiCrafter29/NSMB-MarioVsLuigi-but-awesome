@@ -15,7 +15,7 @@ MonoBehaviour:
   state: 9
   prefab: Suit
   soundEffect: 78
-  spawnChance: 0.6666667
+  spawnChance: 0.5
   losingSpawnBonus: 0
   big: 0
   vertical: 0

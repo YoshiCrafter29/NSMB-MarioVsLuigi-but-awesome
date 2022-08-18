@@ -15,7 +15,7 @@ MonoBehaviour:
   state: 11
   prefab: BombFlower
   soundEffect: 16
-  spawnChance: 2
+  spawnChance: 1
   losingSpawnBonus: 0
   big: 0
   vertical: 0

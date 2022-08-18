@@ -14,31 +14,43 @@ public class GayTile : BreakableBrickTile
 
         Vector3Int tileLocation = Utils.WorldToTilemapPosition(worldLocation);
 
-        string spawnResult = "";
+        string spawnResult = null;
         if (interacter is PlayerController pl)
         {
-            spawnResult = Utils.GetRandomItem(pl, true).prefab;
+            var item = Utils.GetRandomItem(pl, true);
+            if (item != null) spawnResult = item.prefab;
         } else
         {
-            Powerup[] powerups = Resources.LoadAll<Powerup>("Scriptables/Powerups");
-            List<string> availablePowerups = new List<string>();
-            foreach (Powerup powerup in powerups)
+            Utils.GetCustomProperty(Enums.NetRoomProperties.ModdedPowerups, out bool modded);
+            if (!modded)
             {
-                if (powerup.state < Enums.PowerupState.Suit) continue;
-                availablePowerups.Add(powerup.prefab);
-            }
+                Powerup[] powerups = Resources.LoadAll<Powerup>("Scriptables/Powerups");
+                List<string> availablePowerups = new List<string>();
+                foreach (Powerup powerup in powerups)
+                {
+                    if (powerup.state < Enums.PowerupState.Suit) continue;
+                    availablePowerups.Add(powerup.prefab);
+                }
 
-            spawnResult = availablePowerups[Random.Range(0, availablePowerups.Count)];
+                spawnResult = availablePowerups[Random.Range(0, availablePowerups.Count)];
+            }
         }
 
 
-        Bump(interacter, direction, worldLocation);
+        if (spawnResult != null)
+        {
+            Bump(interacter, direction, worldLocation);
 
-        object[] parametersBump = new object[] { tileLocation.x, tileLocation.y, direction == InteractionDirection.Down, resultTile, spawnResult };
-        GameManager.Instance.SendAndExecuteEvent(Enums.NetEventIds.BumpTile, parametersBump, ExitGames.Client.Photon.SendOptions.SendReliable);
+            object[] parametersBump = new object[] { tileLocation.x, tileLocation.y, direction == InteractionDirection.Down, resultTile, spawnResult };
+            GameManager.Instance.SendAndExecuteEvent(Enums.NetEventIds.BumpTile, parametersBump, ExitGames.Client.Photon.SendOptions.SendReliable);
 
-        if (interacter is MonoBehaviourPun pun2)
-            pun2.photonView.RPC("PlaySound", RpcTarget.All, Enums.Sounds.World_Block_Powerup);
+            if (interacter is MonoBehaviourPun pun2)
+                pun2.photonView.RPC("PlaySound", RpcTarget.All, Enums.Sounds.World_Block_Powerup);
+        } else
+        {
+            Break(interacter, worldLocation, Enums.Sounds.World_Block_Break);
+            return true;
+        }
         return false;
     }
 }

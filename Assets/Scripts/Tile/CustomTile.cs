@@ -12,15 +12,36 @@ public class CustomTile : BreakableBrickTile {
 
         Vector3Int tileLocation = Utils.WorldToTilemapPosition(worldLocation);
 
-        // string spawnResult = "Suit";
+        Powerup[] powerups = Utils.GetPowerups();
 
-        Bump(interacter, direction, worldLocation);
 
-        object[] parametersBump = new object[]{tileLocation.x, tileLocation.y, direction == InteractionDirection.Down, resultTile, spawnResult};
-        GameManager.Instance.SendAndExecuteEvent(Enums.NetEventIds.BumpTile, parametersBump, ExitGames.Client.Photon.SendOptions.SendReliable);
+        Utils.GetCustomProperty(Enums.NetRoomProperties.ModdedPowerups, out bool modded);
+        Utils.GetCustomProperty(Enums.NetRoomProperties.NewPowerups, out bool custom);
 
-        if (interacter is MonoBehaviourPun pun2)
-            pun2.photonView.RPC("PlaySound", RpcTarget.All, Enums.Sounds.World_Block_Powerup);
-        return false;
+        bool canSpawn = true;
+        foreach (Powerup p in powerups)
+        {
+            if (p.prefab == spawnResult)
+            {
+                if (!custom && p.custom) canSpawn = false;
+                if (!modded && p.state >= Enums.PowerupState.Suit) canSpawn = false;
+                break;
+            }
+        }
+
+        if (canSpawn)
+        {
+            Bump(interacter, direction, worldLocation);
+
+            object[] parametersBump = new object[] { tileLocation.x, tileLocation.y, direction == InteractionDirection.Down, resultTile, spawnResult };
+            GameManager.Instance.SendAndExecuteEvent(Enums.NetEventIds.BumpTile, parametersBump, ExitGames.Client.Photon.SendOptions.SendReliable);
+
+            if (interacter is MonoBehaviourPun pun2)
+                pun2.photonView.RPC("PlaySound", RpcTarget.All, Enums.Sounds.World_Block_Powerup);
+        } else
+        {
+            Break(interacter, worldLocation, Enums.Sounds.World_Block_Break);
+        }
+        return !canSpawn;
     }
 }

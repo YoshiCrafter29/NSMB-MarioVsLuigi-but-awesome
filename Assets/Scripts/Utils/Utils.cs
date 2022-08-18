@@ -385,24 +385,32 @@ namespace NSMB.Utils {
         }
 
         public static Powerup[] powerups = null;
+
+        public static Powerup[] GetPowerups()
+        {
+            if (powerups == null)
+                powerups = Resources.LoadAll<Powerup>("Scriptables/Powerups");
+            return powerups;
+        }
         public static Powerup GetRandomItem(PlayerController player, bool customOnly = false)
         {
             GameManager gm = GameManager.Instance;
             #region i coded all of this only to realize its pretty close to the old system
 
             int offset = Mathf.Min(5, Mathf.Max(0, FirstPlaceStars - player.stars));
-            float _rand = Random.value;
-            float randSquared = Mathf.Pow(_rand, 2);
+            float rand = Random.value;
+            //float randSquared = Mathf.Pow(_rand, 2);
 
             float losing = Mathf.Log(offset + 1, 2.71828f);
-            float losingMax = Mathf.Log(6, 2.71828f);
-            float loseRatio = offset / 5;
+            //float losingMax = Mathf.Log(6, 2.71828f);
+            //float loseRatio = offset / 5;
 
-            float rand = Mathf.Lerp(randSquared, _rand, loseRatio);
+            //float rand = Mathf.Lerp(randSquared, _rand, loseRatio);
 
             bool big = gm.spawnBigPowerups;
             bool vertical = gm.spawnVerticalPowerups;
 
+            GetCustomProperty(Enums.NetRoomProperties.ModdedPowerups, out bool modded);
             GetCustomProperty(Enums.NetRoomProperties.NewPowerups, out bool custom);
             GetCustomProperty(Enums.NetRoomProperties.Lives, out int livesOn);
             bool lives = livesOn > 0;
@@ -415,11 +423,12 @@ namespace NSMB.Utils {
             foreach (Powerup p in powerups)
             {
                 if (p == null) continue;
-                if (p.state <= Enums.PowerupState.Mushroom && player.state >= Enums.PowerupState.Mushroom) continue;
+                if (p.state == Enums.PowerupState.Mushroom && player.state >= Enums.PowerupState.Mushroom) continue;
                 if (p.custom && !custom) continue;
                 if (p.big && !big) continue;
                 if (p.vertical && !vertical) continue;
                 if (p.lives && !lives) continue;
+                if (!modded && p.state >= Enums.PowerupState.Suit) continue;
                 if (customOnly && p.state < Enums.PowerupState.Suit) continue;
 
                 totalChance += p.GetModifiedChance(losing);
@@ -453,7 +462,7 @@ namespace NSMB.Utils {
                     rand -= chance;
             }
 
-            return curPowers[0];
+            return curPowers.Count < 1 ? null : curPowers[0];
             #endregion
 
             #region old code

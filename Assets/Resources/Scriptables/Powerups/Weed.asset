@@ -15,7 +15,7 @@ MonoBehaviour:
   state: 12
   prefab: Weed
   soundEffect: 88
-  spawnChance: 0.5
+  spawnChance: 0.3
   losingSpawnBonus: 0
   big: 0
   vertical: 0
