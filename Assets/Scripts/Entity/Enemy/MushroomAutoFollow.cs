@@ -19,12 +19,14 @@ public class MushroomAutoFollow : MonoBehaviour
     {
         if (!move.photonView.IsMine) return;
 
+        if (playerWhoSpawnedIt != null)
+            move.despawnCounter = 15.0f; // never despawning;
         Collider2D closest = null;
         Vector2 closestPosition = Vector2.zero;
         float distance = float.MaxValue;
         foreach (var hit in Physics2D.OverlapCircleAll(body.position, 30f))
         {
-            if (hit.attachedRigidbody.gameObject == playerWhoSpawnedIt)
+            if (playerWhoSpawnedIt != null && hit.attachedRigidbody.gameObject == playerWhoSpawnedIt)
                 continue;
             if (!hit.CompareTag("Player"))
                 continue;
