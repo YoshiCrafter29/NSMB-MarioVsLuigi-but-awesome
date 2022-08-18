@@ -445,12 +445,14 @@ namespace NSMB.Utils {
             rand *= totalChance;
 
             #region -- DEBUG SHIT --
+            /*
             string t = $"rand: {rand} ({Mathf.Round(rand / totalChance * 100) / 100 * 100}%) | ";
             foreach (Powerup p in curPowers)
             {
                 t += $"{p.name} ({p.spawnChance}) | ";
             }
             Debug.Log(t);
+            */
             #endregion
 
             foreach(Powerup p in curPowers)
