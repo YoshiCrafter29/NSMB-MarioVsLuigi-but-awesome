@@ -32,6 +32,7 @@ TagManager:
   - lava
   - MarioBrosPlatform
   - frozencube
+  - MoonSpawn
   layers:
   - Default
   - TransparentFX
