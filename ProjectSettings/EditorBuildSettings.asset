@@ -53,4 +53,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Levels/PipesMayhem2.unity
     guid: 05a8dece367e4134b8daa451850649ae
+  - enabled: 1
+    path: Assets/Scenes/Levels/BusRide.unity
+    guid: 75044345c09219847ae8809077bc9404
   m_configObjects: {}

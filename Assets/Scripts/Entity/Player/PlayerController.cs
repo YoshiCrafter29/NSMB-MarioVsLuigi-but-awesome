@@ -294,7 +294,6 @@ public class PlayerController : MonoBehaviourPun, IFreezableEntity, ICustomSeria
 
     public void FixedUpdate() {
         //game ended, freeze.
-
         if (!GameManager.Instance.musicEnabled) {
             models.SetActive(false);
             return;
