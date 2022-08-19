@@ -7,11 +7,13 @@ public class MushroomAutoFollow : MonoBehaviour
     MovingPowerup move;
     Rigidbody2D body;
     public GameObject playerWhoSpawnedIt;
+    private float __speed;
     // Start is called before the first frame update
     void Start()
     {
         move = GetComponent<MovingPowerup>();
         body = GetComponent<Rigidbody2D>();
+        __speed = move.speed;
     }
 
     // Update is called once per frame
@@ -39,6 +41,13 @@ public class MushroomAutoFollow : MonoBehaviour
             closestPosition = actualPosition;
         }
         if (closest)
-            move.right = (closestPosition.x - body.position.x) > 0;
+        {
+            if (move.right != (move.right = (closestPosition.x - body.position.x) > 0))
+            {
+                move.speed = -move.speed;
+            }
+        }
+        move.speed = Mathf.Lerp(move.speed, __speed, 0.125f * 15 * Time.deltaTime);
+            
     }
 }
