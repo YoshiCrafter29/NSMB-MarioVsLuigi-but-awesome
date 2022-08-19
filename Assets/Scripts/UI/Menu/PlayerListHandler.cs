@@ -94,7 +94,7 @@ public class PlayerListHandler : MonoBehaviour, IInRoomCallbacks {
 
     public void UpdatePlayerEntry(Player player) {
         string id = player.UserId;
-        if (!playerListEntries.ContainsKey(id)) {
+        if (!playerListEntries.ContainsKey(id)) {   
             AddPlayerEntry(player);
             return;
         }

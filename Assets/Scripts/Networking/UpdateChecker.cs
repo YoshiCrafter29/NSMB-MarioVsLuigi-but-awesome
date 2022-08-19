@@ -18,7 +18,7 @@ public class UpdateChecker {
         //get http results
         HttpWebRequest request = (HttpWebRequest) WebRequest.Create(API_URL);
         request.Accept = "application/json";
-        request.UserAgent = "ipodtouch0218/NSMB-MarioVsLuigi";
+        request.UserAgent = "FoxelTheFennic/NSMB-MarioVsLuigi-but-awesome";
 
         HttpWebResponse response = (HttpWebResponse) await request.GetResponseAsync();
 
