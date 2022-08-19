@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 public class BusWalk : KillableEntity {
     [SerializeField] float speed, deathTimer = -1, terminalVelocity = -8;
+    [SerializeField] BoxCollider2D ride;
 
     public new void Start() {
         base.Start();
@@ -14,7 +15,7 @@ public class BusWalk : KillableEntity {
 
     Dictionary<int, Vector3> offsets = new Dictionary<int, Vector3>();
     Dictionary<int, Vector3> lastPosition = new Dictionary<int, Vector3>();
-    public void OnCollisionStay2D(Collision2D collision)
+    public void OnTriggerStay2D(Collider2D collision)
     {
 
         PlayerController controller;
@@ -31,7 +32,7 @@ public class BusWalk : KillableEntity {
         }
     }
 
-    public void OnCollisionEnter2D(Collision2D collision)
+    public void OnTriggerEnter2D(Collider2D collision)
     {
         PlayerController controller;
         if ((controller = collision.gameObject.GetComponent<PlayerController>()) == null) return;
@@ -41,18 +42,28 @@ public class BusWalk : KillableEntity {
                 offsets.Remove(controller.playerId);
             offsets.Add(controller.playerId, controller.transform.position - transform.position);
 
-            OnCollisionStay2D(collision);
+            OnTriggerStay2D(collision);
         }
     }
 
-    public void OnCollisionExit2D(Collision2D collision)
+    public void OnTriggerExit2D(Collider2D collision)
     {
         PlayerController controller;
         if ((controller = collision.gameObject.GetComponent<PlayerController>()) == null) return;
         if (controller.photonView.IsMine)
         {
+            OnTriggerStay2D(collision);
             offsets.Remove(controller.playerId);
             lastPosition.Remove(controller.playerId);
+        }
+    }
+
+    public override void InteractWithPlayer(PlayerController p)
+    {
+        if (!ride.IsTouching(p.MainHitbox))
+        {
+            base.InteractWithPlayer(p);
+            return;
         }
     }
 

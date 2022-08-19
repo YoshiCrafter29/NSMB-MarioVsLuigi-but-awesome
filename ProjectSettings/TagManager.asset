@@ -33,6 +33,7 @@ TagManager:
   - MarioBrosPlatform
   - frozencube
   - MoonSpawn
+  - Rideable
   layers:
   - Default
   - TransparentFX

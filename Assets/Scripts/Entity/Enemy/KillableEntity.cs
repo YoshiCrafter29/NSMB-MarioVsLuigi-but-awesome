@@ -46,31 +46,42 @@ public abstract class KillableEntity : MonoBehaviourPun, IFreezableEntity {
         photonView.RPC("SetLeft", RpcTarget.All, goLeft);
     }
 
-    public virtual void InteractWithPlayer(PlayerController player) {
+    public virtual void InteractWithPlayer(PlayerController player)
+    {
         if (player.Frozen)
             return;
         Vector2 damageDirection = (player.body.position - body.position).normalized;
         bool attackedFromAbove = Vector2.Dot(damageDirection, Vector2.up) > 0.5f && !player.onGround;
 
-        if (!attackedFromAbove && player.state == Enums.PowerupState.BlueShell && player.crouching && !player.inShell) {
+        if (!attackedFromAbove && player.state == Enums.PowerupState.BlueShell && player.crouching && !player.inShell)
+        {
             photonView.RPC("SetLeft", RpcTarget.All, damageDirection.x > 0);
-        } else if (player.invincible > 0 || player.inShell || player.sliding
-            || ((player.groundpound || player.drill) && player.state != Enums.PowerupState.MiniMushroom && attackedFromAbove)
-            || player.state == Enums.PowerupState.MegaMushroom) {
+        }
+        else if (player.invincible > 0 || player.inShell || player.sliding
+          || ((player.groundpound || player.drill) && player.state != Enums.PowerupState.MiniMushroom && attackedFromAbove)
+          || player.state == Enums.PowerupState.MegaMushroom)
+        {
 
             photonView.RPC("SpecialKill", RpcTarget.All, player.body.velocity.x > 0, player.groundpound, player.StarCombo++);
-        } else if (attackedFromAbove) {
-            if (player.state == Enums.PowerupState.MiniMushroom && !player.drill && !player.groundpound) {
+        }
+        else if (attackedFromAbove)
+        {
+            if (player.state == Enums.PowerupState.MiniMushroom && !player.drill && !player.groundpound)
+            {
                 player.groundpound = false;
                 player.bounce = true;
-            } else {
+            }
+            else
+            {
                 photonView.RPC("Kill", RpcTarget.All);
                 player.groundpound = false;
                 player.bounce = !player.drill;
             }
             player.photonView.RPC("PlaySound", RpcTarget.All, Enums.Sounds.Enemy_Generic_Stomp);
             player.drill = false;
-        } else if (player.hitInvincibilityCounter <= 0) {
+        }
+        else if (player.hitInvincibilityCounter <= 0)
+        {
             player.photonView.RPC("Powerdown", RpcTarget.All, false);
             photonView.RPC("SetLeft", RpcTarget.All, damageDirection.x < 0);
         }

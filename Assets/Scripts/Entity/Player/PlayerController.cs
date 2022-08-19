@@ -317,6 +317,7 @@ public class PlayerController : MonoBehaviourPun, IFreezableEntity, ICustomSeria
             TickCounters();
             HandleMovement(Time.fixedDeltaTime);
             HandleGiantTiles(true);
+            HandleCoins();
             UpdateHitbox();
         }
         if (holding && holding.dead)
@@ -330,6 +331,44 @@ public class PlayerController : MonoBehaviourPun, IFreezableEntity, ICustomSeria
     #endregion
 
     #region -- COLLISIONS --
+
+    void HandleCoins()
+    {
+
+        Vector2 checkSize = WorldHitboxSize * 1.1f;
+
+        bool grounded = previousFrameVelocity.y < -8f && onGround;
+        Vector2 offset = Vector2.zero;
+        if (grounded)
+            offset = Vector2.down / 2f;
+
+        Vector2 checkPosition = body.position + (Vector2.up * checkSize * 0.5f) + (2 * Time.fixedDeltaTime * body.velocity) + offset;
+
+        Vector3Int minPos = Utils.WorldToTilemapPosition(checkPosition - (checkSize * 0.5f), wrap: false);
+        Vector3Int size = Utils.WorldToTilemapPosition(checkPosition + (checkSize * 0.5f), wrap: false) - minPos;
+
+        for (int x = 0; x <= size.x; x++)
+        {
+            for (int y = 0; y <= size.y; y++)
+            {
+                Vector3Int tileLocation = new(minPos.x + x, minPos.y + y, 0);
+                Vector2 worldPosCenter = Utils.TilemapToWorldPosition(tileLocation) + Vector3.one * 0.25f;
+                Utils.WrapTileLocation(ref tileLocation);
+
+                AnimatedTile tile = GameManager.Instance.tilemap.GetTile<AnimatedTile>(tileLocation);
+
+                if (tile) Debug.Log(tile.name);
+                if (tile && tile.name == "Coin")
+                {
+                    CollectCoin(-1, worldPosCenter);
+                    object[] parametersTile = new object[] { tileLocation.x, tileLocation.y, null };
+                    GameManager.Instance.SendAndExecuteEvent(Enums.NetEventIds.SetTile, parametersTile, ExitGames.Client.Photon.SendOptions.SendReliable);
+                }
+            }
+        }
+
+        
+    }
     void HandleGroundCollision() {
         tilesJumpedInto.Clear();
         tilesStandingOn.Clear();
@@ -1379,31 +1418,31 @@ public class PlayerController : MonoBehaviourPun, IFreezableEntity, ICustomSeria
         Vector3Int minPos = Utils.WorldToTilemapPosition(checkPosition - (checkSize * 0.5f), wrap: false);
         Vector3Int size = Utils.WorldToTilemapPosition(checkPosition + (checkSize * 0.5f), wrap: false) - minPos;
 
-        for (int x = 0; x <= size.x; x++) {
-            for (int y = 0; y <= size.y; y++) {
+
+        for (int x = 0; x <= size.x; x++)
+        {
+            for (int y = size.y; y >= 0; y--)
+            {
                 Vector3Int tileLocation = new(minPos.x + x, minPos.y + y, 0);
                 Vector2 worldPosCenter = Utils.TilemapToWorldPosition(tileLocation) + Vector3.one * 0.25f;
                 Utils.WrapTileLocation(ref tileLocation);
 
                 InteractableTile.InteractionDirection dir = InteractableTile.InteractionDirection.Up;
-                if (worldPosCenter.y - 0.25f + Physics2D.defaultContactOffset * 2f <= body.position.y) {
+                if (worldPosCenter.y - 0.25f + Physics2D.defaultContactOffset * 2f <= body.position.y)
+                {
                     if (!grounded && !groundpound)
                         continue;
 
                     dir = InteractableTile.InteractionDirection.Down;
-                } else if (worldPosCenter.y + Physics2D.defaultContactOffset * 2f >= body.position.y + size.y) {
-                    dir = InteractableTile.InteractionDirection.Up;
-                } else if (worldPosCenter.x <= body.position.x) {
+                }
+                else if (worldPosCenter.x - 0.25f < checkPosition.x - checkSize.x * 0.5f)
+                {
                     dir = InteractableTile.InteractionDirection.Left;
-                } else if (worldPosCenter.x >= body.position.x) {
+                }
+                else if (worldPosCenter.x + 0.25f > checkPosition.x + checkSize.x * 0.5f)
+                {
                     dir = InteractableTile.InteractionDirection.Right;
                 }
-
-                BreakablePipeTile pipe = GameManager.Instance.tilemap.GetTile<BreakablePipeTile>(tileLocation);
-                if (pipe && (pipe.upsideDownPipe || !pipes || groundpound))
-                    continue;
-
-                InteractWithTile(tileLocation, dir);
             }
         }
         if (pipes) {
@@ -1442,6 +1481,7 @@ public class PlayerController : MonoBehaviourPun, IFreezableEntity, ICustomSeria
         TileBase tile = GameManager.Instance.tilemap.GetTile(tilePos);
         if (!tile)
             return 0;
+
         if (tile is InteractableTile it)
             return it.Interact(this, direction, Utils.TilemapToWorldPosition(tilePos)) ? 1 : 0;
 
