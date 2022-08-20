@@ -656,5 +656,19 @@ namespace NSMB.Utils {
         public static void TickTimer(ref float counter, float min, float delta, float max = float.MaxValue) {
             counter = Mathf.Clamp(counter - delta, min, max);
         }
+
+        public static int GetPowerUpSkin(Enums.PowerupState state)
+        {
+            return state switch {
+                Enums.PowerupState.FireFlower => 1,
+                Enums.PowerupState.PropellerMushroom => 2,
+                Enums.PowerupState.IceFlower => 3,
+                Enums.PowerupState.Suit => 4,
+                Enums.PowerupState.McDonalds => 5,
+                Enums.PowerupState.BombFlower => 6,
+                Enums.PowerupState.Bikini => 7,
+                _ => 0
+            };
+    }
     }
 }

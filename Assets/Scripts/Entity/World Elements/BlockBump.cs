@@ -46,6 +46,6 @@ public class BlockBump : MonoBehaviour {
             return;
 
         Vector3 pos = transform.position + Vector3.up * (fromAbove ? -0.7f : 0.25f);
-        PhotonNetwork.InstantiateRoomObject("Prefabs/Powerup/" + prefab, pos + (Vector3) spawnOffset, Quaternion.identity);
+        GameObject g = PhotonNetwork.InstantiateRoomObject("Prefabs/Powerup/" + prefab, pos + (Vector3) spawnOffset, Quaternion.identity);
     }
 }

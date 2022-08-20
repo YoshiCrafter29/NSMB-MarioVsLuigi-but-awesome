@@ -33,7 +33,7 @@ public class CustomTile : BreakableBrickTile {
         {
             Bump(interacter, direction, worldLocation);
 
-            object[] parametersBump = new object[] { tileLocation.x, tileLocation.y, direction == InteractionDirection.Down, resultTile, spawnResult };
+            object[] parametersBump = new object[] { tileLocation.x, tileLocation.y, direction == InteractionDirection.Down, resultTile, spawnResult, new Vector2(0f, 0.5f) };
             GameManager.Instance.SendAndExecuteEvent(Enums.NetEventIds.BumpTile, parametersBump, ExitGames.Client.Photon.SendOptions.SendReliable);
 
             if (interacter is MonoBehaviourPun pun2)

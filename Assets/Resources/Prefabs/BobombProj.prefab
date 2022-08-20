@@ -254,6 +254,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   soundRange: 12
+  maxVolume: 1
+  type: 0
   soundOrigin: {fileID: 3286581577125373960}
   audioSources:
   - {fileID: -3689537593968581114}

@@ -32,6 +32,7 @@ public static class Enums {
         [PowerupState.Bikini] = new(2),
         [PowerupState.MegaMushroom] = new(4),
         [PowerupState.Gigachad] = new(2),
+        [PowerupState.OppressorMKII] = new(2),
     };
     public enum PowerupState : byte {
         None,
@@ -48,7 +49,8 @@ public static class Enums {
         BombFlower,
         Weed,
         Bikini,
-        Gigachad
+        Gigachad,
+        OppressorMKII
     }
     #endregion
     #region ANIMATION & MUSIC
@@ -170,6 +172,13 @@ public static class Enums {
         [SoundData("powerup/smoke_weed_everyday")]              Powerup_Weed = 88,
         [SoundData("powerup/bigmac")]                           Powerup_BigMac = 89,
         [SoundData("powerup/mcdonalds")]                        Powerup_McDonalds = 90,
+    }
+
+    public enum AudioType : byte
+    {
+        None = 0,
+        Music = 1,
+        SFX = 2
     }
 
     #endregion

@@ -33,6 +33,9 @@ public static class CustomColors {
         new("Mindnomad",    new(140, 24, 156, 255),     new(186, 186, 186, 255)), //mindnomad
         new("Chibi",        new(255, 255, 0, 255),      new(54, 54, 54, 255)   ), //chibithemariogamer
 
+        new("SMG4",         new(0, 0, 255, 255),        new(255, 255, 255, 255)), //when is the old smg4 coming back his new content is cringy af
+        new("Monochrome",   new(0, 0, 0, 255),          new(255, 255, 255, 255)),
+
     };
 }
 

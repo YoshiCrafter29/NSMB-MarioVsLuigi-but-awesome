@@ -13,7 +13,7 @@ public class PlayerAnimationController : MonoBehaviourPun {
 
     [SerializeField] Material glowMaterial;
 
-    [SerializeField] GameObject models, smallModel, largeModel, largeShellExclude, blueShell, propellerHelmet, propeller, suitcase;
+    public GameObject models, smallModel, largeModel, oppressorModel, largeShellExclude, blueShell, propellerHelmet, propeller, suitcase;
     [SerializeField] ParticleSystem dust, sparkles, drillParticle, giantParticle, fireParticle;
     [SerializeField] float blinkDuration = 0.1f, pipeDuration = 2f, deathUpTime = 0.6f, deathForce = 7f;
     [SerializeField] Avatar smallAvatar, largeAvatar;
@@ -43,6 +43,11 @@ public class PlayerAnimationController : MonoBehaviourPun {
     float blinkTimer, pipeTimer, deathTimer, propellerVelocity;
     public bool deathUp, wasTurnaround, enableGlow;
 
+    public float oppressorFloat = 0f;
+    public Vector2 oppressorBasePos;
+    public AudioSource oppressorAudio;
+    public GameObject oppressorExhaust;
+
     public void Start() {
         controller = GetComponent<PlayerController>();
         animator = GetComponent<Animator>();
@@ -51,6 +56,17 @@ public class PlayerAnimationController : MonoBehaviourPun {
         drillParticleAudio = drillParticle.GetComponent<AudioSource>();
 
         DisableAllModels();
+
+        if (oppressorModel != null)
+        {
+            oppressorBasePos = oppressorModel.transform.localPosition;
+            if (oppressorAudio == null)
+            {
+                var model = oppressorModel.transform.GetChild(0).GetChild(1);
+                Debug.Log(model.name);
+                oppressorAudio = model.GetComponent<AudioSource>();
+            }
+        }
 
         if (photonView) {
             enableGlow = !photonView.IsMine;
@@ -61,6 +77,7 @@ public class PlayerAnimationController : MonoBehaviourPun {
             primaryColor = color.overalls.linear;
             secondaryColor = color.hat.linear;
         }
+
     }
 
     public void Update() {
@@ -77,6 +94,16 @@ public class PlayerAnimationController : MonoBehaviourPun {
                 controller.megachad.Play();
             else
                 controller.megachad.Stop();
+
+        if (oppressorModel != null)
+        {
+            oppressorFloat += Time.deltaTime;
+            oppressorModel.transform.localPosition = oppressorBasePos + new Vector2(Mathf.Cos(oppressorFloat / 2f) * 0.025f, Mathf.Sin(oppressorFloat / 5f) * 0.025f);
+            if (oppressorAudio != null)
+                oppressorAudio.pitch = Mathf.Clamp(1f + (1.5f * Mathf.Abs(controller.oppressorSpeed) / controller.oppressorMaxSpeed), 1.0f, 2.5f);
+            if (oppressorExhaust != null)
+                oppressorExhaust.transform.localScale = new Vector3(1f, controller.oppressorMoving ? 2.5f + (Random.value * 0.5f) : 0f, 1f);
+        }
     }
     void HandleAnimations() {
         bool gameover = GameManager.Instance.gameover;
@@ -259,16 +286,8 @@ public class PlayerAnimationController : MonoBehaviourPun {
             materialBlock = new();
 
         materialBlock.SetFloat("RainbowEnabled", controller.invincible > 0? 1.1f : 0f);
-        int ps = controller.state switch {
-            Enums.PowerupState.FireFlower => 1,
-            Enums.PowerupState.PropellerMushroom => 2,
-            Enums.PowerupState.IceFlower => 3,
-            Enums.PowerupState.Suit => 4,
-            Enums.PowerupState.McDonalds => 5,
-            Enums.PowerupState.BombFlower => 6,
-            Enums.PowerupState.Bikini => 7,
-            _ => 0
-        };
+        int ps = Utils.GetPowerUpSkin(controller.state == Enums.PowerupState.OppressorMKII ? controller.previousState : controller.state);
+
 
         int esOff = controller.state switch
         {
@@ -303,20 +322,34 @@ public class PlayerAnimationController : MonoBehaviourPun {
         //Model changing
         bool large = controller.state >= Enums.PowerupState.Mushroom;
 
-        if (shrinkBigModel) {
-            largeModel.SetActive(true);
+        body.isKinematic = controller.pipeEntering || controller.state == Enums.PowerupState.OppressorMKII;
+        if (controller.state == Enums.PowerupState.OppressorMKII)
+        {
+            oppressorModel.SetActive(true);
+            largeModel.SetActive(false);
             smallModel.SetActive(false);
-            Transform t = largeModel.gameObject.transform;
-            t.localScale = new Vector3(t.localScale.x, t.localScale.x * (large ? 1f : 0.5f), t.localScale.z);
-            animator.avatar = largeAvatar;
-            animator.runtimeAnimatorController = controller.character.largeOverrides;
+            oppressorModel.transform.localRotation = Quaternion.Euler(controller.oppressorAngle, 0f, 0f);
         } else
         {
-            largeModel.SetActive(large);
-            smallModel.SetActive(!large);
-            animator.avatar = large ? largeAvatar : smallAvatar;
-            animator.runtimeAnimatorController = large ? controller.character.largeOverrides : controller.character.smallOverrides;
+            if (shrinkBigModel)
+            {
+                largeModel.SetActive(true);
+                smallModel.SetActive(false);
+                Transform t = largeModel.gameObject.transform;
+                t.localScale = new Vector3(t.localScale.x, t.localScale.x * (large ? 1f : 0.5f), t.localScale.z);
+                animator.avatar = largeAvatar;
+                animator.runtimeAnimatorController = controller.character.largeOverrides;
+            }
+            else
+            {
+                largeModel.SetActive(large);
+                smallModel.SetActive(!large);
+                animator.avatar = large ? largeAvatar : smallAvatar;
+                animator.runtimeAnimatorController = large ? controller.character.largeOverrides : controller.character.smallOverrides;
+            }
+            oppressorModel.SetActive(false);
         }
+        
 
         if (blueShell != null)          blueShell.SetActive(controller.state == Enums.PowerupState.BlueShell);
         if (largeShellExclude != null)  largeShellExclude.SetActive(!animator.GetCurrentAnimatorStateInfo(0).IsName("in-shell"));
@@ -376,7 +409,6 @@ public class PlayerAnimationController : MonoBehaviourPun {
 
         PipeManager pe = controller.pipeEntering;
 
-        body.isKinematic = true;
         body.velocity = controller.pipeDirection;
 
         if (pipeTimer < pipeDuration / 2f && pipeTimer + Time.fixedDeltaTime >= pipeDuration / 2f) {
@@ -405,7 +437,6 @@ public class PlayerAnimationController : MonoBehaviourPun {
         }
         if (pipeTimer >= pipeDuration) {
             controller.pipeEntering = null;
-            body.isKinematic = false;
             controller.onGround = false;
             controller.properJump = false;
             controller.koyoteTime = 1;
