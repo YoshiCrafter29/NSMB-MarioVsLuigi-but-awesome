@@ -16,8 +16,6 @@ public class ActiveCopier : MonoBehaviour
     void Update()
     {
         for(int i = 0; i < keys.Length; i++)
-        {
-            values[i].SetActive(keys[i].activeInHierarchy);
-        }
+            values[i].SetActive(keys[i].activeSelf);
     }
 }

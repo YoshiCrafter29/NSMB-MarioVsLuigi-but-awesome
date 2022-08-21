@@ -105,7 +105,7 @@ public class PlayerController : MonoBehaviourPun, IFreezableEntity, ICustomSeria
     #region -- OPPRESSOR MKII STUFF --
     // this is so stupid lmao
     public float oppressorAngle = 0f;
-    public float oppressorMaxSpeed = 4.5f;
+    [HideInInspector] public float oppressorMaxSpeed = 8.5f;
     public float oppressorSpeed = 0f;
     public bool oppressorMoving = false;
 
