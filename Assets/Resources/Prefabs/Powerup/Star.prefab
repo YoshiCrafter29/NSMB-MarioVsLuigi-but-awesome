@@ -59,6 +59,7 @@ MonoBehaviour:
   bouncePower: 6
   terminalVelocity: 8
   blinkingRate: 6
+  right: 1
   avoidPlayers: 0
   followMe: {fileID: 0}
   followMeCounter: 0

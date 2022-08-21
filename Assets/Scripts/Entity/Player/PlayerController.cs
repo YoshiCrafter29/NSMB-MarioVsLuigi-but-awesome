@@ -2996,4 +2996,12 @@ public class PlayerController : MonoBehaviourPun, IFreezableEntity, ICustomSeria
             Gizmos.DrawWireCube(r.bounds.center, r.bounds.size);
         }
     }
+
+
+    public Enums.PowerupState getShownState()
+    {
+        if (state == Enums.PowerupState.OppressorMKII)
+            return previousState;
+        return state;
+    }
 }

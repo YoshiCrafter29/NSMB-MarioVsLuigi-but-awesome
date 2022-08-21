@@ -88,7 +88,7 @@ public class PlayerAnimationController : MonoBehaviourPun {
 
     void HandleAdditionalStuff()
     {
-        bool shouldPlayMegachad = (controller.state == Enums.PowerupState.Gigachad) && !controller.dead;
+        bool shouldPlayMegachad = (controller.getShownState() == Enums.PowerupState.Gigachad) && !controller.dead;
         if (shouldPlayMegachad != controller.megachad.isPlaying)
             if (shouldPlayMegachad)
                 controller.megachad.Play();
@@ -168,7 +168,7 @@ public class PlayerAnimationController : MonoBehaviourPun {
         SetParticleEmission(dust, !gameover && (controller.wallSlideLeft || controller.wallSlideRight || (controller.onGround && ((controller.skidding && !controller.doIceSkidding) || (controller.crouching && Mathf.Abs(body.velocity.x) > 1))) || (controller.sliding && Mathf.Abs(body.velocity.x) > 0.2 && controller.onGround)) && !controller.pipeEntering);
         SetParticleEmission(drillParticle, !gameover && controller.drill);
         if (controller.drill)
-            drillParticleAudio.clip = (controller.state == Enums.PowerupState.PropellerMushroom ? propellerDrill : normalDrill);
+            drillParticleAudio.clip = (controller.getShownState() == Enums.PowerupState.PropellerMushroom ? propellerDrill : normalDrill);
         SetParticleEmission(sparkles, !gameover && controller.invincible > 0);
         SetParticleEmission(giantParticle, !gameover && controller.state == Enums.PowerupState.MegaMushroom && controller.giantStartTimer <= 0);
         SetParticleEmission(fireParticle, !gameover && animator.GetBool("firedeath") && controller.dead && deathTimer > deathUpTime);
@@ -286,7 +286,7 @@ public class PlayerAnimationController : MonoBehaviourPun {
             materialBlock = new();
 
         materialBlock.SetFloat("RainbowEnabled", controller.invincible > 0? 1.1f : 0f);
-        int ps = Utils.GetPowerUpSkin(controller.state == Enums.PowerupState.OppressorMKII ? controller.previousState : controller.state);
+        int ps = Utils.GetPowerUpSkin(controller.getShownState());
 
 
         int esOff = controller.state switch
@@ -349,12 +349,13 @@ public class PlayerAnimationController : MonoBehaviourPun {
             }
             oppressorModel.SetActive(false);
         }
-        
 
-        if (blueShell != null)          blueShell.SetActive(controller.state == Enums.PowerupState.BlueShell);
+
+        Enums.PowerupState displayedState = controller.getShownState();
+        if (blueShell != null)          blueShell.SetActive(displayedState == Enums.PowerupState.BlueShell);
         if (largeShellExclude != null)  largeShellExclude.SetActive(!animator.GetCurrentAnimatorStateInfo(0).IsName("in-shell"));
-        if (propellerHelmet != null)    propellerHelmet.SetActive(controller.state == Enums.PowerupState.PropellerMushroom);
-        if (suitcase != null)           suitcase.SetActive(controller.state == Enums.PowerupState.Suit);
+        if (propellerHelmet != null)    propellerHelmet.SetActive(displayedState == Enums.PowerupState.PropellerMushroom);
+        if (suitcase != null)           suitcase.SetActive(displayedState == Enums.PowerupState.Suit);
 
         HandleDeathAnimation();
         HandlePipeAnimation();
