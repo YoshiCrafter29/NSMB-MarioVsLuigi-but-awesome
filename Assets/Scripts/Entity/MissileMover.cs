@@ -28,18 +28,9 @@ public class MissileMover : MonoBehaviourPun
     }
     void FixedUpdate()
     {
-        if (GameManager.Instance && GameManager.Instance.gameover)
-        {
-            body.velocity = Vector2.zero;
-            GetComponent<Animator>().enabled = false;
-            body.isKinematic = true;
-            return;
-        }
-
         HandleCollision();
 
-        float gravityInOneFrame = body.gravityScale * Physics2D.gravity.y * Time.fixedDeltaTime;
-        body.velocity = new Vector2(speed * (left ? -1 : 1), Mathf.Max(-terminalVelocity, body.velocity.y));
+        body.velocity = new Vector2(-Mathf.Sin(transform.rotation.eulerAngles.z * Mathf.Deg2Rad), Mathf.Cos(transform.rotation.eulerAngles.z * Mathf.Deg2Rad)).normalized * speed;
     }
     void HandleCollision()
     {
@@ -68,9 +59,9 @@ public class MissileMover : MonoBehaviourPun
         Transform e = playerController.transform;
         while (e != null)
         {
-            e = e.parent;
             if (e.gameObject == other.gameObject || e.gameObject == this)
                 return;
+            e = e.parent;
         }
         yesRicoKaboom();
     }

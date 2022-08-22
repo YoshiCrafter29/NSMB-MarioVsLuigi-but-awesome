@@ -854,7 +854,9 @@ public class PlayerController : MonoBehaviourPun, IFreezableEntity, ICustomSeria
                 GameObject g = PhotonNetwork.Instantiate($"Prefabs/{projectile}", pos, Quaternion.identity, 0, new object[] { !facingRight ^ animator.GetCurrentAnimatorStateInfo(0).IsName("turnaround"), body.velocity.x });
                 if (g.GetComponent<MissileMover>() is MissileMover m && m)
                 {
-                            m.playerController = this;
+                    m.playerController = this;
+                    m.transform.rotation = Quaternion.Euler(0f, 0f, (facingRight ? -90f : 90f) - (oppressorAngle));
+                    m.speed += oppressorSpeed;
                 }
             }
             photonView.RPC("PlaySound", RpcTarget.All, sound);
