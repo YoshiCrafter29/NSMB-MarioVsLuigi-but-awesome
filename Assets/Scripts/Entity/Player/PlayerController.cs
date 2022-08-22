@@ -856,7 +856,7 @@ public class PlayerController : MonoBehaviourPun, IFreezableEntity, ICustomSeria
                 {
                     m.playerController = this;
                     m.transform.rotation = Quaternion.Euler(0f, 0f, (facingRight ? -90f : 90f) - (oppressorAngle));
-                    m.speed += oppressorSpeed;
+                    m.speed += Mathf.Abs(oppressorSpeed);
                 }
             }
             photonView.RPC("PlaySound", RpcTarget.All, sound);
