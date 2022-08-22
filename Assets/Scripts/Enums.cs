@@ -28,6 +28,7 @@ public static class Enums {
         [PowerupState.Suit] = new(2),
         [PowerupState.McDonalds] = new(2),
         [PowerupState.BombFlower] = new(2),
+        [PowerupState.CoinFlower] = new(2),
         [PowerupState.Weed] = new(2),
         [PowerupState.Bikini] = new(2),
         [PowerupState.MegaMushroom] = new(4),
@@ -50,7 +51,8 @@ public static class Enums {
         Weed,
         Bikini,
         Gigachad,
-        OppressorMKII
+        OppressorMKII,
+        CoinFlower,
     }
     #endregion
     #region ANIMATION & MUSIC

@@ -786,6 +786,8 @@ public class PlayerController : MonoBehaviourPun, IFreezableEntity, ICustomSeria
             case Enums.PowerupState.FireFlower:
             case Enums.PowerupState.OppressorMKII:
                 {
+            case Enums.PowerupState.CoinFlower:
+            case Enums.PowerupState.FireFlower: {
                     if (wallSlideLeft || wallSlideRight || groundpound || triplejump || flying || drill || crouching || sliding)
                         return;
 
@@ -840,6 +842,12 @@ public class PlayerController : MonoBehaviourPun, IFreezableEntity, ICustomSeria
                             break;
                         case Enums.PowerupState.BombFlower:
                             projectile = "BobombProj";
+                            //wallProjectile = "BobombProj";
+                            sound = Enums.Sounds.Powerup_Fireball_Shoot;
+                            break;
+                        case Enums.PowerupState.CoinFlower:
+                            projectile = "LooseCoin";
+                            wallProjectile = "../LooseCoin";
                             sound = Enums.Sounds.Powerup_Fireball_Shoot;
                             break;
                         case Enums.PowerupState.OppressorMKII:
@@ -849,7 +857,8 @@ public class PlayerController : MonoBehaviourPun, IFreezableEntity, ICustomSeria
 
             Vector2 pos = body.position + new Vector2(facingRight ^ animator.GetCurrentAnimatorStateInfo(0).IsName("turnaround") ? 0.5f : -0.5f, 0.3f);
             if (Utils.IsTileSolidAtWorldLocation(pos)) {
-                photonView.RPC("SpawnParticle", RpcTarget.All, $"Prefabs/Particle/{wallProjectile}", pos);
+                if (state != Enums.PowerupState.BombFlower)
+                 photonView.RPC("SpawnParticle", RpcTarget.All, $"Prefabs/Particle/{wallProjectile}", pos);
             } else {
                 GameObject g = PhotonNetwork.Instantiate($"Prefabs/{projectile}", pos, Quaternion.identity, 0, new object[] { !facingRight ^ animator.GetCurrentAnimatorStateInfo(0).IsName("turnaround"), body.velocity.x });
                 if (g.GetComponent<MissileMover>() is MissileMover m && m)
