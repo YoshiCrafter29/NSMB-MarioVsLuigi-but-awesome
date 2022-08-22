@@ -336,7 +336,8 @@ public class PlayerAnimationController : MonoBehaviourPun {
                 largeModel.SetActive(true);
                 smallModel.SetActive(false);
                 Transform t = largeModel.gameObject.transform;
-                t.localScale = new Vector3(t.localScale.x, t.localScale.x * (large ? 1f : 0.5f), t.localScale.z);
+                float scale = t.localScale.z * (large ? 1f : 0.5f);
+                t.localScale = new Vector3(scale, scale, t.localScale.z);
                 animator.avatar = largeAvatar;
                 animator.runtimeAnimatorController = controller.character.largeOverrides;
             }
