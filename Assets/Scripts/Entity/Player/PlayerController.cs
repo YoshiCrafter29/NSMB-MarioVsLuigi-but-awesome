@@ -213,6 +213,7 @@ public class PlayerController : MonoBehaviourPun, IFreezableEntity, ICustomSeria
         megachad.minDistance = 2.5f;
         megachad.maxDistance = 7.5f;
         megachad.rolloffMode = AudioRolloffMode.Logarithmic;
+        megachad.playOnAwake = false;
 
         body.position = transform.position = GameManager.Instance.GetSpawnpoint(playerId);
 
@@ -782,7 +783,9 @@ public class PlayerController : MonoBehaviourPun, IFreezableEntity, ICustomSeria
             case Enums.PowerupState.IceFlower:
             case Enums.PowerupState.McDonalds:
             case Enums.PowerupState.BombFlower:
-            case Enums.PowerupState.FireFlower: {
+            case Enums.PowerupState.FireFlower:
+            case Enums.PowerupState.OppressorMKII:
+                {
                     if (wallSlideLeft || wallSlideRight || groundpound || triplejump || flying || drill || crouching || sliding)
                         return;
 
@@ -839,26 +842,33 @@ public class PlayerController : MonoBehaviourPun, IFreezableEntity, ICustomSeria
                             projectile = "BobombProj";
                             sound = Enums.Sounds.Powerup_Fireball_Shoot;
                             break;
+                        case Enums.PowerupState.OppressorMKII:
+                            projectile = "missile";
+                            break;
                     }
 
             Vector2 pos = body.position + new Vector2(facingRight ^ animator.GetCurrentAnimatorStateInfo(0).IsName("turnaround") ? 0.5f : -0.5f, 0.3f);
             if (Utils.IsTileSolidAtWorldLocation(pos)) {
                 photonView.RPC("SpawnParticle", RpcTarget.All, $"Prefabs/Particle/{wallProjectile}", pos);
             } else {
-                PhotonNetwork.Instantiate($"Prefabs/{projectile}", pos, Quaternion.identity, 0, new object[] { !facingRight ^ animator.GetCurrentAnimatorStateInfo(0).IsName("turnaround"), body.velocity.x });
+                GameObject g = PhotonNetwork.Instantiate($"Prefabs/{projectile}", pos, Quaternion.identity, 0, new object[] { !facingRight ^ animator.GetCurrentAnimatorStateInfo(0).IsName("turnaround"), body.velocity.x });
+                if (g.GetComponent<MissileMover>() is MissileMover m && m)
+                {
+                            m.playerController = this;
+                }
             }
             photonView.RPC("PlaySound", RpcTarget.All, sound);
 
             animator.SetTrigger("fireball");
             break;
         }
-        case Enums.PowerupState.PropellerMushroom: {
-            if (groundpound || (flying && drill) || propeller || crouching || sliding || wallJumpTimer > 0)
-                return;
+            case Enums.PowerupState.PropellerMushroom: {
+                if (groundpound || (flying && drill) || propeller || crouching || sliding || wallJumpTimer > 0)
+                    return;
 
-            photonView.RPC("StartPropeller", RpcTarget.All);
-            break;
-        }
+                photonView.RPC("StartPropeller", RpcTarget.All);
+                break;
+            }
         }
     }
 
