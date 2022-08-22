@@ -5,7 +5,7 @@ using NSMB.Utils;
 
 public class BobombWalk : HoldableEntity {
 
-    private readonly int explosionTileSize = 2;
+    public int explosionTileSize = 2;
     public float walkSpeed, kickSpeed, detonateTimer;
     public bool lit, detonated;
     float detonateCount;

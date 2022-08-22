@@ -663,7 +663,7 @@ PrefabInstance:
     - target: {fileID: 5500062339093502114, guid: 43d56bd18d06e9b4abe323618a20a228,
         type: 3}
       propertyPath: levelHeightTile
-      value: 80
+      value: 26
       objectReference: {fileID: 0}
     - target: {fileID: 5500062339093502114, guid: 43d56bd18d06e9b4abe323618a20a228,
         type: 3}
@@ -3584,14 +3584,6 @@ CompositeCollider2D:
   m_ColliderPaths:
   - m_Collider: {fileID: 1816989170}
     m_ColliderPaths:
-    - - X: -90000000
-        Y: 40000000
-      - X: -125000000
-        Y: 40000000
-      - X: -125000000
-        Y: 35000000
-      - X: -90000000
-        Y: 35000000
     - - X: 125000000
         Y: 40000000
       - X: 90000000
@@ -3599,6 +3591,14 @@ CompositeCollider2D:
       - X: 90000000
         Y: 35000000
       - X: 125000000
+        Y: 35000000
+    - - X: -90000000
+        Y: 40000000
+      - X: -125000000
+        Y: 40000000
+      - X: -125000000
+        Y: 35000000
+      - X: -90000000
         Y: 35000000
     - - X: 10000000
         Y: -40000000
@@ -3698,14 +3698,14 @@ CompositeCollider2D:
         Y: -90000000
   m_CompositePaths:
     m_Paths:
-    - - {x: -9, y: 4}
-      - {x: -12.5, y: 4}
-      - {x: -12.5, y: 3.5}
-      - {x: -9, y: 3.5}
     - - {x: 12.5, y: 4}
       - {x: 9, y: 4}
       - {x: 9, y: 3.5}
       - {x: 12.5, y: 3.5}
+    - - {x: -9, y: 4}
+      - {x: -12.5, y: 4}
+      - {x: -12.5, y: 3.5}
+      - {x: -9, y: 3.5}
     - - {x: 1, y: -4}
       - {x: 2.5, y: -4}
       - {x: 2.5, y: -3.5}
