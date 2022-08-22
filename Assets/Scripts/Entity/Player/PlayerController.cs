@@ -785,9 +785,7 @@ public class PlayerController : MonoBehaviourPun, IFreezableEntity, ICustomSeria
             case Enums.PowerupState.BombFlower:
             case Enums.PowerupState.FireFlower:
             case Enums.PowerupState.OppressorMKII:
-                {
-            case Enums.PowerupState.CoinFlower:
-            case Enums.PowerupState.FireFlower: {
+            case Enums.PowerupState.CoinFlower: {
                     if (wallSlideLeft || wallSlideRight || groundpound || triplejump || flying || drill || crouching || sliding)
                         return;
 
@@ -856,8 +854,7 @@ public class PlayerController : MonoBehaviourPun, IFreezableEntity, ICustomSeria
                     }
 
             Vector2 pos = body.position + new Vector2(facingRight ^ animator.GetCurrentAnimatorStateInfo(0).IsName("turnaround") ? 0.5f : -0.5f, 0.3f);
-            if (Utils.IsTileSolidAtWorldLocation(pos)) {
-                if (state != Enums.PowerupState.BombFlower)
+            if (state != Enums.PowerupState.BombFlower && Utils.IsTileSolidAtWorldLocation(pos)) {
                  photonView.RPC("SpawnParticle", RpcTarget.All, $"Prefabs/Particle/{wallProjectile}", pos);
             } else {
                 GameObject g = PhotonNetwork.Instantiate($"Prefabs/{projectile}", pos, Quaternion.identity, 0, new object[] { !facingRight ^ animator.GetCurrentAnimatorStateInfo(0).IsName("turnaround"), body.velocity.x });

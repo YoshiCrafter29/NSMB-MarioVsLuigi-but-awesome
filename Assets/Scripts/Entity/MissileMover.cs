@@ -40,8 +40,8 @@ public class MissileMover : MonoBehaviourPun
             {
                 if (!hit.CompareTag("Player"))
                     continue;
-                //if (playerController != null && hit.attachedRigidbody.gameObject == playerController)
-                //    continue;
+                if (playerController != null && hit.attachedRigidbody.gameObject == playerController)
+                    continue;
                 Vector2 actualPosition = hit.attachedRigidbody.position + hit.offset;
                 float tempDistance = Vector2.Distance(actualPosition, body.position);
                 if (tempDistance > distance)
