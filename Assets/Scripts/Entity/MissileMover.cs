@@ -13,6 +13,7 @@ public class MissileMover : MonoBehaviourPun
     bool breakOnImpact;
     public GameObject explosion;
     public PlayerController playerController;
+    public PlayerController playerToFocus;
 
     void Start()
     {
@@ -30,7 +31,36 @@ public class MissileMover : MonoBehaviourPun
     {
         HandleCollision();
 
-        body.velocity = new Vector2(-Mathf.Sin(transform.rotation.eulerAngles.z * Mathf.Deg2Rad), Mathf.Cos(transform.rotation.eulerAngles.z * Mathf.Deg2Rad)).normalized * speed;
+        if (playerToFocus == null)
+        {
+            Collider2D closest = null;
+            Vector2 closestPosition = Vector2.zero;
+            float distance = float.MaxValue;
+            foreach (var hit in Physics2D.OverlapCircleAll(body.position, 15f))
+            {
+                if (!hit.CompareTag("Player"))
+                    continue;
+                if (playerController != null && hit.attachedRigidbody.gameObject == playerController)
+                    continue;
+                Vector2 actualPosition = hit.attachedRigidbody.position + hit.offset;
+                float tempDistance = Vector2.Distance(actualPosition, body.position);
+                if (tempDistance > distance)
+                    continue;
+                distance = tempDistance;
+                closest = hit;
+                closestPosition = actualPosition;
+            }
+            playerToFocus = closest?.GetComponent<PlayerController>();
+        }
+        if (playerToFocus != null)
+        {
+            Quaternion rot = transform.rotation;
+            transform.LookAt(new Vector2(playerToFocus.transform.position.x, playerToFocus.transform.position.y));
+            Quaternion nRot = transform.rotation;
+            transform.rotation = Quaternion.Lerp(rot, nRot, Mathf.Clamp(Time.deltaTime * 0.125f * 60, 0f, 1f));
+        }
+
+        body.velocity = transform.forward * speed;
     }
     void HandleCollision()
     {
