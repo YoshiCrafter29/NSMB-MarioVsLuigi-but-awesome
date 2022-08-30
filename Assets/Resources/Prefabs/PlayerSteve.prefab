@@ -11121,7 +11121,7 @@ MonoBehaviour:
   largeAvatar: {fileID: 9000000, guid: 024ceb223bceebd488dbc425555f4df0, type: 3}
   primaryColor: {r: 0, g: 0, b: 0, a: 0}
   secondaryColor: {r: 0, g: 0, b: 0, a: 0}
-  shrinkBigModel: 0
+  shrinkBigModel: 1
   normalDrill: {fileID: 8300000, guid: 80e6fe6f66166f04e8beccc08fe56422, type: 3}
   propellerDrill: {fileID: 8300000, guid: c8ae9349c885145468011889cafc470b, type: 3}
   deathUp: 0
@@ -11558,7 +11558,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a181c1c2125223743880730e86a92110, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textureURL: https://s.namemc.com/i/5ba3ffb09d0d88a8.png
   skinnedMeshRenderer: {fileID: 1957087008275463025}
 --- !u!1 &4824223342336871188
 GameObject:
