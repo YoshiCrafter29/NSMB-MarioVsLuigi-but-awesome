@@ -10901,8 +10901,8 @@ MonoBehaviour:
   playerId: -1
   dead: 0
   spawned: 0
-  state: 15
-  previousState: 15
+  state: 0
+  previousState: 0
   slowriseGravity: 1.05
   normalGravity: 3.25
   flyingGravity: 0.8

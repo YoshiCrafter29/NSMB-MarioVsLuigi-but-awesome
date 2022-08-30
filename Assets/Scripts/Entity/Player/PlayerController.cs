@@ -1469,7 +1469,8 @@ public class PlayerController : MonoBehaviourPun, IFreezableEntity, ICustomSeria
     #endregion
 
     #region -- TILE COLLISIONS --
-    void HandleGiantTiles(bool pipes) {
+    void HandleGiantTiles(bool pipes)
+    {
         if (state != Enums.PowerupState.MegaMushroom || !photonView.IsMine || giantStartTimer > 0)
             return;
 
@@ -1485,10 +1486,9 @@ public class PlayerController : MonoBehaviourPun, IFreezableEntity, ICustomSeria
         Vector3Int minPos = Utils.WorldToTilemapPosition(checkPosition - (checkSize * 0.5f), wrap: false);
         Vector3Int size = Utils.WorldToTilemapPosition(checkPosition + (checkSize * 0.5f), wrap: false) - minPos;
 
-
         for (int x = 0; x <= size.x; x++)
         {
-            for (int y = size.y; y >= 0; y--)
+            for (int y = 0; y <= size.y; y++)
             {
                 Vector3Int tileLocation = new(minPos.x + x, minPos.y + y, 0);
                 Vector2 worldPosCenter = Utils.TilemapToWorldPosition(tileLocation) + Vector3.one * 0.25f;
@@ -1502,32 +1502,50 @@ public class PlayerController : MonoBehaviourPun, IFreezableEntity, ICustomSeria
 
                     dir = InteractableTile.InteractionDirection.Down;
                 }
-                else if (worldPosCenter.x - 0.25f < checkPosition.x - checkSize.x * 0.5f)
+                else if (worldPosCenter.y + Physics2D.defaultContactOffset * 2f >= body.position.y + size.y)
+                {
+                    dir = InteractableTile.InteractionDirection.Up;
+                }
+                else if (worldPosCenter.x <= body.position.x)
                 {
                     dir = InteractableTile.InteractionDirection.Left;
                 }
-                else if (worldPosCenter.x + 0.25f > checkPosition.x + checkSize.x * 0.5f)
+                else if (worldPosCenter.x >= body.position.x)
                 {
                     dir = InteractableTile.InteractionDirection.Right;
                 }
+
+                BreakablePipeTile pipe = GameManager.Instance.tilemap.GetTile<BreakablePipeTile>(tileLocation);
+                if (pipe && (pipe.upsideDownPipe || !pipes || groundpound))
+                    continue;
+
+                InteractWithTile(tileLocation, dir);
             }
         }
-        if (pipes) {
-            for (int x = 0; x <= size.x; x++) {
-                for (int y = size.y; y >= 0; y--) {
+        if (pipes)
+        {
+            for (int x = 0; x <= size.x; x++)
+            {
+                for (int y = size.y; y >= 0; y--)
+                {
                     Vector3Int tileLocation = new(minPos.x + x, minPos.y + y, 0);
                     Vector2 worldPosCenter = Utils.TilemapToWorldPosition(tileLocation) + Vector3.one * 0.25f;
                     Utils.WrapTileLocation(ref tileLocation);
 
                     InteractableTile.InteractionDirection dir = InteractableTile.InteractionDirection.Up;
-                    if (worldPosCenter.y - 0.25f + Physics2D.defaultContactOffset * 2f <= body.position.y) {
+                    if (worldPosCenter.y - 0.25f + Physics2D.defaultContactOffset * 2f <= body.position.y)
+                    {
                         if (!grounded && !groundpound)
                             continue;
 
                         dir = InteractableTile.InteractionDirection.Down;
-                    } else if (worldPosCenter.x - 0.25f < checkPosition.x - checkSize.x * 0.5f) {
+                    }
+                    else if (worldPosCenter.x - 0.25f < checkPosition.x - checkSize.x * 0.5f)
+                    {
                         dir = InteractableTile.InteractionDirection.Left;
-                    } else if (worldPosCenter.x + 0.25f > checkPosition.x + checkSize.x * 0.5f) {
+                    }
+                    else if (worldPosCenter.x + 0.25f > checkPosition.x + checkSize.x * 0.5f)
+                    {
                         dir = InteractableTile.InteractionDirection.Right;
                     }
 
