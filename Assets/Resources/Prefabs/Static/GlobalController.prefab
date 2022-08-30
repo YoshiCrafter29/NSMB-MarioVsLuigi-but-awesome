@@ -238,6 +238,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8e33573d2c2ae7c4682fc6cdb5ea28cd, type: 2}
   - {fileID: 11400000, guid: 083779ae7bd92ab4295d580d757b328e, type: 2}
   - {fileID: 11400000, guid: 886aca9cb64077a4daf88f1a93c3805f, type: 2}
+  - {fileID: 11400000, guid: d2b0eea6f8c51304ab2f9eac67fb79b8, type: 2}
   settings: {fileID: 0}
   discordController: {fileID: 0}
   controlsJson: 
