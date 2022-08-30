@@ -22,7 +22,7 @@ public class MainMenuManager : MonoBehaviour, ILobbyCallbacks, IInRoomCallbacks,
     public GameObject lobbiesContent, lobbyPrefab;
     bool quit, validName;
     public GameObject connecting;
-    public GameObject title, bg, mainMenu, optionsMenu, lobbyMenu, createLobbyPrompt, inLobbyMenu, creditsMenu, controlsMenu, privatePrompt, updateBox;
+    public GameObject title, bg, mainMenu, optionsMenu, lobbyMenu, createLobbyPrompt, inLobbyMenu, creditsMenu, controlsMenu, privatePrompt, updateBox, steveURLFieldParent;
     public GameObject[] levelCameraPositions;
     public GameObject sliderText, lobbyText, currentMaxPlayers, settingsPanel;
     public TMP_Dropdown levelDropdown, characterDropdown;
@@ -30,7 +30,7 @@ public class MainMenuManager : MonoBehaviour, ILobbyCallbacks, IInRoomCallbacks,
     public Button joinRoomBtn, createRoomBtn, startGameBtn;
     public Toggle ndsResolutionToggle, fullscreenToggle, livesEnabled, moddedPowerupsEnabled, powerupsEnabled, timeEnabled, drawTimeupToggle, fireballToggle, vsyncToggle, privateToggle, privateToggleRoom, aspectToggle, spectateToggle;
     public GameObject playersContent, playersPrefab, chatContent, chatPrefab;
-    public TMP_InputField nicknameField, starsText, coinsText, livesField, timeField, lobbyJoinField, chatTextField;
+    public TMP_InputField nicknameField, starsText, coinsText, livesField, timeField, lobbyJoinField, chatTextField, steveURLField;
     public Slider musicSlider, sfxSlider, masterSlider, lobbyPlayersSlider, changePlayersSlider;
     public GameObject mainMenuSelected, optionsSelected, lobbySelected, currentLobbySelected, createLobbySelected, creditsSelected, controlsSelected, privateSelected, reconnectSelected, updateBoxSelected;
     public GameObject errorBox, errorButton, rebindPrompt, reconnectBox;
@@ -70,6 +70,7 @@ public class MainMenuManager : MonoBehaviour, ILobbyCallbacks, IInRoomCallbacks,
             { Enums.NetPlayerProperties.Ping, PhotonNetwork.GetPing() },
             { Enums.NetPlayerProperties.PlayerColor, 0 },
             { Enums.NetPlayerProperties.Spectator, false },
+            { Enums.NetPlayerProperties.SteveSpriteURL, "Steve" }
         };
         PhotonNetwork.LocalPlayer.SetCustomProperties(prop);
 
@@ -364,6 +365,13 @@ public class MainMenuManager : MonoBehaviour, ILobbyCallbacks, IInRoomCallbacks,
         }
     }
 
+    public void OnMCSkinFieldDeselect(string s)
+    {
+        PhotonNetwork.LocalPlayer.SetCustomProperties(new()
+        {
+            { Enums.NetPlayerProperties.SteveSpriteURL, steveURLField.text }
+        });
+    }
     private void JoinMainLobby() {
         //Match match = Regex.Match(Application.version, "^\\w*\\.\\w*\\.\\w*");
         //PhotonNetwork.JoinLobby(new TypedLobby(match.Groups[0].Value, LobbyType.Default));
@@ -502,6 +510,7 @@ public class MainMenuManager : MonoBehaviour, ILobbyCallbacks, IInRoomCallbacks,
         joinRoomBtn.interactable = connected && selectedRoomIcon != null && validName;
         createRoomBtn.interactable = connected && validName;
         region.interactable = connected;
+
 
         if (pingsReceived) {
             pingsReceived = false;
@@ -1107,6 +1116,8 @@ public class MainMenuManager : MonoBehaviour, ILobbyCallbacks, IInRoomCallbacks,
         PlayerData data = GlobalController.Instance.characters[dropdown.value];
 
         sfx.PlayOneShot(Enums.Sounds.Player_Voice_Selected.GetClip(data));
+
+        steveURLFieldParent.SetActive(dropdown.value == 3);
     }
 
     public void SetPlayerColor(int index) {

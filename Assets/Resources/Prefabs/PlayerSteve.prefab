@@ -10921,6 +10921,7 @@ GameObject:
   - component: {fileID: 4921289551925854933}
   - component: {fileID: -7307175017506606876}
   - component: {fileID: -6301806365118984871}
+  - component: {fileID: 7707210058618441638}
   m_Layer: 10
   m_Name: PlayerSteve
   m_TagString: Player
@@ -11545,6 +11546,20 @@ MonoBehaviour:
   - facingRight
   - groundpound
   animator: {fileID: 2254935152879088866}
+--- !u!114 &7707210058618441638
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4824223341387914446}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a181c1c2125223743880730e86a92110, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textureURL: https://s.namemc.com/i/5ba3ffb09d0d88a8.png
+  skinnedMeshRenderer: {fileID: 1957087008275463025}
 --- !u!1 &4824223342336871188
 GameObject:
   m_ObjectHideFlags: 0
