@@ -11100,7 +11100,7 @@ MonoBehaviour:
   glowMaterial: {fileID: 2100000, guid: 2cfa80f93994da44c9bdacad018e6ff5, type: 2}
   models: {fileID: 8422425992379838812}
   smallModel: {fileID: 8422425991972032533}
-  largeModel: {fileID: 0}
+  largeModel: {fileID: 2122257458307690147}
   oppressorModel: {fileID: 4218731309751157993}
   largeShellExclude: {fileID: 0}
   blueShell: {fileID: 0}
@@ -22479,7 +22479,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a8064a32acd2da245878d46b3d5934f7, type: 2}
+  - {fileID: 2100000, guid: b38eae316c4591841921277c87a690fc, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
