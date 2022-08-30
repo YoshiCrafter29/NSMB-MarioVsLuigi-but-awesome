@@ -11642,7 +11642,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   glowMaterial: {fileID: 2100000, guid: 2cfa80f93994da44c9bdacad018e6ff5, type: 2}
   models: {fileID: 8422425992379838812}
-  smallModel: {fileID: 8422425991972032533}
+  smallModel: {fileID: 6335993215114549904}
   largeModel: {fileID: 6335993215114549904}
   oppressorModel: {fileID: 4218731309751157993}
   largeShellExclude: {fileID: 0}
@@ -11659,7 +11659,7 @@ MonoBehaviour:
   pipeDuration: 2
   deathUpTime: 0.6
   deathForce: 7
-  smallAvatar: {fileID: 9000000, guid: e0d3ef6bcff32414dbd34fc6ac031292, type: 3}
+  smallAvatar: {fileID: 9000000, guid: 024ceb223bceebd488dbc425555f4df0, type: 3}
   largeAvatar: {fileID: 9000000, guid: 024ceb223bceebd488dbc425555f4df0, type: 3}
   primaryColor: {r: 0, g: 0, b: 0, a: 0}
   secondaryColor: {r: 0, g: 0, b: 0, a: 0}
