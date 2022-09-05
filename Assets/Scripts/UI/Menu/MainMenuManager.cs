@@ -66,8 +66,6 @@ public class MainMenuManager : MonoBehaviour, ILobbyCallbacks, IInRoomCallbacks,
 
     Coroutine updatePingCoroutine;
 
-    public ColorChooser colorManager;
-
     // LOBBY CALLBACKS
     public void OnJoinedLobby() {
         Hashtable prop = new() {
@@ -866,6 +864,15 @@ public class MainMenuManager : MonoBehaviour, ILobbyCallbacks, IInRoomCallbacks,
 
     public void ChangeLevel(int index) {
         levelDropdown.SetValueWithoutNotify(index);
+
+        string message = null;
+        if (mapsSpecialMessages != null && index < mapsSpecialMessages.Count && mapsSpecialMessages[index] != null)
+        {
+            message = mapsSpecialMessages[index];
+        }
+
+        LocalChatMessage("Map set to: " + levelDropdown.captionText.text + (message == null ? "" : $"\n{message}"), Color.red);
+
         if (index < levelCameraPositions.Length)
             Camera.main.transform.position = levelCameraPositions[index].transform.position;
     }
@@ -878,19 +885,19 @@ public class MainMenuManager : MonoBehaviour, ILobbyCallbacks, IInRoomCallbacks,
             return;
 
         ChangeLevel(newLevelIndex);
-        string message = null;
-        if (mapsSpecialMessages != null && newLevelIndex < mapsSpecialMessages.Count && mapsSpecialMessages[newLevelIndex] != null)
-        {
-            message = mapsSpecialMessages[newLevelIndex];
-        }
-        GlobalChatMessage("Map set to: " + levelDropdown.captionText.text + (message == null ? "" : $"\n{message}"), ColorToVector(Color.red));
-        
         
         ExitGames.Client.Photon.Hashtable table = new() {
             [Enums.NetRoomProperties.Level] = levelDropdown.value
         };
         PhotonNetwork.CurrentRoom.SetCustomProperties(table);
     }
+    public void GlobalChatMessage(string message, Vector3 color)
+    {
+        RaiseEventOptions options = new() { Receivers = ReceiverGroup.All };
+        object[] parameters = new object[] { message, color };
+        PhotonNetwork.RaiseEvent((byte)Enums.NetEventIds.SystemMessage, parameters, options, SendOptions.SendReliable);
+    }
+
     public void SelectRoom(GameObject room) {
         if (selectedRoomIcon)
             selectedRoomIcon.Unselect();
@@ -1237,7 +1244,6 @@ public class MainMenuManager : MonoBehaviour, ILobbyCallbacks, IInRoomCallbacks,
         sfx.PlayOneShot(Enums.Sounds.Player_Voice_Selected.GetClip(data));
 
         steveURLFieldParent.SetActive(dropdown.value == 3);
-        colorManager.ChangeCharacter(data);
 
         Utils.GetCustomProperty(Enums.NetPlayerProperties.PlayerColor, out int index, PhotonNetwork.LocalPlayer.CustomProperties);
         if (index == 0) {

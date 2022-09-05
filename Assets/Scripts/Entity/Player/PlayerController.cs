@@ -439,7 +439,7 @@ public class PlayerController : MonoBehaviourPun, IFreezableEntity, ICustomSeria
 
                 if (tile && tile.name == "Coin")
                 {
-                    CollectCoin(-1, worldPosCenter);
+                    photonView.RPC(nameof(AttemptCollectCoin), RpcTarget.AllViaServer, -1, worldPosCenter);
                     object[] parametersTile = new object[] { tileLocation.x, tileLocation.y, null };
                     GameManager.Instance.SendAndExecuteEvent(Enums.NetEventIds.SetTile, parametersTile, ExitGames.Client.Photon.SendOptions.SendReliable);
                 }
@@ -2371,18 +2371,8 @@ public class PlayerController : MonoBehaviourPun, IFreezableEntity, ICustomSeria
         if (crouching && state == Enums.PowerupState.BlueShell)
             return;
 
-        float airPenalty = onGround ? 1 : 0.5f;
-        float xVel = Mathf.Abs(body.velocity.x);
         float invincibleSpeedBoost = onGround && invincible > 0 ? 2f : 1f;
         invincibleSpeedBoost *= state == Enums.PowerupState.Weed ? 1.75f : 1f;
-        float runSpeedTotal = runningMaxSpeed * invincibleSpeedBoost;
-        float walkSpeedTotal = walkingMaxSpeed;
-        bool reverseDirection = (left ? 1 : -1) == Mathf.Sign(body.velocity.x); // ((left && body.velocity.x > 0.02) || (right && body.velocity.x < -0.02));
-        float reverseFloat = reverseDirection && doIceSkidding ? 0.4f : 1;
-        float turnaroundSpeedBoost = turnaround && !reverseDirection ? 5 : 1;
-        float stationarySpeedBoost = Mathf.Abs(body.velocity.x) <= 0.005f ? 1f : 1f;
-        float propellerBoost = propellerTimer > 0 ? 2.5f : 1;
-        float drillSlowing = drill ? 0.25f : 1f;
 
         bool run = functionallyRunning && !flying;
 

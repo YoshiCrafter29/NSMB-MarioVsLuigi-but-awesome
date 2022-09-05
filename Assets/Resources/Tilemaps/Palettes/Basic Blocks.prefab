@@ -31,11 +31,7 @@ Transform:
   m_Children:
   - {fileID: 624764679952290805}
   m_Father: {fileID: 0}
-<<<<<<< HEAD
   m_RootOrder: 3
-=======
-  m_RootOrder: 2
->>>>>>> upstream/master
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!156049354 &8658409066587795811
 Grid:
@@ -1909,15 +1905,9 @@ Tilemap:
   - m_RefCount: 1
     m_Data: {fileID: 11400000, guid: 76cb65e1b1440a044a78f3ac16f54d3d, type: 2}
   - m_RefCount: 1
-<<<<<<< HEAD
-    m_Data: {fileID: 11400000, guid: b7f83ca156f33fb4db72400aa82ae0d0, type: 2}
-  - m_RefCount: 1
-    m_Data: {fileID: 11400000, guid: 0db0e091c08b91b4cb8b02dd53b1cfcd, type: 2}
-=======
     m_Data: {fileID: 11400000, guid: 65e9e4d4b644e1348a90744c24f4ec3f, type: 2}
   - m_RefCount: 1
     m_Data: {fileID: 11400000, guid: cba70e6efcd156241a64a041fa73be66, type: 2}
->>>>>>> upstream/master
   - m_RefCount: 1
     m_Data: {fileID: 11400000, guid: 47b760870fdca634d924188c2bb8d0b2, type: 2}
   - m_RefCount: 1
