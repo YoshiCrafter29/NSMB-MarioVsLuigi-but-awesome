@@ -22,6 +22,10 @@ public class PlayerAnimationController : MonoBehaviourPun {
 
     [SerializeField] [ColorUsage(true, false)] Color? _glowColor = null;
 
+    private PlayerController controller;
+    private Animator animator;
+    private Rigidbody2D body;
+    private BoxCollider2D mainHitbox;
     private List<Renderer> renderers = new();
     private MaterialPropertyBlock materialBlock;
 
