@@ -16,7 +16,7 @@ public class PlayerAnimationController : MonoBehaviourPun {
     public GameObject models, smallModel, largeModel, oppressorModel, largeShellExclude, blueShell, propellerHelmet, propeller, suitcase;
     [SerializeField] ParticleSystem dust, sparkles, drillParticle, giantParticle, fireParticle;
     [SerializeField] float blinkDuration = 0.1f, pipeDuration = 2f, deathUpTime = 0.6f, deathForce = 7f;
-    [SerializeField] Avatar smallAvatar, largeAvatar;
+    [SerializeField] public Avatar smallAvatar, largeAvatar;
     [SerializeField] Color primaryColor = Color.clear, secondaryColor = Color.clear;
     [SerializeField] bool shrinkBigModel = false;
 
