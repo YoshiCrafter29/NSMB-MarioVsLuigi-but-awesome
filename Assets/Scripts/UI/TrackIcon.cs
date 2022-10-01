@@ -12,7 +12,6 @@ public class TrackIcon : MonoBehaviour {
     private PlayerController playerTarget;
     private Material mat;
     private Image image;
-    private bool changedSprite = false;
 
     public void Start() {
         image = GetComponent<Image>();
@@ -33,14 +32,12 @@ public class TrackIcon : MonoBehaviour {
             return;
         }
 
-        if (playerTarget || target.CompareTag("Player")) {
-            if (!playerTarget) {
+        image.enabled = true;
+        if (target.CompareTag("Player")) {
+            if (!playerTarget)
                 playerTarget = target.GetComponent<PlayerController>();
-                image.color = playerTarget.AnimationController.GlowColor;
-                mat.SetColor("OverlayColor", playerTarget.AnimationController.GlowColor);
-            }
 
-            // OPTIMIZE:
+            image.color = playerTarget.AnimationController.GlowColor;
             if (playerTarget.dead) {
                 flashTimer += Time.deltaTime;
                 image.enabled = (flashTimer % 0.2f) <= 0.1f;
@@ -49,16 +46,17 @@ public class TrackIcon : MonoBehaviour {
                 image.enabled = true;
             }
             transform.localScale = playerTarget.cameraController.controlCamera ? new(1, -1, 1) : Vector3.one * (2f / 3f);
-        } else if (!changedSprite) {
+
+            mat.SetColor("OverlayColor", playerTarget.AnimationController.GlowColor);
+            mat.SetFloat("Star", playerTarget.invincible > 0 ? 1 : 0);
+        } else {
             image.sprite = starSprite;
             image.enabled = true;
-            changedSprite = true;
         }
 
-        GameManager gm = GameManager.Instance;
-        float levelWidth = gm.GetLevelMaxX() - gm.GetLevelMinX();
+        float levelWidth = GameManager.Instance.GetLevelMaxX() - GameManager.Instance.GetLevelMinX();
         float trackWidth = trackMaxX - trackMinX;
-        float percentage = (target.transform.position.x - gm.GetLevelMinX()) / levelWidth;
+        float percentage = (target.transform.position.x - GameManager.Instance.GetLevelMinX()) / levelWidth;
         transform.localPosition = new(percentage * trackWidth - trackMaxX, transform.localPosition.y);
     }
 }

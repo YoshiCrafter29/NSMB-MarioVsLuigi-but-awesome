@@ -1,8 +1,6 @@
+using Photon.Pun;
 using System.Collections.Generic;
 using UnityEngine;
-
-using Photon.Pun;
-using NSMB.Utils;
 
 public class CustomAnimatorSerializer : MonoBehaviour, ICustomSerializeView {
 
@@ -31,7 +29,8 @@ public class CustomAnimatorSerializer : MonoBehaviour, ICustomSerializeView {
 
     public void Serialize(List<byte> buffer) {
 
-        if (lastSentState != null || (PhotonNetwork.Time - lastSendTimestamp < 1000)) {
+        if (lastSentState != null || (PhotonNetwork.Time - lastSendTimestamp < 1000))
+        {
             //don't send anything
             return;
         }

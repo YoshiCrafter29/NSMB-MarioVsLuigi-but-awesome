@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 
 public class ParallaxMover : MonoBehaviour {
-    [SerializeField] private float speed;
+    [SerializeField] float speed;
     private Vector3 moveBy;
 
-    public void Start() {
+    void Start() {
         moveBy = new(speed, 0, 0);
         foreach (var mover in GetComponentsInParent<ParallaxMover>()) {
             if (mover.transform != transform) {
@@ -14,7 +14,7 @@ public class ParallaxMover : MonoBehaviour {
         }
     }
 
-    public void Update() {
-        transform.position += Time.deltaTime * moveBy;
+    void Update() {
+        transform.position += moveBy * Time.deltaTime;
     }
 }

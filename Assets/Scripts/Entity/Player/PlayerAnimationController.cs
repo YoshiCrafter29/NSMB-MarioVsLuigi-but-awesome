@@ -22,11 +22,6 @@ public class PlayerAnimationController : MonoBehaviourPun {
 
     [SerializeField] [ColorUsage(true, false)] Color? _glowColor = null;
 
-    private PlayerController controller;
-    private Animator animator;
-    private Rigidbody2D body;
-    private BoxCollider2D mainHitbox;
-    private List<Renderer> renderers = new();
     private MaterialPropertyBlock materialBlock;
 
     public Color GlowColor {
@@ -36,7 +31,9 @@ public class PlayerAnimationController : MonoBehaviourPun {
 
             return _glowColor ?? Color.white;
         }
-        set => _glowColor = value;
+        set {
+            _glowColor = value;
+        }
     }
 
     AudioSource drillParticleAudio;
@@ -76,10 +73,9 @@ public class PlayerAnimationController : MonoBehaviourPun {
             if (!photonView.IsMine)
                 GameManager.Instance.CreateNametag(controller);
 
-            PlayerColorSet colorSet = GlobalController.Instance.skins[(int) photonView.Owner.CustomProperties[Enums.NetPlayerProperties.PlayerColor]];
-            PlayerColors colors = colorSet.GetPlayerColors(controller.character);
-            primaryColor = colors.overallsColor.linear;
-            secondaryColor = colors.hatColor.linear;
+            CustomColors.PlayerColor color = CustomColors.Colors[(int) photonView.Owner.CustomProperties[Enums.NetPlayerProperties.PlayerColor]];
+            primaryColor = color.overalls.linear;
+            secondaryColor = color.hat.linear;
         }
 
     }
@@ -88,10 +84,6 @@ public class PlayerAnimationController : MonoBehaviourPun {
         HandleAnimations();
         HandleAdditionalStuff();
 
-        if (renderers.Count == 0) {
-            renderers.AddRange(GetComponentsInChildren<MeshRenderer>(true));
-            renderers.AddRange(GetComponentsInChildren<SkinnedMeshRenderer>(true));
-        }
     }
 
     void HandleAdditionalStuff()
@@ -116,9 +108,6 @@ public class PlayerAnimationController : MonoBehaviourPun {
     void HandleAnimations() {
         bool gameover = GameManager.Instance.gameover;
 
-        if (gameover)
-            models.SetActive(true);
-
         Vector3 targetEuler = models.transform.eulerAngles;
         bool instant = false, changeFacing = false;
         if (!gameover && !controller.Frozen) {
@@ -136,10 +125,10 @@ public class PlayerAnimationController : MonoBehaviourPun {
                 targetEuler = new Vector3(0, 180, 0);
                 instant = true;
             } else if (animator.GetBool("inShell") && (!controller.onSpinner || Mathf.Abs(body.velocity.x) > 0.3f)) {
-                targetEuler += Mathf.Abs(body.velocity.x) / controller.RunningMaxSpeed * Time.deltaTime * new Vector3(0, 1800 * (controller.facingRight ? -1 : 1));
+                targetEuler += Mathf.Abs(body.velocity.x) / controller.runningMaxSpeed * Time.deltaTime * new Vector3(0, 1800 * (controller.facingRight ? -1 : 1));
                 instant = true;
             } else if (wasTurnaround || controller.skidding || controller.turnaround || animator.GetCurrentAnimatorStateInfo(0).IsName("turnaround")) {
-                if (controller.facingRight ^ (animator.GetCurrentAnimatorStateInfo(0).IsName("turnaround") || controller.skidding)) {
+                if (controller.facingRight ^ (wasTurnaround = animator.GetCurrentAnimatorStateInfo(0).IsName("turnaround") || controller.turnaround)) {
                     targetEuler = new Vector3(0, 250, 0);
                 } else {
                     targetEuler = new Vector3(0, 110, 0);
@@ -160,7 +149,7 @@ public class PlayerAnimationController : MonoBehaviourPun {
             propellerVelocity = Mathf.Clamp(propellerVelocity + (1800 * ((controller.flying || controller.propeller || controller.usedPropellerThisJump) ? -1 : 1) * Time.deltaTime), -2500, -300);
             if (propeller != null) propeller.transform.Rotate(Vector3.forward, propellerVelocity * Time.deltaTime);
 
-            if (instant || wasTurnaround) {
+            if (instant) {
                 models.transform.rotation = Quaternion.Euler(targetEuler);
             } else {
                 float maxRotation = 2000f * Time.deltaTime;
@@ -173,12 +162,10 @@ public class PlayerAnimationController : MonoBehaviourPun {
 
             if (changeFacing)
                 controller.facingRight = models.transform.eulerAngles.y < 180;
-
-            wasTurnaround = animator.GetCurrentAnimatorStateInfo(0).IsName("turnaround");
         }
 
         //Particles
-        SetParticleEmission(dust, !gameover && (controller.wallSlideLeft || controller.wallSlideRight || (controller.onGround && (controller.skidding || (controller.crouching && Mathf.Abs(body.velocity.x) > 1))) || (controller.sliding && Mathf.Abs(body.velocity.x) > 0.2 && controller.onGround)) && !controller.pipeEntering);
+        SetParticleEmission(dust, !gameover && (controller.wallSlideLeft || controller.wallSlideRight || (controller.onGround && ((controller.skidding && !controller.doIceSkidding) || (controller.crouching && Mathf.Abs(body.velocity.x) > 1))) || (controller.sliding && Mathf.Abs(body.velocity.x) > 0.2 && controller.onGround)) && !controller.pipeEntering);
         SetParticleEmission(drillParticle, !gameover && controller.drill);
         if (controller.drill)
             drillParticleAudio.clip = (controller.getShownState() == Enums.PowerupState.PropellerMushroom ? propellerDrill : normalDrill);
@@ -191,7 +178,7 @@ public class PlayerAnimationController : MonoBehaviourPun {
             eyeState = Enums.PlayerEyeState.Death;
         } else {
             if ((blinkTimer -= Time.fixedDeltaTime) < 0)
-                blinkTimer = 3f + (Random.value * 6f);
+                blinkTimer = 3f + (Random.value * 2f);
             if (blinkTimer < blinkDuration) {
                 eyeState = Enums.PlayerEyeState.HalfBlink;
             } else if (blinkTimer < blinkDuration * 2f) {
@@ -226,38 +213,36 @@ public class PlayerAnimationController : MonoBehaviourPun {
 
     public void UpdateAnimatorStates() {
 
-        bool right = controller.joystick.x > 0.35f;
-        bool left = controller.joystick.x < -0.35f;
-
         animator.SetBool("onLeft", controller.wallSlideLeft);
         animator.SetBool("onRight", controller.wallSlideRight);
         animator.SetBool("onGround", controller.onGround);
         animator.SetBool("invincible", controller.invincible > 0);
-        animator.SetBool("skidding", controller.skidding);
+        animator.SetBool("skidding", !controller.doIceSkidding && controller.skidding);
         animator.SetBool("propeller", controller.propeller);
         animator.SetBool("propellerSpin", controller.propellerSpinTimer > 0);
         animator.SetBool("crouching", controller.crouching);
         animator.SetBool("groundpound", controller.groundpound);
         animator.SetBool("sliding", controller.sliding);
         animator.SetBool("knockback", controller.knockback);
-        animator.SetBool("facingRight", (left ^ right) ? right : controller.facingRight);
+        animator.SetBool("facingRight", controller.facingRight);
         animator.SetBool("flying", controller.flying);
         animator.SetBool("drill", controller.drill);
 
         if (photonView.IsMine) {
             //Animation
             animator.SetBool("turnaround", controller.turnaround);
-            float animatedVelocity = Mathf.Abs(body.velocity.x) + Mathf.Abs(body.velocity.y * Mathf.Sin(controller.floorAngle * Mathf.Deg2Rad)) * (Mathf.Sign(controller.floorAngle) == Mathf.Sign(body.velocity.x) ? 0 : 1);
+            float animatedVelocity = Mathf.Abs(body.velocity.x) + Mathf.Abs(body.velocity.y * Mathf.Sin(controller.floorAngle * Mathf.Deg2Rad));
             if (controller.stuckInBlock) {
                 animatedVelocity = 0;
             } else if (controller.propeller) {
                 animatedVelocity = 2.5f;
+            } else if (controller.doIceSkidding) {
+                if (controller.skidding)
+                    animatedVelocity = 3.5f;
+                if (controller.iceSliding)
+                    animatedVelocity = 0f;
             } else if (controller.state == Enums.PowerupState.MegaMushroom && Mathf.Abs(controller.joystick.x) > .2f) {
                 animatedVelocity = 4.5f;
-            } else if (left ^ right && !controller.hitRight && !controller.hitLeft) {
-                animatedVelocity = Mathf.Max(3.5f, animatedVelocity);
-            } else if (controller.onIce) {
-                animatedVelocity = 0;
             }
             animator.SetFloat("velocityX", animatedVelocity);
             animator.SetFloat("velocityY", body.velocity.y);
@@ -326,9 +311,10 @@ public class PlayerAnimationController : MonoBehaviourPun {
             giantMultiply = new Vector3(v, 1, v);
         }
         materialBlock.SetVector("MultiplyColor", giantMultiply);
-
-        foreach (Renderer r in renderers)
-            r.SetPropertyBlock(materialBlock);
+        foreach (MeshRenderer renderer in GetComponentsInChildren<MeshRenderer>())
+            renderer.SetPropertyBlock(materialBlock);
+        foreach (SkinnedMeshRenderer renderer in GetComponentsInChildren<SkinnedMeshRenderer>())
+            renderer.SetPropertyBlock(materialBlock);
 
         //hit flash
         models.SetActive(GameManager.Instance.gameover || controller.dead || !(controller.hitInvincibilityCounter > 0 && controller.hitInvincibilityCounter * (controller.hitInvincibilityCounter <= 0.75f ? 5 : 2) % (blinkDuration * 2f) < blinkDuration));
@@ -393,10 +379,8 @@ public class PlayerAnimationController : MonoBehaviourPun {
             if (!deathUp && body.position.y > GameManager.Instance.GetLevelMinY()) {
                 body.velocity = new Vector2(0, deathForce);
                 deathUp = true;
-                if (animator.GetBool("firedeath")) {
+                if (animator.GetBool("firedeath"))
                     controller.PlaySound(Enums.Sounds.Player_Voice_LavaDeath);
-                    controller.PlaySound(Enums.Sounds.Player_Sound_LavaHiss);
-                }
                 animator.SetTrigger("deathup");
             }
             body.gravityScale = 1.2f;

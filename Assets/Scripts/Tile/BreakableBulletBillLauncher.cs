@@ -1,7 +1,6 @@
+using NSMB.Utils;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-
-using NSMB.Utils;
 
 [CreateAssetMenu(fileName = "BreakableBulletBillLauncher", menuName = "ScriptableObjects/Tiles/BreakableBulletBillLauncher", order = 5)]
 public class BreakableBulletBillLauncher : InteractableTile {

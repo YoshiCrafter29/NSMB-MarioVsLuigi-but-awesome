@@ -2,12 +2,11 @@
 using Photon.Pun;
 
 public abstract class HoldableEntity : KillableEntity {
-
     public PlayerController holder, previousHolder;
     public Vector3 holderOffset;
+
     public bool canPlace = true;
 
-    #region Unity Methods
     public void LateUpdate() {
         if (!holder)
             return;
@@ -21,14 +20,12 @@ public abstract class HoldableEntity : KillableEntity {
         if (!holder)
             base.FixedUpdate();
     }
-    #endregion
 
-    #region PunRPCs
     [PunRPC]
     public abstract void Kick(bool fromLeft, float kickFactor, bool groundpound);
 
     [PunRPC]
-    public abstract void Throw(bool facingLeft, bool crouching, Vector2 pos);
+    public abstract void Throw(bool facingLeft, bool crouching);
 
     [PunRPC]
     public virtual void Pickup(int view) {
@@ -62,5 +59,4 @@ public abstract class HoldableEntity : KillableEntity {
 
         base.SpecialKill(right, groundpound, combo);
     }
-    #endregion
 }

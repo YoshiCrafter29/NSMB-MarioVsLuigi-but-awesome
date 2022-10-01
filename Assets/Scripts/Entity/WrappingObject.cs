@@ -1,32 +1,30 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class WrappingObject : MonoBehaviour {
-
     private Rigidbody2D body;
-    private Vector2 width;
-    private float min, max;
-
-    public void Start() {
+    void Start() {
         body = GetComponent<Rigidbody2D>();
         if (!body)
             body = GetComponentInParent<Rigidbody2D>();
-
-        // null propagation is ok w/ GameManager.Instance
-        if (!(GameManager.Instance?.loopingLevel ?? false)) {
+    }
+    void FixedUpdate() {
+        if (!GameManager.Instance)
+            return;
+        if (!GameManager.Instance.loopingLevel) {
             enabled = false;
             return;
         }
 
-        min = GameManager.Instance.GetLevelMinX();
-        max = GameManager.Instance.GetLevelMaxX();
-        width = new(GameManager.Instance.levelWidthTile / 2f, 0);
+        WrapMainObject();
     }
-
-    public void FixedUpdate() {
-        if (body.position.x < min) {
-            transform.position = body.position += width;
-        } else if (body.position.x > max) {
-            transform.position = body.position -= width;
+    void WrapMainObject() {
+        float width = GameManager.Instance.levelWidthTile / 2;
+        if (body.position.x < GameManager.Instance.GetLevelMinX()) {
+            transform.position = body.position += new Vector2(width, 0);
+        } else if (body.position.x > GameManager.Instance.GetLevelMaxX()) {
+            transform.position = body.position += new Vector2(-width, 0);
         }
         body.centerOfMass = Vector2.zero;
     }

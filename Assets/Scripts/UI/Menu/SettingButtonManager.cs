@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,47 +8,42 @@ public class SettingButtonManager : MonoBehaviour {
     private int prevWidth = 1280;
     private int prevHeight = 720;
 
-    private Settings Settings => Settings.Instance;
-
     public void SetVolumeMusic(Slider slider) {
-        Settings.VolumeMusic = slider.value;
-        Settings.SaveSettingsToPreferences();
+        Settings settings = Settings.Instance;
+        settings.VolumeMusic = slider.value;
+        settings.SaveSettingsToPreferences();
     }
     public void SetVolumeSFX(Slider slider) {
-        Settings.VolumeSFX = slider.value;
-        Settings.SaveSettingsToPreferences();
+        Settings settings = Settings.Instance;
+        settings.VolumeSFX = slider.value;
+        settings.SaveSettingsToPreferences();
     }
     public void SetVolumeMaster(Slider slider) {
-        Settings.VolumeMaster = slider.value;
-        Settings.SaveSettingsToPreferences();
+        Settings settings = Settings.Instance;
+        settings.VolumeMaster = slider.value;
+        settings.SaveSettingsToPreferences();
     }
     public void OnNdsResolutionToggle(Toggle toggle) {
-        MainMenuManager.Instance.aspectToggle.interactable = Settings.ndsResolution = toggle.isOn;
-        Settings.SaveSettingsToPreferences();
+        Settings settings = Settings.Instance;
+        MainMenuManager.Instance.aspectToggle.interactable = settings.ndsResolution = toggle.isOn;
+        settings.SaveSettingsToPreferences();
     }
 
     public void OnAspectToggle(Toggle toggle) {
-        Settings.fourByThreeRatio = toggle.isOn;
-        Settings.SaveSettingsToPreferences();
+        Settings settings = Settings.Instance;
+        settings.fourByThreeRatio = toggle.isOn;
+        settings.SaveSettingsToPreferences();
     }
 
     public void OnFireballToggle(Toggle toggle) {
-        Settings.fireballFromSprint = toggle.isOn;
-        Settings.SaveSettingsToPreferences();
+        Settings settings = Settings.Instance;
+        settings.fireballFromSprint = toggle.isOn;
+        settings.SaveSettingsToPreferences();
     }
-
-    public void OnScoreboardToggle(Toggle toggle) {
-        Settings.scoreboardAlways = toggle.isOn;
-        Settings.SaveSettingsToPreferences();
-    }
-
-    public void OnChatFilterToggle(Toggle toggle) {
-        Settings.filter = toggle.isOn;
-        Settings.SaveSettingsToPreferences();
-    }
-
 
     public void OnFullscreenToggle(Toggle toggle) {
+        #if !UNITY_ANDROID
+   
         bool value = toggle.isOn;
 
         if (value) {
@@ -56,9 +53,10 @@ public class SettingButtonManager : MonoBehaviour {
         } else {
             Screen.SetResolution(prevWidth, prevHeight, FullScreenMode.Windowed);
         }
+        #endif
     }
 
-        public void OnVsyncToggle(Toggle toggle) {
+    public void OnVsyncToggle(Toggle toggle) {
         Settings settings = Settings.Instance;
         settings.vsync = toggle.isOn;
         QualitySettings.vSyncCount = toggle.isOn ? 1 : 0;

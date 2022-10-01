@@ -3,7 +3,6 @@ using System.Linq;
 using UnityEngine;
 
 using Photon.Pun;
-using NSMB.Utils;
 
 public class CustomNetworkSerializer : MonoBehaviour, IPunObservable {
 

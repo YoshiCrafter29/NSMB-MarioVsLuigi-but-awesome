@@ -1,10 +1,9 @@
-using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
 using Photon.Pun;
 using Photon.Realtime;
 using Discord;
+using System;
 
 public class DiscordController : MonoBehaviour {
 
@@ -72,7 +71,7 @@ public class DiscordController : MonoBehaviour {
 #if UNITY_WEBGL
         return;
 #endif
-        if (discord == null || activityManager == null || !Application.isPlaying)
+        if (discord == null || activityManager == null)
             return;
 
         Activity activity = new();

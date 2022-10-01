@@ -2,39 +2,37 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-using NSMB.Utils;
 
 public class ColorChooser : MonoBehaviour, KeepChildInFocus.IFocusIgnore {
 
-    [SerializeField] private Canvas baseCanvas;
-    [SerializeField] private GameObject template, blockerTemplate, content;
-    [SerializeField] private Sprite clearSprite;
-    [SerializeField] private string property;
+    [SerializeField] string property;
+    [SerializeField] GameObject template, blockerTemplate, content;
+    [SerializeField] Sprite clearSprite;
+    [SerializeField] Canvas baseCanvas;
 
-    private List<ColorButton> colorButtons = new();
-    private List<Button> buttons;
-    private List<Navigation> navigations;
-    private GameObject blocker;
-    private int selected;
+    int selected;
+    GameObject blocker;
+    List<Button> buttons;
+    List<Navigation> navigations;
 
     public void Start() {
         content.SetActive(false);
         buttons = new();
         navigations = new();
 
-        PlayerColorSet[] colors = GlobalController.Instance.skins;
+        CustomColors.PlayerColor[] colors = CustomColors.Colors;
 
         for (int i = 0; i < colors.Length; i++) {
-            PlayerColorSet color = colors[i];
+            CustomColors.PlayerColor color = colors[i];
 
             GameObject newButton = Instantiate(template, template.transform.parent);
             ColorButton cb = newButton.GetComponent<ColorButton>();
-            colorButtons.Add(cb);
             cb.palette = color;
+            cb.Instantiate();
 
             Button b = newButton.GetComponent<Button>();
-            newButton.name = color?.name ?? "Reset";
-            if (color == null)
+            newButton.name = color.name;
+            if (color.hat.a == 0)
                 b.image.sprite = clearSprite;
 
             newButton.SetActive(true);
@@ -61,13 +59,6 @@ public class ColorChooser : MonoBehaviour, KeepChildInFocus.IFocusIgnore {
         for (int i = 0; i < buttons.Count; i++) {
             buttons[i].navigation = navigations[i];
         }
-
-        ChangeCharacter(Utils.GetCharacterData());
-    }
-
-    public void ChangeCharacter(PlayerData data) {
-        foreach (ColorButton b in colorButtons)
-            b.Instantiate(data);
     }
 
     public void SelectColor(Button button) {

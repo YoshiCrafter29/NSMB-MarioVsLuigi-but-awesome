@@ -7,29 +7,26 @@ using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
-using TMPro;
-
 using Photon.Pun;
 using Photon.Realtime;
 using ExitGames.Client.Photon;
+using TMPro;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 using NSMB.Utils;
 using System.IO;
-using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class GameManager : MonoBehaviour, IOnEventCallback, IInRoomCallbacks, IConnectionCallbacks, IMatchmakingCallbacks {
-
     private static GameManager _instance;
     public static GameManager Instance {
         get {
-            if (_instance)
-                return _instance;
-
-            if (SceneManager.GetActiveScene().buildIndex >= 2)
+            if (!_instance && SceneManager.GetActiveScene().buildIndex >= 2)
                 _instance = FindObjectOfType<GameManager>();
 
             return _instance;
         }
-        private set => _instance = value;
+        private set {
+            _instance = value;
+        }
     }
 
     public MusicData mainMusic, invincibleMusic, megaMushroomMusic;
@@ -43,10 +40,12 @@ public class GameManager : MonoBehaviour, IOnEventCallback, IInRoomCallbacks, IC
     [ColorUsage(false)] public Color levelUIColor = new(24, 178, 170);
     public bool spawnBigPowerups = true, spawnVerticalPowerups = true;
     public string levelDesigner = "", richPresenceId = "", levelName = "Unknown";
-    private TileBase[] originalTiles;
-    private BoundsInt origin;
-    private GameObject[] starSpawns;
-    private readonly List<GameObject> remainingSpawns = new();
+    TileBase[] originalTiles;
+    BoundsInt origin;
+    GameObject currentStar = null;
+    GameObject[] starSpawns;
+    readonly List<GameObject> remainingSpawns = new();
+    float spawnStarCount;
     public int startServerTime, endServerTime = -1;
     public long startRealTime = -1, endRealTime = -1;
 
@@ -62,22 +61,24 @@ public class GameManager : MonoBehaviour, IOnEventCallback, IInRoomCallbacks, IC
     public bool paused, loaded, started;
     public GameObject pauseUI, pausePanel, pauseButton, hostExitUI, hostExitButton;
     public bool gameover = false, musicEnabled = false;
-    public readonly HashSet<Player> loadedPlayers = new();
+    public readonly List<string> loadedPlayers = new();
     public int starRequirement, timedGameDuration = -1, coinRequirement;
     public bool hurryup = false;
-    public bool tenSecondCountdown = false;
 
     public int defaultCharacter = 0;
     public int playerCount = 1;
-    public List<PlayerController> players = new();
+    public List<PlayerController> allPlayers = new();
     public EnemySpawnpoint[] enemySpawnpoints;
 
     private GameObject[] coins;
     public SpectationManager SpectationManager { get; private set; }
 
-    private ParticleSystem brickBreak;
+    public AndroidControl controlLeft, controlRight, controlUp, controlDown, controlJump, controlRun;
+    public GameObject androidUI;
 
-    private List<Player> nonSpectatingPlayers;
+    ParticleSystem brickBreak;
+
+
 
     // EVENT CALLBACK
     public void SendAndExecuteEvent(Enums.NetEventIds eventId, object parameters, SendOptions sendOption, RaiseEventOptions eventOptions = null) {
@@ -94,40 +95,21 @@ public class GameManager : MonoBehaviour, IOnEventCallback, IInRoomCallbacks, IC
     public void HandleEvent(byte eventId, object customData, Player sender, ParameterDictionary parameters) {
         object[] data = customData as object[];
 
-        //Debug.Log($"id:{eventId} sender:{sender} master:{sender?.IsMasterClient ?? false}");
         switch (eventId) {
         case PunEvent.Instantiation: {
-            Hashtable table = (Hashtable) parameters.paramDict[245];
-            string prefab = (string) table[0];
-            int viewId = (int) table[7];
-
-            //even the host can't be trusted...
-            if ((sender?.IsMasterClient ?? false) && (prefab.Contains("Static") || prefab.Contains("1-Up") || (musicEnabled && prefab.Contains("Player")))) {
-
-                //abandon ship
-                PhotonNetwork.Disconnect();
-                return;
-            }
+            string prefab = (string) ((Hashtable) parameters.paramDict[245])[0];
 
             //server room instantiation
             if (sender == null || sender.IsMasterClient)
                 return;
 
-            PlayerController controller = players.FirstOrDefault(pl => sender == pl.photonView.Owner);
-            bool invalidProjectile = controller.state != Enums.PowerupState.FireFlower && prefab.Contains("Fireball");
-            invalidProjectile |= controller.state != Enums.PowerupState.IceFlower && prefab.Contains("Iceball");
-
-            if (prefab.Contains("Enemy") || prefab.Contains("Powerup") || prefab.Contains("Static") || prefab.Contains("Bump") || prefab.Contains("BigStar") || prefab.Contains("Coin") || ((!nonSpectatingPlayers.Contains(sender) || musicEnabled) && prefab.Contains("Player"))) {
+            if (prefab.Contains("Enemy") || /*prefab.Contains("Powerup") ||*/ prefab.Contains("Static") || prefab.Contains("Bump") || /*prefab.Contains("BigStar") ||*/ prefab.Contains("Coin")) {
                 PhotonNetwork.CloseConnection(sender);
                 PhotonNetwork.DestroyPlayerObjects(sender);
             }
-
             break;
         }
         case (byte) Enums.NetEventIds.AllFinishedLoading: {
-            if (!(sender?.IsMasterClient ?? true))
-                return;
-
             if (loaded)
                 break;
 
@@ -135,9 +117,6 @@ public class GameManager : MonoBehaviour, IOnEventCallback, IInRoomCallbacks, IC
             break;
         }
         case (byte) Enums.NetEventIds.EndGame: {
-            if (!(sender?.IsMasterClient ?? false))
-                return;
-
             Player winner = (Player) customData;
             StartCoroutine(EndGame(winner));
             break;
@@ -170,48 +149,23 @@ public class GameManager : MonoBehaviour, IOnEventCallback, IInRoomCallbacks, IC
             break;
         }
         case (byte) Enums.NetEventIds.ResetTiles: {
-            if (!(sender?.IsMasterClient ?? false))
-                return;
-
-            tilemap.SetTilesBlock(origin, originalTiles);
-
-            foreach (GameObject coin in coins) {
-                //dont use setactive cause it breaks animation cycles being syncewd
-                coin.GetComponent<SpriteRenderer>().enabled = true;
-                coin.GetComponent<BoxCollider2D>().enabled = true;
-            }
-
-            StartCoroutine(BigStarRespawn());
-
-            if (!PhotonNetwork.IsMasterClient)
-                return;
-
-            foreach (EnemySpawnpoint point in enemySpawnpoints)
-                point.AttemptSpawning();
-
+            ResetTiles();
             break;
         }
         case (byte) Enums.NetEventIds.SyncTilemap: {
-            if (!(sender?.IsMasterClient ?? false))
-                return;
-
             Hashtable changes = (Hashtable) customData;
             Utils.ApplyTilemapChanges(originalTiles, origin, tilemap, changes);
             break;
         }
         case (byte) Enums.NetEventIds.PlayerFinishedLoading: {
-            if (sender == null || !nonSpectatingPlayers.Contains(sender))
-                return;
-
-            loadedPlayers.Add(sender);
-            CheckIfAllLoaded();
+            Player player = (Player) customData;
+            loadedPlayers.Add(player.NickName);
             break;
         }
         case (byte) Enums.NetEventIds.BumpTile: {
 
             int x = (int) data[0];
             int y = (int) data[1];
-
             bool downwards = (bool) data[2];
             string newTile = (string) data[3];
             string spawnResult = (string) data[4];
@@ -228,17 +182,15 @@ public class GameManager : MonoBehaviour, IOnEventCallback, IInRoomCallbacks, IC
             bb.fromAbove = downwards;
             bb.resultTile = newTile;
             bb.sprite = tilemap.GetSprite(loc);
-            bb.resultPrefab = spawnResult;
+            bb.prefab = spawnResult;
             bb.spawnOffset = spawnOffset;
 
             tilemap.SetTile(loc, null);
             break;
         }
         case (byte) Enums.NetEventIds.SetThenBumpTile: {
-
             int x = (int) data[0];
             int y = (int) data[1];
-
             bool downwards = (bool) data[2];
             string newTile = (string) data[3];
             string spawnResult = (string) data[4];
@@ -254,15 +206,12 @@ public class GameManager : MonoBehaviour, IOnEventCallback, IInRoomCallbacks, IC
             bb.fromAbove = downwards;
             bb.resultTile = newTile;
             bb.sprite = tilemap.GetSprite(loc);
-            bb.resultPrefab = spawnResult;
+            bb.prefab = spawnResult;
 
             tilemap.SetTile(loc, null);
             break;
         }
         case (byte) Enums.NetEventIds.SetCoinState: {
-            if (!(sender?.IsMasterClient ?? false))
-                return;
-
             int view = (int) data[0];
             bool visible = (bool) data[1];
             GameObject coin = PhotonView.Find(view).gameObject;
@@ -309,6 +258,36 @@ public class GameManager : MonoBehaviour, IOnEventCallback, IInRoomCallbacks, IC
             particle.transform.position += new Vector3(sr.size.x / 4f, size.y / 4f * (upsideDown ? -1 : 1));
             break;
         }
+        case (byte) Enums.NetEventIds.PlayerDamagePlayer: {
+            PhotonView attacker = PhotonView.Find((int) data[0]);
+            PhotonView target = PhotonView.Find((int) data[1]);
+
+            if (!attacker || !target)
+                return;
+
+            PlayerController attackerPlayer = attacker.GetComponent<PlayerController>();
+            PlayerController targetPlayer = target.GetComponent<PlayerController>();
+
+            if (!targetPlayer || !attackerPlayer)
+                return;
+
+            //attacker must be invincible or mega, and near the player
+            if (Utils.WrappedDistance(targetPlayer.body.position, attackerPlayer.body.position) > 2)
+                return;
+
+            if (targetPlayer.invincible > 0 || targetPlayer.hitInvincibilityCounter > 0)
+                return;
+
+            if (!((attackerPlayer.state == Enums.PowerupState.BlueShell && attackerPlayer.inShell) ||
+                attackerPlayer.invincible > 0 ||
+                (attackerPlayer.state == Enums.PowerupState.MegaMushroom && attackerPlayer.giantTimer > 0) ||
+                (attackerPlayer.groundpound && targetPlayer.state == Enums.PowerupState.MiniMushroom)))
+
+                return;
+
+            targetPlayer.photonView.RPC("Powerdown", RpcTarget.All, false);
+            break;
+        }
         }
     }
 
@@ -325,7 +304,15 @@ public class GameManager : MonoBehaviour, IOnEventCallback, IInRoomCallbacks, IC
 
     // ROOM CALLBACKS
     public void OnJoinedRoom() { }
-    public void OnPlayerPropertiesUpdate(Player player, Hashtable playerProperties) { }
+    public void OnPlayerPropertiesUpdate(Player player, Hashtable playerProperties) {
+        foreach (PlayerController pl in allPlayers) {
+            if (!pl)
+                continue;
+
+            if (pl.photonView.Owner == player)
+                pl.LoadFromGameState();
+        }
+    }
     public void OnRoomPropertiesUpdate(Hashtable properties) { }
 
     public void OnMasterClientSwitched(Player newMaster) {
@@ -372,10 +359,7 @@ public class GameManager : MonoBehaviour, IOnEventCallback, IInRoomCallbacks, IC
     public void OnPlayerLeftRoom(Player otherPlayer) {
         //TODO: player disconnect message
 
-        nonSpectatingPlayers = PhotonNetwork.CurrentRoom.Players.Values.Where(pl => !pl.IsSpectator()).ToList();
-        CheckIfAllLoaded();
-
-        if (musicEnabled && FindObjectsOfType<PlayerController>().Length <= 0) {
+        if (FindObjectsOfType<PlayerController>().Length <= 0) {
             //all players left.
             if (PhotonNetwork.IsMasterClient)
                 PhotonNetwork.RaiseEvent((byte) Enums.NetEventIds.EndGame, null, NetworkUtils.EventAll, SendOptions.SendReliable);
@@ -396,17 +380,10 @@ public class GameManager : MonoBehaviour, IOnEventCallback, IInRoomCallbacks, IC
 
     //Register callbacks & controls
     public void OnEnable() {
-        Instance = this;
         PhotonNetwork.AddCallbackTarget(this);
         InputSystem.controls.UI.Pause.performed += OnPause;
     }
     public void OnDisable() {
-        foreach (GameManager gm in FindObjectsOfType<GameManager>()) {
-            if (gm != this) {
-                Instance = gm;
-                return;
-            }
-        }
         PhotonNetwork.RemoveCallbackTarget(this);
         InputSystem.controls.UI.Pause.performed -= OnPause;
     }
@@ -440,8 +417,6 @@ public class GameManager : MonoBehaviour, IOnEventCallback, IInRoomCallbacks, IC
                 InputSystem.controls.LoadBindingOverridesFromJson(File.ReadAllText(path));
         }
 
-        nonSpectatingPlayers = PhotonNetwork.CurrentRoom.Players.Values.Where(pl => !pl.IsSpectator()).ToList();
-
         //Respawning Tilemaps
         origin = new BoundsInt(levelMinTileX, levelMinTileY, 0, levelWidthTile, levelHeightTile, 1);
         originalTiles = tilemap.GetTilesBlock(origin);
@@ -469,7 +444,7 @@ public class GameManager : MonoBehaviour, IOnEventCallback, IInRoomCallbacks, IC
             localPlayer.GetComponent<Rigidbody2D>().isKinematic = true;
 
             RaiseEventOptions options = new() { Receivers = ReceiverGroup.Others, CachingOption = EventCaching.AddToRoomCache };
-            SendAndExecuteEvent(Enums.NetEventIds.PlayerFinishedLoading, null, SendOptions.SendReliable, options);
+            SendAndExecuteEvent(Enums.NetEventIds.PlayerFinishedLoading, PhotonNetwork.LocalPlayer, SendOptions.SendReliable, options);
         } else {
             SpectationManager.Spectating = true;
         }
@@ -479,33 +454,14 @@ public class GameManager : MonoBehaviour, IOnEventCallback, IInRoomCallbacks, IC
         _mainMusic = mainMusic;
     }
 
-    private void CheckIfAllLoaded() {
-        if (loaded || !PhotonNetwork.IsMasterClient || loadedPlayers.Count < nonSpectatingPlayers.Count)
-            return;
-
-        RaiseEventOptions options = new() { CachingOption = EventCaching.AddToRoomCacheGlobal, Receivers = ReceiverGroup.All };
-        SendAndExecuteEvent(Enums.NetEventIds.AllFinishedLoading, PhotonNetwork.ServerTimestamp + ((nonSpectatingPlayers.Count - 1) * 250) + 1000, SendOptions.SendReliable, options);
-        loaded = true;
-    }
-
-    private PlayerController GetController(Player player) {
-        foreach (PlayerController pl in players) {
-            if (pl.photonView.Owner == player)
-                return pl;
-        }
-        return null;
-    }
-
     IEnumerator LoadingComplete(int startTimestamp) {
-        GlobalController.Instance.DiscordController.UpdateActivity();
+        GlobalController.Instance.discordController.UpdateActivity();
 
         loaded = true;
         loadedPlayers.Clear();
         enemySpawnpoints = FindObjectsOfType<EnemySpawnpoint>();
         bool spectating = GlobalController.Instance.joinedAsSpectator;
         bool gameStarting = startTimestamp - PhotonNetwork.ServerTimestamp > 0;
-
-        StartCoroutine(BigStarRespawn(false));
 
         if (PhotonNetwork.IsMasterClient && !PhotonNetwork.OfflineMode) {
             //clear buffered loading complete events.
@@ -528,8 +484,8 @@ public class GameManager : MonoBehaviour, IOnEventCallback, IInRoomCallbacks, IC
 
         started = true;
 
-        playerCount = players.Count;
-        foreach (PlayerController controllers in players)
+        playerCount = allPlayers.Count;
+        foreach (PlayerController controllers in allPlayers)
             if (controllers) {
                 if (spectating && controllers.sfx) {
                     controllers.sfxBrick.enabled = true;
@@ -537,12 +493,6 @@ public class GameManager : MonoBehaviour, IOnEventCallback, IInRoomCallbacks, IC
                 }
                 controllers.gameObject.SetActive(spectating);
             }
-
-        try {
-            ScoreboardUpdater.instance.Populate(players);
-            if (Settings.Instance.scoreboardAlways)
-                ScoreboardUpdater.instance.SetEnabled();
-        } catch { }
 
         if (gameStarting) {
             yield return new WaitForSeconds(3.5f);
@@ -560,6 +510,10 @@ public class GameManager : MonoBehaviour, IOnEventCallback, IInRoomCallbacks, IC
         foreach (var wfgs in FindObjectsOfType<WaitForGameStart>())
             wfgs.AttemptExecute();
 
+        try {
+            ScoreboardUpdater.instance.Populate(allPlayers);
+        } catch { }
+
         yield return new WaitForSeconds(1f);
 
         musicEnabled = true;
@@ -571,35 +525,19 @@ public class GameManager : MonoBehaviour, IOnEventCallback, IInRoomCallbacks, IC
             endRealTime = startRealTime + 4500 + timedGameDuration * 1000;
         }
 
-        GlobalController.Instance.DiscordController.UpdateActivity();
+        GlobalController.Instance.discordController.UpdateActivity();
 
         if (canvas)
             SceneManager.UnloadSceneAsync("Loading");
     }
 
-    IEnumerator CountdownSound(float t, float times) { //The match countdown sound system. t is the tempo, and times is the # of times the sound will play (variable if match is started at 10s or less)
-        for (int i = 0; i < times; i++) {
-            if (gameover) //This is to ensure that if a win or draw occurs in the last 10 seconds, the countdown sound doesn't play past the match's length.
-                yield break;
-
-            if (i >= (times * 0.7f)) { //Countdown sound will speed up and play twice per second as a match's end draws near.
-                sfx.PlayOneShot(Enums.Sounds.UI_Countdown_0.GetClip());
-                yield return new WaitForSeconds(t / 2);
-                sfx.PlayOneShot(Enums.Sounds.UI_Countdown_0.GetClip());
-                yield return new WaitForSeconds(t / 2);
-            } else { //Or it'll just play normally.
-                sfx.PlayOneShot(Enums.Sounds.UI_Countdown_0.GetClip());
-                yield return new WaitForSeconds(t);
-            }
-        }
-    }
-
-    private IEnumerator EndGame(Player winner) {
+    IEnumerator EndGame(Player winner) {
         PhotonNetwork.CurrentRoom.SetCustomProperties(new() { [Enums.NetRoomProperties.GameStarted] = false });
         gameover = true;
         music.Stop();
+        music.Stop();
         GameObject text = GameObject.FindWithTag("wintext");
-        text.GetComponent<TMP_Text>().text = winner != null ? $"{ winner.GetUniqueNickname() } Wins!" : "It's a draw...";
+        text.GetComponent<TMP_Text>().text = winner != null ? $"{ winner.NickName } Wins!" : "It's a draw...";
 
         yield return new WaitForSecondsRealtime(1);
         text.GetComponent<Animator>().SetTrigger("start");
@@ -628,36 +566,6 @@ public class GameManager : MonoBehaviour, IOnEventCallback, IInRoomCallbacks, IC
         SceneManager.LoadScene("MainMenu");
     }
 
-    private IEnumerator BigStarRespawn(bool wait = true) {
-        if (wait)
-            yield return new WaitForSeconds(10.4f - playerCount / 5f);
-
-        if (!PhotonNetwork.IsMasterClient || gameover)
-            yield break;
-
-        bigwhile:
-        while (true) {
-            if (remainingSpawns.Count <= 0)
-                remainingSpawns.AddRange(starSpawns);
-
-            int index = Random.Range(0, remainingSpawns.Count);
-            Vector3 spawnPos = remainingSpawns[index].transform.position;
-            //Check for people camping spawn
-            foreach (var hit in Physics2D.OverlapCircleAll(spawnPos, 4)) {
-                if (hit.gameObject.CompareTag("Player")) {
-                    //cant spawn here
-                    remainingSpawns.RemoveAt(index);
-                    yield return new WaitForSeconds(0.2f);
-                    goto bigwhile;
-                }
-            }
-
-            PhotonNetwork.InstantiateRoomObject("Prefabs/BigStar", spawnPos, Quaternion.identity);
-            remainingSpawns.RemoveAt(index);
-            break;
-        }
-    }
-
     public void Update() {
         if (gameover)
             return;
@@ -665,27 +573,22 @@ public class GameManager : MonoBehaviour, IOnEventCallback, IInRoomCallbacks, IC
         if (endServerTime != -1) {
             float timeRemaining = (endServerTime - PhotonNetwork.ServerTimestamp) / 1000f;
 
-            if (timeRemaining > 0 && !gameover) {
+            if (timeRemaining > 0 && gameover != true) {
                 timeRemaining -= Time.deltaTime;
-                //play hurry sound if time < 60 (will play instantly when a match starts with a time limit less than 60s)
-                if (!hurryup && (timeRemaining <= 60)) {
+                //play hurry sound if time < 10 OR less than 10%
+                if (hurryup != true && (timeRemaining <= 10 || timeRemaining < (timedGameDuration * 0.2f))) {
                     hurryup = true;
                     sfx.PlayOneShot(Enums.Sounds.UI_HurryUp.GetClip());
                 }
-                if (!tenSecondCountdown && (timeRemaining <= 10)) {
-                    StartCoroutine(CountdownSound(1.0f, timeRemaining));
-                    tenSecondCountdown = true;
-                }
                 if (timeRemaining - Time.deltaTime <= 0) {
-                    sfx.PlayOneShot(Enums.Sounds.UI_Countdown_1.GetClip());
                     CheckForWinner();
                 }
             }
         }
 
-        if (started && musicEnabled) {
+        if (started) {
             bool allNull = true;
-            foreach (PlayerController controller in players) {
+            foreach (PlayerController controller in allPlayers) {
                 if (controller) {
                     allNull = false;
                     break;
@@ -699,6 +602,50 @@ public class GameManager : MonoBehaviour, IOnEventCallback, IInRoomCallbacks, IC
 
         if (musicEnabled)
             HandleMusic();
+
+        if (PhotonNetwork.IsMasterClient) {
+            int players = 0;
+            foreach (var player in PhotonNetwork.CurrentRoom.Players) {
+                Utils.GetCustomProperty(Enums.NetPlayerProperties.Spectator, out bool spectating, player.Value.CustomProperties);
+                if (!spectating)
+                    players++;
+            }
+
+            if (!loaded && loadedPlayers.Count >= players) {
+                RaiseEventOptions options = new() { CachingOption = EventCaching.AddToRoomCacheGlobal, Receivers = ReceiverGroup.All };
+                SendAndExecuteEvent(Enums.NetEventIds.AllFinishedLoading, PhotonNetwork.ServerTimestamp + ((players-1) * 250) + 1000, SendOptions.SendReliable, options);
+                loaded = true;
+            }
+        }
+
+        //TODO: change to coroutine?
+        if (!currentStar) {
+            if (PhotonNetwork.IsMasterClient) {
+                if ((spawnStarCount -= Time.deltaTime) <= 0) {
+                    if (remainingSpawns.Count <= 0)
+                        remainingSpawns.AddRange(starSpawns);
+
+                    int index = Random.Range(0, remainingSpawns.Count);
+                    Vector3 spawnPos = remainingSpawns[index].transform.position;
+                    bool isMoon = remainingSpawns[index].tag == "MoonSpawn";
+                    //Check for people camping spawn
+                    foreach (var hit in Physics2D.OverlapCircleAll(spawnPos, 4)) {
+                        if (hit.gameObject.CompareTag("Player")) {
+                            //cant spawn here
+                            remainingSpawns.RemoveAt(index);
+                            return;
+                        }
+                    }
+
+                    var prefab = isMoon ? "DaMoon" : "BigStar";
+                    currentStar = PhotonNetwork.InstantiateRoomObject($"Prefabs/{prefab}", spawnPos, Quaternion.identity);
+                    remainingSpawns.RemoveAt(index);
+                    spawnStarCount = 10.4f - (playerCount / 5f);
+                }
+            } else {
+                currentStar = GameObject.FindGameObjectWithTag("bigstar");
+            }
+        }
     }
 
     public void CreateNametag(PlayerController controller) {
@@ -716,7 +663,7 @@ public class GameManager : MonoBehaviour, IOnEventCallback, IInRoomCallbacks, IC
         int winningStars = -1;
         List<PlayerController> winningPlayers = new();
         List<PlayerController> alivePlayers = new();
-        foreach (var player in players) {
+        foreach (var player in allPlayers) {
             if (player == null || player.lives == 0)
                 continue;
 
@@ -772,12 +719,20 @@ public class GameManager : MonoBehaviour, IOnEventCallback, IInRoomCallbacks, IC
         musicState = state;
     }
 
-    private void HandleMusic() {
+    void HandleMusic() {
         bool invincible = false;
         bool mega = false;
         bool speedup = false;
 
-        foreach (var player in players) {
+        List<PlayerController> alivePlayers = new();
+        foreach (var player in allPlayers) {
+            if (player == null || player.lives == 0)
+                continue;
+
+            alivePlayers.Add(player);
+        }
+
+        foreach (var player in allPlayers) {
             if (!player)
                 continue;
 
@@ -787,11 +742,9 @@ public class GameManager : MonoBehaviour, IOnEventCallback, IInRoomCallbacks, IC
                 invincible = true;
             if ((player.stars + 1f) / starRequirement >= 0.95f || hurryup != false)
                 speedup = true;
-            if (player.lives == 1 && players.Count <= 2)
+            if (player.lives == 1 && alivePlayers.Count <= 2)
                 speedup = true;
         }
-
-        speedup |= players.All(pl => !pl || pl.lives == 1);
 
         if (mega) {
             PlaySong(Enums.MusicState.MegaMushroom, megaMushroomMusic);
@@ -801,13 +754,33 @@ public class GameManager : MonoBehaviour, IOnEventCallback, IInRoomCallbacks, IC
             PlaySong(Enums.MusicState.Normal, mainMusic);
         }
 
-        loopMusic.FastMusic = speedup;
+        AudioMixer mixer = music.outputAudioMixerGroup.audioMixer;
+        if (speedup) {
+            mixer.SetFloat("MusicSpeed", 1.25f);
+            mixer.SetFloat("MusicPitch", 1f / 1.25f);
+        } else {
+            mixer.SetFloat("MusicSpeed", 1f);
+            mixer.SetFloat("MusicPitch", 1f);
+        }
+    }
+
+    public void ResetTiles() {
+        tilemap.SetTilesBlock(origin, originalTiles);
+
+        foreach (GameObject coin in GameObject.FindGameObjectsWithTag("coin")) {
+            coin.GetComponent<SpriteRenderer>().enabled = true;
+            coin.GetComponent<BoxCollider2D>().enabled = true;
+        }
+
+        if (!PhotonNetwork.IsMasterClient)
+            return;
+        foreach (EnemySpawnpoint point in enemySpawnpoints)
+            point.AttemptSpawning();
     }
 
     public void OnPause(InputAction.CallbackContext context) {
         Pause();
     }
-
     public void Pause() {
         if (gameover || !musicEnabled)
             return;
@@ -852,32 +825,21 @@ public class GameManager : MonoBehaviour, IOnEventCallback, IInRoomCallbacks, IC
         EventSystem.current.SetSelectedGameObject(pauseButton);
     }
 
-    //lazy mofo
-    private float? middleX, minX, minY, maxX, maxY;
+
     public float GetLevelMiddleX() {
-        if (middleX == null)
-            middleX = (GetLevelMaxX() + GetLevelMinX()) / 2;
-        return (float) middleX;
+        return (GetLevelMaxX() + GetLevelMinX()) / 2;
     }
     public float GetLevelMinX() {
-        if (minX == null)
-            minX = (levelMinTileX * tilemap.transform.localScale.x) + tilemap.transform.position.x;
-        return (float) minX;
+        return (levelMinTileX * tilemap.transform.localScale.x) + tilemap.transform.position.x;
     }
     public float GetLevelMinY() {
-        if (minY == null)
-            minY = (levelMinTileY * tilemap.transform.localScale.y) + tilemap.transform.position.y;
-        return (float) minY;
+        return (levelMinTileY * tilemap.transform.localScale.y) + tilemap.transform.position.y;
     }
     public float GetLevelMaxX() {
-        if (maxX == null)
-            maxX = ((levelMinTileX + levelWidthTile) * tilemap.transform.localScale.x) + tilemap.transform.position.x;
-        return (float) maxX;
+        return ((levelMinTileX + levelWidthTile) * tilemap.transform.localScale.x) + tilemap.transform.position.x;
     }
     public float GetLevelMaxY() {
-        if (maxY == null)
-            maxY =  ((levelMinTileY + levelHeightTile) * tilemap.transform.localScale.y) + tilemap.transform.position.y;
-        return (float) maxY;
+        return ((levelMinTileY + levelHeightTile) * tilemap.transform.localScale.y) + tilemap.transform.position.y;
     }
 
 

@@ -1,7 +1,9 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class LockScale : MonoBehaviour {
-    public void LateUpdate() {
+    void Update() {
         Vector3 parentScale = transform.parent.localScale;
         if (parentScale.z == 0)
             parentScale.z = 1;

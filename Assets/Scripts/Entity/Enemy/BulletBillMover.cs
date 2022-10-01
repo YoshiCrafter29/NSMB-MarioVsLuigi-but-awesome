@@ -54,21 +54,20 @@ public class BulletBillMover : KillableEntity {
             || ((player.groundpound || player.drill) && player.state != Enums.PowerupState.MiniMushroom && attackedFromAbove)
             || player.state == Enums.PowerupState.MegaMushroom) {
 
-            if (player.drill) {
-                player.bounce = true;
-                player.drill = false;
-            }
             photonView.RPC("Kill", RpcTarget.All);
             return;
         }
         if (attackedFromAbove) {
-            if (!(player.state == Enums.PowerupState.MiniMushroom && !player.groundpound)) {
+            if (player.state == Enums.PowerupState.MiniMushroom && !player.drill && !player.groundpound) {
+                player.groundpound = false;
+                player.bounce = true;
+            } else {
                 photonView.RPC("Kill", RpcTarget.All);
+                player.groundpound = false;
+                player.bounce = !player.drill;
             }
             player.photonView.RPC("PlaySound", RpcTarget.All, Enums.Sounds.Enemy_Generic_Stomp);
             player.drill = false;
-            player.groundpound = false;
-            player.bounce = true;
             return;
         }
 
@@ -78,7 +77,7 @@ public class BulletBillMover : KillableEntity {
 
     void DespawnCheck() {
 
-        foreach (PlayerController player in GameManager.Instance.players) {
+        foreach (PlayerController player in GameManager.Instance.allPlayers) {
             if (!player)
                 continue;
 

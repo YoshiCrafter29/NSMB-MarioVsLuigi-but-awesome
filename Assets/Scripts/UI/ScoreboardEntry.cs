@@ -2,18 +2,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-
 using NSMB.Utils;
 
 public class ScoreboardEntry : MonoBehaviour {
 
-    [SerializeField] private TMP_Text nameText, valuesText;
-    [SerializeField] private Image background;
+    [SerializeField] TMP_Text nameText, valuesText;
+    [SerializeField] Image background;
 
     public PlayerController target;
 
     private int playerId, currentLives, currentStars;
-    private bool rainbowEnabled;
 
     public void Start() {
         if (!target) {
@@ -22,24 +20,20 @@ public class ScoreboardEntry : MonoBehaviour {
         }
 
         playerId = target.playerId;
-        nameText.text = target.photonView.Owner.GetUniqueNickname();
+        nameText.text = target.photonView.Owner.NickName;
 
         Color c = target.AnimationController.GlowColor;
         background.color = new(c.r, c.g, c.b, 0.5f);
-
-        rainbowEnabled = target.photonView.Owner.HasRainbowName();
     }
 
     public void Update() {
         CheckForTextUpdate();
-
-        if (rainbowEnabled)
-            nameText.color = Utils.GetRainbowColor();
     }
 
     public void CheckForTextUpdate() {
         if (!target) {
-            // our target lost all lives (or dc'd)
+            // our target lost all lives (or dc'd), disable the updater script
+            enabled = false;
             background.color = new(0.4f, 0.4f, 0.4f, 0.5f);
             return;
         }

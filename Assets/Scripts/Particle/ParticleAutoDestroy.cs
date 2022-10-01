@@ -1,24 +1,26 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ParticleAutoDestroy : MonoBehaviour {
-
-    [SerializeField] private bool onlyDisable = false;
-
     private readonly List<ParticleSystem> systems = new();
-
-    public void OnEnable() {
+    public bool onlyDisable = false;
+    void OnEnable() {
         systems.AddRange(GetComponents<ParticleSystem>());
         systems.AddRange(GetComponentsInChildren<ParticleSystem>());
     }
 
-    public void Update() {
-        if (systems.TrueForAll(ps => ps.isStopped)) {
+    void Update() {
+        if (systems.TrueForAll(SystemStopped)) {
             if (onlyDisable) {
                 gameObject.SetActive(false);
             } else {
                 Destroy(gameObject);
             }
         }
+    }
+
+    private static bool SystemStopped(ParticleSystem ps) {
+        return ps.isStopped;
     }
 }

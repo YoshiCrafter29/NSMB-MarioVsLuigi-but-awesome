@@ -17,28 +17,15 @@ public class CustomAnimatorParameterSerializer : MonoBehaviourPun, ICustomSerial
     [SerializeField]
     private Animator animator;
     private object[] currentValues;
-    private bool[] cachedChanges, disabledParameters;
-    private int paramCount;
-    private AnimatorControllerParameter[] parameters;
+    private readonly List<byte> cachedChanges = new();
 
     private float[] lastSendTimestamps;
 
-    public void Start() {
-        paramCount = animator.parameterCount;
-        parameters = animator.parameters;
-
-        currentValues = new object[paramCount];
-        cachedChanges = new bool[paramCount];
-        disabledParameters = new bool[paramCount];
-        for (int i = 0; i < paramCount; i++) {
-            var param = parameters[i];
-            if (ignoredParameters.Contains(param.name))
-                disabledParameters[i] = true;
-        }
-
-        lastSendTimestamps = new float[paramCount];
-        for (int i = 0; i < paramCount; i++) {
-            var parameter = parameters[i];
+    public void Awake() {
+        currentValues = new object[animator.parameterCount];
+        lastSendTimestamps = new float[animator.parameterCount];
+        for (int i = 0; i < animator.parameterCount; i++) {
+            var parameter = animator.parameters[i];
 
             switch (parameter.type) {
             case AnimatorControllerParameterType.Bool:
@@ -58,22 +45,25 @@ public class CustomAnimatorParameterSerializer : MonoBehaviourPun, ICustomSerial
         if (!photonView.IsMine)
             return;
 
-        for (byte i = 0; i < paramCount; i++) {
-            if (disabledParameters[i] || cachedChanges[i])
+        for (byte i = 0; i < animator.parameterCount; i++) {
+            if (cachedChanges.Contains(i))
                 continue;
 
-            var param = parameters[i];
+            var param = animator.GetParameter(i);
+
+            if (ignoredParameters.Contains(param.name))
+                continue;
 
             switch (param.type) {
             case AnimatorControllerParameterType.Trigger:
                 if (animator.GetBool(param.name))
-                    cachedChanges[i] = true;
+                    cachedChanges.Add(i);
 
                 break;
             case AnimatorControllerParameterType.Bool:
                 bool value = animator.GetBool(param.name);
                 if (value != (bool) currentValues[i])
-                    cachedChanges[i] = true;
+                    cachedChanges.Add(i);
 
                 break;
             }
@@ -83,11 +73,11 @@ public class CustomAnimatorParameterSerializer : MonoBehaviourPun, ICustomSerial
     public void Serialize(List<byte> buffer) {
         int bufferSize = buffer.Count;
 
-        for (byte i = 0; i < paramCount; i++) {
-            if (disabledParameters[i])
-                continue;
+        for (byte i = 0; i < animator.parameterCount; i++) {
+            var param = animator.GetParameter(i);
 
-            var param = parameters[i];
+            if (ignoredParameters.Contains(param.name))
+                continue;
 
             object oldValue = currentValues[i];
             object newValue;
@@ -96,25 +86,25 @@ public class CustomAnimatorParameterSerializer : MonoBehaviourPun, ICustomSerial
 
             switch (param.type) {
             case AnimatorControllerParameterType.Trigger:
-                bool triggered = cachedChanges[i] || animator.GetBool(param.name);
+                bool triggered = cachedChanges.Contains(i) || animator.GetBool(param.name);
                 if (!triggered)
                     continue;
 
-                cachedChanges[i] = false;
+                cachedChanges.Remove(i);
                 buffer.Add(i);
                 break;
 
             case AnimatorControllerParameterType.Bool:
                 newValue = animator.GetBool(param.name);
                 bool changed = (bool) newValue != (bool) oldValue;
-                bool cached = cachedChanges[i];
+                bool cached = cachedChanges.Contains(i);
                 if (!forceResend && !changed && !cached)
                     continue;
 
                 if (!changed && cached)
                     newValue = !(bool) newValue;
 
-                cachedChanges[i] = false;
+                cachedChanges.Remove(i);
 
                 byte newId = i;
                 if ((bool) newValue)
@@ -147,7 +137,7 @@ public class CustomAnimatorParameterSerializer : MonoBehaviourPun, ICustomSerial
     public void Deserialize(List<byte> buffer, ref int index, PhotonMessageInfo info) {
         byte id;
         while ((id = buffer[index++]) != 0xFF) {
-            var parameter = parameters[id & 0x7F];
+            var parameter = animator.GetParameter(id & 0x7F);
 
             switch (parameter.type) {
             case AnimatorControllerParameterType.Trigger:

@@ -1,6 +1,5 @@
-using UnityEngine;
-
 using NSMB.Utils;
+using UnityEngine;
 
 public class VolumeWithDistance : MonoBehaviour {
 
@@ -15,7 +14,7 @@ public class VolumeWithDistance : MonoBehaviour {
     public void Update() {
 
         GameManager inst = GameManager.Instance;
-        Vector3 listener = (inst != null && inst.localPlayer) ? inst.localPlayer.transform.position : Camera.main.transform.position;
+        Vector3 listener = (inst && inst.localPlayer) ? inst.localPlayer.transform.position : Camera.main.transform.position;
 
         float volume = Utils.QuadraticEaseOut(1 - Mathf.Clamp01(Utils.WrappedDistance(listener, soundOrigin.position) / soundRange)) * maxVolume;
         switch(type)
