@@ -21,13 +21,13 @@ MonoBehaviour:
   readySprite: {fileID: -7975249404588759376, guid: 70672da71d9d71a4daaf5f3fc58531e6,
     type: 3}
   soundFolder: luigi
-  smallMesh: {fileID: -6852372355584245671, guid: b9c007ad3b94b184fa982b69cd7b6c49,
+  smallMesh: {fileID: 2387310197265659560, guid: d42a2f19f7065d042a946ad1de59f886,
     type: 3}
   smallMaterials:
   - {fileID: 2100000, guid: 7592e5e8904ac4d4d95162046f1e2428, type: 2}
   - {fileID: 2100000, guid: dcfc5c5d3209d9b42b8b314c0e6d0dba, type: 2}
   - {fileID: 2100000, guid: 14b8a796a970228478bd6a056afee36b, type: 2}
-  largeMesh: {fileID: -2609601416848798982, guid: 77fa7e39322fd5440bec69cf0275d39d,
+  largeMesh: {fileID: 2070995285322696885, guid: b8b4df2a459a91d43a5ffbc32feb80fc,
     type: 3}
   largeMaterials:
   - {fileID: 2100000, guid: 0d584398a31da1a4086cc8a189562938, type: 2}
@@ -38,10 +38,9 @@ MonoBehaviour:
   largeOverrides: {fileID: 22100000, guid: 671e2adc5dbd26a45abdf5c18398a86e, type: 2}
   smallAvatar: {fileID: 9000000, guid: e0d3ef6bcff32414dbd34fc6ac031292, type: 3}
   largeAvatar: {fileID: 9000000, guid: 024ceb223bceebd488dbc425555f4df0, type: 3}
-  isLuigiModel: 1
   shrinkBigToMakeSmall: 0
-  propellerOffset: {x: 0, y: 0, z: 0}
-  propellerMaterial: {fileID: 0}
-  shellOffset: {x: 0, y: 0, z: 0}
-  handcasePosition: {x: 0, y: 0, z: 0}
-  handcaseRotation: {x: 0, y: 0, z: 0}
+  propellerOffset: {x: 0, y: 0.0141, z: 0.0018}
+  propellerMaterial: {fileID: 2100000, guid: 8df212614361f5240aa9a8917bd9a40e, type: 2}
+  shellOffset: {x: 0, y: 0.0001, z: -0.0073}
+  handcasePosition: {x: 0.015625, y: 0.045, z: 0}
+  handcaseRotation: {x: 7, y: 2.42, z: 172.78}

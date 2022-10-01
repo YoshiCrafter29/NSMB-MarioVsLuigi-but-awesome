@@ -13,11 +13,30 @@ MonoBehaviour:
   m_Name: Peter
   m_EditorClassIdentifier: 
   characterName: Peter
-  soundFolder: peter
-  prefab: PlayerPeter
   uistring: <sprite=51>
   loadingSmallSprite: {fileID: 0}
   loadingBigSprite: {fileID: 0}
   readySprite: {fileID: 1116833592, guid: 70672da71d9d71a4daaf5f3fc58531e6, type: 3}
+  soundFolder: peter
+  smallMesh: {fileID: -1760742506225262651, guid: c1fc9d5d71f8dd347839224eb1de4404,
+    type: 3}
+  smallMaterials: []
+  largeMesh: {fileID: -1760742506225262651, guid: c1fc9d5d71f8dd347839224eb1de4404,
+    type: 3}
+  largeMaterials:
+  - {fileID: 2100000, guid: 22d0f54f175903143a844ef896af2260, type: 2}
+  - {fileID: 2100000, guid: 06f711353446e7442bc82657b5000139, type: 2}
+  - {fileID: 2100000, guid: 86e6ebc54364a7b4783d773f2e817075, type: 2}
+  meshLocalPosition: {x: 0, y: -0.02, z: 0}
   smallOverrides: {fileID: 22100000, guid: 347b7f77a47c4db4b85584fbfdecf63b, type: 2}
   largeOverrides: {fileID: 9100000, guid: fa2b2fc953f5f444291d26193e0ac7fb, type: 2}
+  smallAvatar: {fileID: 0}
+  largeAvatar: {fileID: 0}
+  shrinkBigToMakeSmall: 1
+  propellerOffset: {x: 0, y: 0.0284, z: 0.01}
+  propellerMaterial: {fileID: 0}
+  shellOffset: {x: 0, y: 0.015, z: 0}
+  editShellRot: 1
+  shellRotation: {x: 0, y: 90, z: 92}
+  handcasePosition: {x: -0.01, y: 0, z: -0.0025}
+  handcaseRotation: {x: 7, y: 2.42, z: -11.66}

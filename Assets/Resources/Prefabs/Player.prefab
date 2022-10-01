@@ -11496,6 +11496,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   largeRenderer: {fileID: 5459105025968855876}
   smallRenderer: {fileID: 7522462425768199910}
+  propellerRenderer: {fileID: 5424133453086542835}
 --- !u!1 &4824223342336871188
 GameObject:
   m_ObjectHideFlags: 0
@@ -28291,6 +28292,12 @@ PrefabInstance:
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 165babb21afc2ba47bfbc27cb6af3182, type: 3}
+--- !u!23 &5424133453086542835 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -4656471593961653199, guid: 165babb21afc2ba47bfbc27cb6af3182,
+    type: 3}
+  m_PrefabInstance: {fileID: 8369525815624251330}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8335105316509437993 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 165babb21afc2ba47bfbc27cb6af3182,

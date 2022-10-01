@@ -18,7 +18,7 @@ public class PlayerAnimationController : MonoBehaviourPun {
     [SerializeField] float blinkDuration = 0.1f, pipeDuration = 2f, deathUpTime = 0.6f, deathForce = 7f;
     [SerializeField] public Avatar smallAvatar, largeAvatar;
     [SerializeField] Color primaryColor = Color.clear, secondaryColor = Color.clear;
-    [SerializeField] bool shrinkBigModel = false;
+    [SerializeField] public bool shrinkBigModel = false;
 
     [SerializeField] [ColorUsage(true, false)] Color? _glowColor = null;
 
