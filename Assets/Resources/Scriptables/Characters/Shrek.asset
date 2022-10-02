@@ -13,11 +13,30 @@ MonoBehaviour:
   m_Name: Shrek
   m_EditorClassIdentifier: 
   characterName: Shrek
-  soundFolder: shrek
-  prefab: PlayerShrek
   uistring: <sprite=50>
   loadingSmallSprite: {fileID: 0}
   loadingBigSprite: {fileID: 0}
   readySprite: {fileID: -1369515969, guid: 70672da71d9d71a4daaf5f3fc58531e6, type: 3}
+  soundFolder: shrek
+  smallMesh: {fileID: 0}
+  smallMaterials: []
+  largeMesh: {fileID: -3103033470283114785, guid: 26b6f042a288e3b41844930c527a20a7,
+    type: 3}
+  largeMaterials:
+  - {fileID: 2100000, guid: 277fd26525eeccf4cae0450dfc2e21c5, type: 2}
+  meshLocalPosition: {x: 0, y: -0.02, z: 0}
   smallOverrides: {fileID: 22100000, guid: 347b7f77a47c4db4b85584fbfdecf63b, type: 2}
   largeOverrides: {fileID: 9100000, guid: fa2b2fc953f5f444291d26193e0ac7fb, type: 2}
+  smallAvatar: {fileID: 0}
+  largeAvatar: {fileID: 0}
+  shrinkBigToMakeSmall: 1
+  propellerOffset: {x: 0, y: 0.0254, z: -0.0182}
+  editPropellerRot: 1
+  propellerRot: {x: 285.8553, y: 180, z: 180}
+  propellerMaterial: {fileID: 2100000, guid: 6e72d94dbee0abd448f0710a97ed3b99, type: 2}
+  propellerScale: 0.01
+  shellOffset: {x: 0, y: 0.023, z: -0.0007}
+  editShellRot: 1
+  shellRotation: {x: 0, y: 90, z: 84.75237}
+  handcasePosition: {x: 0.0059, y: 0.0494, z: 0.0028}
+  handcaseRotation: {x: -0.6, y: 0, z: 87.31}

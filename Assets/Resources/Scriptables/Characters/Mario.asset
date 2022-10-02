@@ -13,8 +13,6 @@ MonoBehaviour:
   m_Name: Mario
   m_EditorClassIdentifier: 
   characterName: Mario
-  soundFolder: mario
-  prefab: PlayerMario
   uistring: <sprite=3>
   loadingSmallSprite: {fileID: 1040450253486601905, guid: a7245cae141f3ee449147539ebd2a2c9,
     type: 3}
@@ -22,5 +20,31 @@ MonoBehaviour:
     type: 3}
   readySprite: {fileID: 7263181891274304025, guid: 70672da71d9d71a4daaf5f3fc58531e6,
     type: 3}
+  soundFolder: mario
+  smallMesh: {fileID: -6852372355584245671, guid: e0d3ef6bcff32414dbd34fc6ac031292,
+    type: 3}
+  smallMaterials:
+  - {fileID: 2100000, guid: d5cbc95593d66124ca0bf3566ac22dc8, type: 2}
+  - {fileID: 2100000, guid: dcfc5c5d3209d9b42b8b314c0e6d0dba, type: 2}
+  - {fileID: 2100000, guid: b152dade7ca68d548aaea3e41a7897c4, type: 2}
+  largeMesh: {fileID: -2609601416848798982, guid: 024ceb223bceebd488dbc425555f4df0,
+    type: 3}
+  largeMaterials:
+  - {fileID: 2100000, guid: dcfc5c5d3209d9b42b8b314c0e6d0dba, type: 2}
+  - {fileID: 2100000, guid: 3c2958cf90b1bd64295f8ae254f80d0a, type: 2}
+  meshLocalPosition: {x: 0, y: -0.02, z: 0}
   smallOverrides: {fileID: 22100000, guid: 347b7f77a47c4db4b85584fbfdecf63b, type: 2}
   largeOverrides: {fileID: 9100000, guid: fa2b2fc953f5f444291d26193e0ac7fb, type: 2}
+  smallAvatar: {fileID: 0}
+  largeAvatar: {fileID: 0}
+  shrinkBigToMakeSmall: 0
+  propellerOffset: {x: -7.6312665e-11, y: 0.0223841, z: 0.007497805}
+  editPropellerRot: 0
+  propellerRot: {x: 0, y: 0, z: 0}
+  propellerMaterial: {fileID: 2100000, guid: 6a0ff0c8adb71d0469b702946398eb3d, type: 2}
+  propellerScale: 0.015
+  shellOffset: {x: 0, y: -0.0008, z: -0.0039}
+  editShellRot: 0
+  shellRotation: {x: 0, y: 0, z: 0}
+  handcasePosition: {x: 0.0075, y: 0.045, z: 0}
+  handcaseRotation: {x: 6.999995, y: 2.4199965, z: 172.78}
