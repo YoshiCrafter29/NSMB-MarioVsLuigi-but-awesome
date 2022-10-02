@@ -1,0 +1,12 @@
+{
+    "model": "Model.fbx",
+    "audioFolder": "mario",
+    "materials": [
+        {
+            "path": "",
+            "lines": 3,
+            "colums": 1,
+            "powerupCompatible": false
+        }
+    ]
+}

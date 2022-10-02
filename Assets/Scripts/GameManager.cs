@@ -440,8 +440,13 @@ public class GameManager : MonoBehaviour, IOnEventCallback, IInRoomCallbacks, IC
         PhotonNetwork.IsMessageQueueRunning = true;
 
         if (!GlobalController.Instance.joinedAsSpectator) {
-            localPlayer = PhotonNetwork.Instantiate("Prefabs/" + Utils.GetCharacterData().prefab, spawnpoint, Quaternion.identity, 0);
+            //localPlayer = PhotonNetwork.Instantiate("Prefabs/" + Utils.GetCharacterData().prefab, spawnpoint, Quaternion.identity, 0);
+            localPlayer = PhotonNetwork.Instantiate("Prefabs/Player", spawnpoint, Quaternion.identity, 0);
+
             localPlayer.GetComponent<Rigidbody2D>().isKinematic = true;
+            PlayerController c = localPlayer.GetComponent<PlayerController>();
+            c.character = Utils.GetCharacterData();
+            c.photonView.RPC("UpdateCharacter", RpcTarget.All, Utils.GetCharacterIndex());
 
             RaiseEventOptions options = new() { Receivers = ReceiverGroup.Others, CachingOption = EventCaching.AddToRoomCache };
             SendAndExecuteEvent(Enums.NetEventIds.PlayerFinishedLoading, PhotonNetwork.LocalPlayer, SendOptions.SendReliable, options);

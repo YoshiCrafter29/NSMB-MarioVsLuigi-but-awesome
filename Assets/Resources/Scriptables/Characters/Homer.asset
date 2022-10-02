@@ -13,13 +13,31 @@ MonoBehaviour:
   m_Name: Homer
   m_EditorClassIdentifier: 
   characterName: Homer
-  soundFolder: homer
-  prefab: PlayerHomer
   uistring: <sprite=49>
   loadingSmallSprite: {fileID: 1040450253486601905, guid: a7245cae141f3ee449147539ebd2a2c9,
     type: 3}
   loadingBigSprite: {fileID: -1751142936083476856, guid: a7245cae141f3ee449147539ebd2a2c9,
     type: 3}
   readySprite: {fileID: -1771612451, guid: 70672da71d9d71a4daaf5f3fc58531e6, type: 3}
+  soundFolder: homer
+  smallMesh: {fileID: 0}
+  smallMaterials: []
+  largeMesh: {fileID: 4281324698017192035, guid: 83efa06cb7e376b4cbb1b9c9b60aab12,
+    type: 3}
+  largeMaterials:
+  - {fileID: 2100000, guid: 9ff550585db2ee84fbc611a8a4afdfca, type: 2}
+  - {fileID: 2100000, guid: 74879dbeac3cde6438e61c4b441b541b, type: 2}
+  meshLocalPosition: {x: 0, y: -0.02, z: 0}
   smallOverrides: {fileID: 22100000, guid: 347b7f77a47c4db4b85584fbfdecf63b, type: 2}
   largeOverrides: {fileID: 9100000, guid: fa2b2fc953f5f444291d26193e0ac7fb, type: 2}
+  smallAvatar: {fileID: 0}
+  largeAvatar: {fileID: 0}
+  shrinkBigToMakeSmall: 1
+  propellerOffset: {x: 0, y: 0.0144, z: -0.0131}
+  propellerMaterial: {fileID: 2100000, guid: 6e72d94dbee0abd448f0710a97ed3b99, type: 2}
+  propellerScale: 0.01
+  shellOffset: {x: 0, y: 0.015, z: 0}
+  editShellRot: 1
+  shellRotation: {x: 0, y: 90, z: 92}
+  handcasePosition: {x: 0.0226, y: 0.0184, z: 0.0066}
+  handcaseRotation: {x: 25.453, y: -0.041, z: 110.08}
