@@ -13,6 +13,9 @@ public class BusWalk : KillableEntity {
         body.velocity = new Vector2(speed * (left ? -1 : 1), body.velocity.y);
         animator.SetBool("dead", false);
         basePos = transform.position;
+
+        // 10% chance of being supersonic
+        speed *= (Random.Range(0f, 100f) >= 90f) ? 5f : (1f + (Random.Range(-12f, 12f) / 100f));
     }
 
     Dictionary<int, Vector3> offsets = new Dictionary<int, Vector3>();

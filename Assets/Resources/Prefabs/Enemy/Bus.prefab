@@ -177,7 +177,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dead: 0
-  left: 1
+  left: 0
   collide: 1
   iceCarryable: 1
   flying: 0
