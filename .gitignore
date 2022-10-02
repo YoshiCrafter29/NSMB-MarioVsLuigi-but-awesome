@@ -6,7 +6,8 @@
 /[Tt]emp/
 /[Oo]bj/
 /[Bb]uild/
-/[Bb]uild_Linux/
+/[Bb]uild_[Ll]inux/
+/[Bb]uild_[Aa]ndroid/
 /[Bb]uilds/
 /[Ll]ogs/
 /[Uu]ser[Ss]ettings/

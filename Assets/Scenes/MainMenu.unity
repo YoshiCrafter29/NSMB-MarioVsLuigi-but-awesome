@@ -12843,7 +12843,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 33
+  m_fontSize: 37.9
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -33467,6 +33467,7 @@ MonoBehaviour:
   - Pipes Mayhem 2
   - Bus
   - Windows XP
+  - Bus The 2nd
   debugMaps:
   - '[WIP] Desert'
   - '[WIP] Bonus'
@@ -33487,6 +33488,7 @@ MonoBehaviour:
   - The sequel no one asked for
   - 
   - not entirely finished yet
+  - Bus The Movie - The Sequel
 --- !u!4 &887693662
 Transform:
   m_ObjectHideFlags: 0
@@ -45250,7 +45252,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 47220570}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.5882815
+  m_Size: 0.65626854
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

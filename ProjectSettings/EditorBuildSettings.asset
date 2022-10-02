@@ -59,4 +59,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Levels/Windows XP.unity
     guid: 3954b371cc074bf47ba5c0a487d683a1
+  - enabled: 1
+    path: Assets/Scenes/Levels/BusTheSecond.unity
+    guid: 2537987f8604c584fbd458ed84b1d646
   m_configObjects: {}
