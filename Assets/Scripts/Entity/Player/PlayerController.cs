@@ -283,6 +283,11 @@ public class PlayerController : MonoBehaviourPun, IFreezableEntity, ICustomSeria
 #endif
     }
 
+    [PunRPC]
+    public void UpdateCharacter(int charID)
+    {
+        character = GlobalController.Instance.characters[charID];
+    }
     public void OnGameStart() {
         photonView.RPC("PreRespawn", RpcTarget.All);
 

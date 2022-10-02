@@ -32,8 +32,8 @@ MonoBehaviour:
   largeAvatar: {fileID: 0}
   shrinkBigToMakeSmall: 1
   propellerOffset: {x: 0, y: 0.0037, z: 0.0046}
-  editPropellerRot: 1
-  propellerRot: {x: -0.00000085377366, y: 337.66, z: 130.90999}
+  editPropellerRot: 0
+  propellerRot: {x: 0, y: 0, z: 0}
   propellerMaterial: {fileID: 0}
   propellerScale: 0.012
   shellOffset: {x: 0, y: 0, z: 0}
