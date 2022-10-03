@@ -4,7 +4,7 @@ using NSMB.Utils;
 using System.Collections.Generic;
 
 public class BusWalk : KillableEntity {
-    [SerializeField] float speed, deathTimer = -1, terminalVelocity = -8;
+    [SerializeField] public float speed, deathTimer = -1, terminalVelocity = -8;
     [SerializeField] BoxCollider2D ride;
     Vector3 basePos;
 
