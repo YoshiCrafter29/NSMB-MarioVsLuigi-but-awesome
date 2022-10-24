@@ -261,13 +261,13 @@ public class MainMenuManager : MonoBehaviour, ILobbyCallbacks, IInRoomCallbacks,
                 currentRooms.Remove(key);
             }
 
-            if (!GlobalController.Instance.authenticated)
-            {
+            
+            // if (!GlobalController.Instance.authenticated) {
                 string id = PlayerPrefs.GetString("id", null);
                 string token = PlayerPrefs.GetString("token", null);
 
                 AuthenticationHandler.Authenticate(id, token);
-            }
+            // }
 
             PhotonNetwork.ConnectToRegion(lastRegion);
         }
