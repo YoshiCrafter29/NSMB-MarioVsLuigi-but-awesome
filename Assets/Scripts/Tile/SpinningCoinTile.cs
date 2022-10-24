@@ -4,9 +4,11 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using static Enums;
 
-[CreateAssetMenu(fileName = "ChangeableTile", menuName = "ScriptableObjects/Tiles/ChangeableTile", order = 2)]
-public class ChangeableTile : AnimatedTile
+[CreateAssetMenu(fileName = "SpinningCoinTile", menuName = "ScriptableObjects/Tiles/SpinningCoinTile", order = 2)]
+public class SpinningCoinTile : AnimatedTile
 {
+    public int coins = 1;
+    /*
     public TileType tileType = TileType.None;
     public void RefreshTile()
     {
@@ -23,4 +25,5 @@ public class ChangeableTile : AnimatedTile
                 break;
         }
     }
+    */
 }

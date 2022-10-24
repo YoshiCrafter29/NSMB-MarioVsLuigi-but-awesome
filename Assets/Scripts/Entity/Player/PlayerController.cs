@@ -407,11 +407,11 @@ public class PlayerController : MonoBehaviourPun, IFreezableEntity, ICustomSeria
                 Vector2 worldPosCenter = Utils.TilemapToWorldPosition(tileLocation) + Vector3.one * 0.25f;
                 Utils.WrapTileLocation(ref tileLocation);
 
-                AnimatedTile tile = GameManager.Instance.tilemap.GetTile<AnimatedTile>(tileLocation);
+                SpinningCoinTile tile = GameManager.Instance.tilemap.GetTile<SpinningCoinTile>(tileLocation);
 
-                if (tile && tile.name == "Coin")
+                if (tile)
                 {
-                    CollectCoin(-1, worldPosCenter);
+                    CollectCoin(-1, worldPosCenter, tile.coins);
                     object[] parametersTile = new object[] { tileLocation.x, tileLocation.y, null };
                     GameManager.Instance.SendAndExecuteEvent(Enums.NetEventIds.SetTile, parametersTile, ExitGames.Client.Photon.SendOptions.SendReliable);
                 }
@@ -748,10 +748,10 @@ public class PlayerController : MonoBehaviourPun, IFreezableEntity, ICustomSeria
             break;
         case "loosecoin":
             Transform parent = obj.transform.parent;
-            photonView.RPC("CollectCoin", RpcTarget.AllViaServer, parent.gameObject.GetPhotonView().ViewID, parent.position);
+            photonView.RPC("CollectCoin", RpcTarget.AllViaServer, parent.gameObject.GetPhotonView().ViewID, parent.position, 1);
             break;
         case "coin":
-            photonView.RPC("CollectCoin", RpcTarget.AllViaServer, obj.GetPhotonView().ViewID, new Vector3(obj.transform.position.x, collider.transform.position.y, 0));
+            photonView.RPC("CollectCoin", RpcTarget.AllViaServer, obj.GetPhotonView().ViewID, new Vector3(obj.transform.position.x, collider.transform.position.y, 0), 1);
             break;
         }
     }
@@ -1226,7 +1226,7 @@ public class PlayerController : MonoBehaviourPun, IFreezableEntity, ICustomSeria
     }
 
     [PunRPC]
-    protected void CollectCoin(int coinID, Vector3 position) {
+    protected void CollectCoin(int coinID, Vector3 position, int amount = 1) {
         if (coinID != -1) {
             PhotonView coinView = PhotonView.Find(coinID);
             if (!coinView)
@@ -1253,9 +1253,9 @@ public class PlayerController : MonoBehaviourPun, IFreezableEntity, ICustomSeria
         num.color = AnimationController.GlowColor;
 
         if (state == Enums.PowerupState.Suit)
-            coins += 1 + Mathf.RoundToInt(Mathf.Pow(Random.value, 2f) * 2f);
+            coins += amount + Mathf.RoundToInt(Mathf.Pow(Random.value, 2f) * 2f);
         else
-            coins++;
+            coins += amount;
         
         if (coins >= GameManager.Instance.coinRequirement) {
             SpawnCoinItem();

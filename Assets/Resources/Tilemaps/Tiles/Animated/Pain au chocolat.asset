@@ -10,12 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 690aa39f8bcf153469cc6561b0769b7b, type: 3}
-  m_Name: ChangeableTile
+  m_Name: Pain au chocolat
   m_EditorClassIdentifier: 
-  m_AnimatedSprites: []
-  m_MinSpeed: 1
-  m_MaxSpeed: 1
+  m_AnimatedSprites:
+  - {fileID: 21300000, guid: 9b625fd15f737cb459edbe80d5bfe9df, type: 3}
+  - {fileID: 21300000, guid: ce4a87f5474b7ca45ab059ec49446f4d, type: 3}
+  - {fileID: 21300000, guid: 4b5f71e7c6752e1419784ebb865fd478, type: 3}
+  - {fileID: 21300000, guid: 1de8d910d4798e04ba7edddf0bf3b1b0, type: 3}
+  m_MinSpeed: 8
+  m_MaxSpeed: 8
   m_AnimationStartTime: 0
   m_AnimationStartFrame: 0
   m_TileColliderType: 0
-  tileType: 1
+  coins: 1

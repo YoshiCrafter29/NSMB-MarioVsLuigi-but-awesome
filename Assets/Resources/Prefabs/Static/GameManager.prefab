@@ -4976,7 +4976,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 69.15
+  m_fontSize: 79.3
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -6823,6 +6823,7 @@ MonoBehaviour:
   levelDesigner: 
   richPresenceId: 
   levelName: Unknown
+  CoinSprite: 22
   startServerTime: 0
   endServerTime: -1
   startRealTime: -1
@@ -6850,6 +6851,7 @@ MonoBehaviour:
   playerCount: 0
   allPlayers: []
   enemySpawnpoints: []
+  customCoinSprites: []
   controlLeft: {fileID: 5704754180740864194}
   controlRight: {fileID: 6249842813043553135}
   controlUp: {fileID: 8114952925672173993}
@@ -7638,7 +7640,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: <sprite=22><sprite=21><sprite=11><sprite=24><sprite=19>
+  m_text: <sprite=53><sprite=21><sprite=11><sprite=24><sprite=19>
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5825b7eb90fdaa043ba90e0a30a93dbc, type: 2}
   m_sharedMaterial: {fileID: -53834951448225802, guid: 5825b7eb90fdaa043ba90e0a30a93dbc,
