@@ -250,6 +250,13 @@ public static class Enums {
         Blacklist = 2,
         PowerupOnly = 3
     }
+
+    // FOR SKINS
+    public enum TileType : byte
+    {
+        None = 0,
+        Coin = 1
+    }
 }
 
 public class SoundData : Attribute {

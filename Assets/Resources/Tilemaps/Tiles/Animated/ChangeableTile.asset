@@ -10,15 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 690aa39f8bcf153469cc6561b0769b7b, type: 3}
-  m_Name: Coin
+  m_Name: ChangeableTile
   m_EditorClassIdentifier: 
-  m_AnimatedSprites:
-  - {fileID: 2620925746830137660, guid: f4b7221be8b79c94c9c8919163014cb0, type: 3}
-  - {fileID: -3961342211389282260, guid: f4b7221be8b79c94c9c8919163014cb0, type: 3}
-  - {fileID: -2074995507315294404, guid: f4b7221be8b79c94c9c8919163014cb0, type: 3}
-  - {fileID: -6910632858783443427, guid: f4b7221be8b79c94c9c8919163014cb0, type: 3}
-  m_MinSpeed: 8
-  m_MaxSpeed: 8
+  m_AnimatedSprites: []
+  m_MinSpeed: 1
+  m_MaxSpeed: 1
   m_AnimationStartTime: 0
   m_AnimationStartFrame: 0
   m_TileColliderType: 0
