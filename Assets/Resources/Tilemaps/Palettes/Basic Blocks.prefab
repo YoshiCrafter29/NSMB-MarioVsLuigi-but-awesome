@@ -1138,10 +1138,10 @@ Tilemap:
   - first: {x: -6, y: 1, z: 0}
     second:
       m_AnimatedSprites:
-      - {fileID: 21300000, guid: 9a912d9fc9313d24e97e8b6ae80a295f, type: 3}
-      - {fileID: 21300000, guid: 72e42c1f417d5944186ea0ea7b0743f9, type: 3}
-      - {fileID: 21300000, guid: 272d1fcc8cb338349be629112529c0a1, type: 3}
-      - {fileID: 21300000, guid: abbe01351ad90344a80c5b44df7ef65e, type: 3}
+      - {fileID: 21300000, guid: 9b625fd15f737cb459edbe80d5bfe9df, type: 3}
+      - {fileID: 21300000, guid: ce4a87f5474b7ca45ab059ec49446f4d, type: 3}
+      - {fileID: 21300000, guid: 4b5f71e7c6752e1419784ebb865fd478, type: 3}
+      - {fileID: 21300000, guid: 1de8d910d4798e04ba7edddf0bf3b1b0, type: 3}
       m_AnimationSpeed: 8
       m_AnimationTimeOffset: 0
       m_IsLooping: 1
@@ -2025,7 +2025,7 @@ Tilemap:
     m_Data: {fileID: 4759151451248998279, guid: 02501bf114d1a0a4f98fa72f08e7c70c,
       type: 3}
   - m_RefCount: 1
-    m_Data: {fileID: 21300000, guid: abbe01351ad90344a80c5b44df7ef65e, type: 3}
+    m_Data: {fileID: 21300000, guid: 1de8d910d4798e04ba7edddf0bf3b1b0, type: 3}
   m_TileMatrixArray:
   - m_RefCount: 103
     m_Data:

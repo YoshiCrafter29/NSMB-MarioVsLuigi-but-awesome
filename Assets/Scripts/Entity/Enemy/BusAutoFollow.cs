@@ -8,14 +8,14 @@ public class BusAutoFollow : MonoBehaviour
     KillableEntity moveEntity;
     Rigidbody2D body;
     public GameObject playerWhoSpawnedIt;
-    private float __speed;
+    private float __speed, __defaultSpeed;
     // Start is called before the first frame update
     void Start()
     {
         move = GetComponent<BusWalk>();
         body = GetComponent<Rigidbody2D>();
         moveEntity = GetComponent<KillableEntity>();
-        __speed = move.speed;
+        __defaultSpeed = __speed = move.speed;
     }
 
     // Update is called once per frame
