@@ -14,10 +14,11 @@ public class BusWalk : KillableEntity {
         animator.SetBool("dead", false);
         basePos = transform.position;
 
-        // 5% chance of being supersonic
+        // 5% chance of being supersonic (or 100% chance if chaos mode is on)
         if (photonView.IsMine)
         {
-            photonView.RPC(nameof(SetSpeed), RpcTarget.All, speed * ((Random.Range(0f, 100f) >= 95f) ? 5f : (1f + (Random.Range(-12f, 12f) / 100f))));
+            Utils.GetCustomProperty(Enums.NetRoomProperties.ChaosMode, out bool chaos);
+            photonView.RPC(nameof(SetSpeed), RpcTarget.All, speed * ((chaos || Random.Range(0f, 100f) >= 95f) ? 5f : (1f + (Random.Range(-12f, 12f) / 100f))));
         }
     }
 

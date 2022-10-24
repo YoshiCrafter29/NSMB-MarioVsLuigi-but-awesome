@@ -1,3 +1,4 @@
+using NSMB.Utils;
 using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
@@ -5,11 +6,6 @@ using UnityEngine;
 
 public class TrainSpawnpoint : MonoBehaviourPun
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
     public string prefab;
 
@@ -17,18 +13,26 @@ public class TrainSpawnpoint : MonoBehaviourPun
     public float interval = 35f;
     public float announcementTime = 3f;
     public float trainTime = 7.5f;
+
+    public float chaosInterval = 15f;
     public AudioSource sncfClip;
 
     [Header("Advanced stuff (DO NOT TOUCH!!)")]
     public float time = 0f;
     public int step = 0;
     public TrainWalk train;
+
     // Update is called once per frame
     void Update()
     {
         time += Time.deltaTime;
         if (photonView.IsMine)
         {
+            Utils.GetCustomProperty(Enums.NetRoomProperties.ChaosMode, out bool chaos);
+
+            float interval = this.interval;
+            if (chaos) interval = chaosInterval;
+
             if (time > interval && step < 1)
             {
                 step = 1;

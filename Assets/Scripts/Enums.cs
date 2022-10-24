@@ -211,6 +211,7 @@ public static class Enums {
         public static string DrawTime { get; } = "Dt";
         public static string NewPowerups { get; } = "C";
         public static string ModdedPowerups { get; } = "MP";
+        public static string ChaosMode { get; } = "ChM";
         public static string GameStarted { get; } = "G";
         public static string HostName { get; } = "H";
         public static string Debug { get; } = "D";

@@ -17,6 +17,7 @@ namespace NSMB.Utils {
             [Enums.NetRoomProperties.DrawTime] = false,
             [Enums.NetRoomProperties.NewPowerups] = true,
             [Enums.NetRoomProperties.ModdedPowerups] = true,
+            [Enums.NetRoomProperties.ChaosMode] = false,
             [Enums.NetRoomProperties.GameStarted] = false,
             [Enums.NetRoomProperties.HostName] = "",
             [Enums.NetRoomProperties.Debug] = false,
