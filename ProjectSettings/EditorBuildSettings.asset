@@ -65,4 +65,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Levels/BusTheThird.unity
     guid: dd01ec32b9438f54490716c7c2e69756
+  - enabled: 1
+    path: Assets/Scenes/Levels/train.unity
+    guid: 06fd7a088896e704192b316f705e8fac
   m_configObjects: {}
