@@ -3,10 +3,16 @@ using Photon.Pun;
 using NSMB.Utils;
 using System.Collections.Generic;
 
-public class BusWalk : KillableEntity {
+public class TrainWalk : KillableEntity {
     [SerializeField] public float speed, deathTimer = -1, terminalVelocity = -8;
     [SerializeField] BoxCollider2D ride;
     Vector3 basePos;
+
+    public List<TrainWalk> followingCars = new List<TrainWalk>();
+    public TrainWalk parent;
+    public int id = 0;
+
+    private float trainWidth = 35.0548f * 0.15f;
 
     public new void Start() {
         base.Start();
@@ -14,9 +20,9 @@ public class BusWalk : KillableEntity {
         animator.SetBool("dead", false);
         basePos = transform.position;
 
-        // 5% chance of being supersonic
-        if (photonView.IsMine)
+        if (photonView.IsMineOrLocal())
         {
+            // 5% chance of being supersonic
             photonView.RPC(nameof(SetSpeed), RpcTarget.All, speed * ((Random.Range(0f, 100f) >= 95f) ? 5f : (1f + (Random.Range(-12f, 12f) / 100f))));
         }
     }
@@ -32,18 +38,6 @@ public class BusWalk : KillableEntity {
     public void OnTriggerStay2D(Collider2D collision)
     {
 
-        PlayerController controller;
-        if ((controller = collision.gameObject.GetComponent<PlayerController>()) == null) return;
-        if (controller.photonView.IsMine)
-        {
-            if (lastPosition.ContainsKey(controller.playerId))
-            {
-                offsets[controller.playerId] += collision.transform.position - lastPosition[controller.playerId];
-            }
-            Vector3 offset = offsets[controller.playerId];
-            collision.transform.position = transform.position + offset;
-            lastPosition[controller.playerId] = collision.transform.position;
-        }
     }
 
     public void OnTriggerEnter2D(Collider2D collision)
@@ -52,11 +46,14 @@ public class BusWalk : KillableEntity {
         if ((controller = collision.gameObject.GetComponent<PlayerController>()) == null) return;
         if (controller.photonView.IsMine)
         {
+            /*
             if (offsets.ContainsKey(controller.playerId))
                 offsets.Remove(controller.playerId);
             offsets.Add(controller.playerId, controller.transform.position - transform.position);
+            */
 
-            OnTriggerStay2D(collision);
+            controller.kill();
+            //OnTriggerStay2D(collision);
         }
     }
 
@@ -81,6 +78,10 @@ public class BusWalk : KillableEntity {
         }
     }
 
+    public void Update()
+    {
+
+    }
     public new void FixedUpdate() {
         if (GameManager.Instance && GameManager.Instance.gameover) {
             body.velocity = Vector2.zero;

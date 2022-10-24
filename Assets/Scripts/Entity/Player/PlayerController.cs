@@ -1219,6 +1219,12 @@ public class PlayerController : MonoBehaviourPun, IFreezableEntity, ICustomSeria
         DestroyImmediate(star);
     }
 
+    public void kill()
+    {
+        if (photonView.IsMine)
+            photonView.RPC("Death", RpcTarget.All, false, false);
+    }
+
     [PunRPC]
     protected void CollectCoin(int coinID, Vector3 position) {
         if (coinID != -1) {

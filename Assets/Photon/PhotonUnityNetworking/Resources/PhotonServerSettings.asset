@@ -87,6 +87,7 @@ MonoBehaviour:
   - KillWithReason
   - EndMega
   - UpdateCharacter
+  - SetSpeed
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
