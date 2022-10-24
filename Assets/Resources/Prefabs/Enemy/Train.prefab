@@ -56,7 +56,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 179.39777, y: 3.0179682}
+  m_Size: {x: 239.37, y: 3.0179682}
   m_EdgeRadius: 0
 --- !u!1 &1878456431761190789
 GameObject:
@@ -145,7 +145,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 179.7948, y: 5.3817463}
+  m_Size: {x: 238.5, y: 5.3817463}
   m_EdgeRadius: 0
 --- !u!1 &7523289063499453450
 GameObject:
@@ -287,7 +287,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 1
-  m_Mass: 55.75188
+  m_Mass: 69.92588
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 4
@@ -313,14 +313,14 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 178.875, y: 4.6290894}
+    oldSize: {x: 238.50002, y: 6.172119}
     newSize: {x: 0.22, y: 0.06}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 179.3931, y: 4.656748}
+  m_Size: {x: 239.76, y: 4.656748}
   m_EdgeRadius: 0
 --- !u!95 &7523289063499453454
 Animator:
@@ -400,9 +400,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e996f15526c6efc41a2844bb5666b6ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  soundRange: 12
+  soundRange: 30
   maxVolume: 1
-  type: 0
+  type: 2
   soundOrigin: {fileID: 7523289063499453456}
   audioSources:
   - {fileID: 5674404523704379184}
@@ -658,7 +658,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 9.928604, y: 0.22881082}
+  m_Size: {x: 13.4, y: 0.22881082}
   m_EdgeRadius: 0
 --- !u!61 &5502699776574860638
 BoxCollider2D:

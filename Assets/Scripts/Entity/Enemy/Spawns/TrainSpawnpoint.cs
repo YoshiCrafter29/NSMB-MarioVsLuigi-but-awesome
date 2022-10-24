@@ -13,7 +13,13 @@ public class TrainSpawnpoint : MonoBehaviourPun
 
     public string prefab;
 
+    [Header("Settings")]
+    public float interval = 35f;
+    public float announcementTime = 3f;
+    public float trainTime = 7.5f;
+    public AudioSource sncfClip;
 
+    [Header("Advanced stuff (DO NOT TOUCH!!)")]
     public float time = 0f;
     public int step = 0;
     public TrainWalk train;
@@ -23,17 +29,18 @@ public class TrainSpawnpoint : MonoBehaviourPun
         time += Time.deltaTime;
         if (photonView.IsMine)
         {
-            if (time > 30f && step < 1)
+            if (time > interval && step < 1)
             {
                 step = 1;
                 photonView.RPC("sncf", RpcTarget.All);
-            } else if (time > 35f && step < 2)
+            } else if (time > interval + announcementTime && step < 2)
             {
                 step = 2;
                 train = PhotonNetwork.InstantiateRoomObject(prefab, transform.position, transform.rotation).GetComponent<TrainWalk>();
-            } else if (time > 50f && step < 3)
+            } else if (time > interval + announcementTime + trainTime && step < 3)
             {
                 step = 3;
+                PhotonNetwork.Destroy(train.GetComponent<PhotonView>());
                 photonView.RPC("ResetTrain", RpcTarget.All);
             }
         }
@@ -46,7 +53,6 @@ public class TrainSpawnpoint : MonoBehaviourPun
         time = 0f;
         if (train != null)
         {
-            train.photonView.RPC("Kill", RpcTarget.All);
             train = null;
         }
     }
@@ -54,6 +60,6 @@ public class TrainSpawnpoint : MonoBehaviourPun
     [PunRPC]
     public void sncf()
     {
-        Debug.Log("SNCF!!");
+        sncfClip.Play();
     }
 }
