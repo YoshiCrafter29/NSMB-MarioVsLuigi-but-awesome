@@ -24,7 +24,7 @@ public class MainMenuManager : MonoBehaviour, ILobbyCallbacks, IInRoomCallbacks,
     public GameObject connecting;
     public GameObject title, bg, mainMenu, optionsMenu, lobbyMenu, createLobbyPrompt, inLobbyMenu, creditsMenu, controlsMenu, privatePrompt, updateBox, steveURLFieldParent;
     public GameObject[] levelCameraPositions;
-    public GameObject sliderText, lobbyText, currentMaxPlayers, settingsPanel;
+    public GameObject sliderText, lobbyText, currentMaxPlayers, settingsPanel, lobbyCode;
     public TMP_Dropdown levelDropdown, characterDropdown;
     public RoomIcon selectedRoomIcon, privateJoinRoom;
     public Button joinRoomBtn, createRoomBtn, startGameBtn;
@@ -213,6 +213,7 @@ public class MainMenuManager : MonoBehaviour, ILobbyCallbacks, IInRoomCallbacks,
         AttemptToUpdateProperty<int>(updatedProperties, Enums.NetRoomProperties.Time, ChangeTime);
         AttemptToUpdateProperty<bool>(updatedProperties, Enums.NetRoomProperties.DrawTime, ChangeDrawTime);
         AttemptToUpdateProperty<string>(updatedProperties, Enums.NetRoomProperties.HostName, ChangeLobbyHeader);
+        SetText(lobbyCode, $"Lobby Code: {PhotonNetwork.CurrentRoom.Name}");
     }
 
     public void ChangeDebugState(bool enabled) {
