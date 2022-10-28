@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d06d6d68827b8e4ea85daa354fc2aef, type: 3}
+  m_Name: Gru
+  m_EditorClassIdentifier: 
+  characterName: Gru
+  uistring: <sprite=49>
+  specialBehaviour: 0
+  loadingSmallSprite: {fileID: 1040450253486601905, guid: a7245cae141f3ee449147539ebd2a2c9,
+    type: 3}
+  loadingBigSprite: {fileID: -1751142936083476856, guid: a7245cae141f3ee449147539ebd2a2c9,
+    type: 3}
+  readySprite: {fileID: -1771612451, guid: 70672da71d9d71a4daaf5f3fc58531e6, type: 3}
+  soundFolder: gru
+  smallMesh: {fileID: 0}
+  smallMaterials: []
+  largeMesh: {fileID: 4686654180267785510, guid: b9f4024e128d79742b96687157022088,
+    type: 3}
+  largeMaterials:
+  - {fileID: 2100000, guid: 0f5d82fedc8cf4b478343bd997693275, type: 2}
+  - {fileID: 2100000, guid: 649011e56103c644f9bd94dd61a8c6c0, type: 2}
+  meshLocalPosition: {x: 0, y: -0.02, z: 0}
+  smallOverrides: {fileID: 22100000, guid: 347b7f77a47c4db4b85584fbfdecf63b, type: 2}
+  largeOverrides: {fileID: 9100000, guid: fa2b2fc953f5f444291d26193e0ac7fb, type: 2}
+  smallAvatar: {fileID: 0}
+  largeAvatar: {fileID: 0}
+  shrinkBigToMakeSmall: 1
+  propellerOffset: {x: 0, y: 0.0211, z: 0.0118}
+  editPropellerRot: 0
+  propellerRot: {x: 0, y: 0, z: 0}
+  propellerMaterial: {fileID: 2100000, guid: 6e72d94dbee0abd448f0710a97ed3b99, type: 2}
+  propellerScale: 0.005
+  shellOffset: {x: 0, y: 0, z: 0}
+  editShellRot: 1
+  shellRotation: {x: 0, y: 90, z: 92}
+  handcasePosition: {x: 0.0226, y: 0.0184, z: 0.0066}
+  handcaseRotation: {x: 25.453, y: -0.041, z: 110.08}

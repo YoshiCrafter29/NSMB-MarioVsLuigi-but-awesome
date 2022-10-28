@@ -51,6 +51,7 @@ MonoBehaviour:
   interval: 35
   announcementTime: 3
   trainTime: 7.5
+  chaosInterval: 15
   sncfClip: {fileID: 6499923556571955456}
   time: 0
   step: 0
