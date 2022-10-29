@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: Mario
   uistring: <sprite=3>
+  specialBehaviour: 0
   loadingSmallSprite: {fileID: 1040450253486601905, guid: a7245cae141f3ee449147539ebd2a2c9,
     type: 3}
   loadingBigSprite: {fileID: -1751142936083476856, guid: a7245cae141f3ee449147539ebd2a2c9,
@@ -27,17 +28,23 @@ MonoBehaviour:
   - {fileID: 2100000, guid: d5cbc95593d66124ca0bf3566ac22dc8, type: 2}
   - {fileID: 2100000, guid: dcfc5c5d3209d9b42b8b314c0e6d0dba, type: 2}
   - {fileID: 2100000, guid: b152dade7ca68d548aaea3e41a7897c4, type: 2}
+  smallScale: {x: 0.01, y: 0.01, z: 0.01}
   largeMesh: {fileID: -2609601416848798982, guid: 024ceb223bceebd488dbc425555f4df0,
     type: 3}
   largeMaterials:
   - {fileID: 2100000, guid: dcfc5c5d3209d9b42b8b314c0e6d0dba, type: 2}
   - {fileID: 2100000, guid: 3c2958cf90b1bd64295f8ae254f80d0a, type: 2}
+  largeScale: {x: 0.018, y: 0.018, z: 0.018}
   meshLocalPosition: {x: 0, y: -0.02, z: 0}
   smallOverrides: {fileID: 22100000, guid: 347b7f77a47c4db4b85584fbfdecf63b, type: 2}
   largeOverrides: {fileID: 9100000, guid: fa2b2fc953f5f444291d26193e0ac7fb, type: 2}
   smallAvatar: {fileID: 0}
   largeAvatar: {fileID: 0}
   shrinkBigToMakeSmall: 0
+  hasHat: 0
+  hatPosition: {x: 0, y: 0, z: 0}
+  hatRotation: {x: 0, y: 0, z: 0}
+  hatScale: 1
   propellerOffset: {x: -7.6312665e-11, y: 0.0223841, z: 0.007497805}
   editPropellerRot: 0
   propellerRot: {x: 0, y: 0, z: 0}

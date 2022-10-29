@@ -26,8 +26,10 @@ public class PlayerData : ScriptableObject {
     [Header("== Model Settings ==")]
     public Mesh smallMesh;
     public List<Material> smallMaterials;
+    public Vector3 smallScale = new Vector3(0.01f, 0.01f, 0.01f);
     public Mesh largeMesh;
     public List<Material> largeMaterials;
+    public Vector3 largeScale = new Vector3(0.018f, 0.018f, 0.018f);
     public Vector3 meshLocalPosition = new Vector3(0f, -0.02f, 0f);
 
 
@@ -36,6 +38,12 @@ public class PlayerData : ScriptableObject {
     public RuntimeAnimatorController largeOverrides;
     public Avatar smallAvatar, largeAvatar;
     public bool shrinkBigToMakeSmall = false;
+
+    [Header("Hat Settings")]
+    public bool hasHat = true;
+    public Vector3 hatPosition = new Vector3(0.0011f, 0.0017f, -0.0502f);
+    public Vector3 hatRotation = new Vector3(-180f, 0f, 0f);
+    public float hatScale = 0.6f;
 
     [Header("Propeller Settings")]
     public Vector3 propellerOffset;
