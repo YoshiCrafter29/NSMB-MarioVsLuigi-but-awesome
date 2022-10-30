@@ -323,7 +323,12 @@ public class PlayerAnimationController : MonoBehaviourPun {
         bool large = controller.state >= Enums.PowerupState.Mushroom;
 
         body.isKinematic = controller.pipeEntering || controller.state == Enums.PowerupState.OppressorMKII;
-        if (controller.state == Enums.PowerupState.OppressorMKII)
+        if (controller.specialBehaviour == SpecialBehaviour.MCQUEEN && controller.dead)
+        {
+            largeModel.SetActive(false);
+            smallModel.SetActive(false);
+            oppressorModel.SetActive(false);
+        } else if (controller.state == Enums.PowerupState.OppressorMKII)
         {
             oppressorModel.SetActive(true);
             largeModel.SetActive(false);

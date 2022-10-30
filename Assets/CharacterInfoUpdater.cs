@@ -48,8 +48,9 @@ public class CharacterInfoUpdater : MonoBehaviour
         controller.AnimationController.suitcase.transform.localPosition = playerData.handcasePosition;
         controller.AnimationController.suitcase.transform.localRotation = Quaternion.Euler(playerData.handcaseRotation);
 
+        controller.specialBehaviour = playerData.specialBehaviour;
         // SPECIAL BEHAVIOURS
-        switch(playerData.specialBehaviour)
+        switch (playerData.specialBehaviour)
         {
             case SpecialBehaviour.STEVE:
                 SteveTextureDownloader downloader = gameObject.AddComponent<SteveTextureDownloader>();

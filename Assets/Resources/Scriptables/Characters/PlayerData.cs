@@ -60,4 +60,5 @@ public enum SpecialBehaviour : short
 {
     NONE = 0,
     STEVE = 1,
+    MCQUEEN = 2
 }

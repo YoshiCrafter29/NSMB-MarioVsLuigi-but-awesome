@@ -10935,6 +10935,7 @@ MonoBehaviour:
   heightLargeModel: 0.82
   cameraController: {fileID: 0}
   fadeOut: {fileID: 0}
+  specialBehaviour: 0
   sfx: {fileID: 0}
   sfxBrick: {fileID: 0}
   body: {fileID: 0}

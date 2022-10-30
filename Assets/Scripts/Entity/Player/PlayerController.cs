@@ -37,6 +37,7 @@ public class PlayerController : MonoBehaviourPun, IFreezableEntity, ICustomSeria
 
     public CameraController cameraController;
     public FadeOutManager fadeOut;
+    public SpecialBehaviour specialBehaviour = SpecialBehaviour.NONE;
 
     public AudioSource sfx, sfxBrick;
     private Animator animator;
@@ -1333,7 +1334,19 @@ public class PlayerController : MonoBehaviourPun, IFreezableEntity, ICustomSeria
         //if (info.Sender != photonView.Owner)
         //    return;
 
-        animator.Play("deadstart");
+        switch(specialBehaviour)
+        {
+            case SpecialBehaviour.MCQUEEN:
+                if (photonView.IsMine)
+                {
+                    Instantiate(Resources.Load("Prefabs/Particle/Explosion", typeof(GameObject)), transform.position, Quaternion.identity);
+                    AnimationController.models.SetActive(false);
+                }
+                break;
+            default:
+                animator.Play("deadstart");
+                break;
+        }
         if (--lives == 0) {
             GameManager.Instance.CheckForWinner();
         }
