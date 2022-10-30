@@ -20,7 +20,6 @@ public class ScoreboardEntry : MonoBehaviour {
         }
 
         playerId = target.playerId;
-        nameText.text = target.photonView.Owner.NickName;
 
         Color c = target.AnimationController.GlowColor;
         background.color = new(c.r, c.g, c.b, 0.5f);
@@ -50,7 +49,14 @@ public class ScoreboardEntry : MonoBehaviour {
     public void UpdateText() {
         string txt = "";
         if (currentLives >= 0)
+        {
             txt += target.character.uistring + Utils.GetSymbolString(currentLives.ToString());
+
+            nameText.text = $"{target.photonView.Owner.NickName}";
+        } else
+        {
+            nameText.text = $"{target.character.uistring} {target.photonView.Owner.NickName}";
+        }
         txt += Utils.GetSymbolString($"S{currentStars}");
 
         valuesText.text = txt;

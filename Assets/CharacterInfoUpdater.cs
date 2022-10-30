@@ -5,6 +5,7 @@ using UnityEngine;
 public class CharacterInfoUpdater : MonoBehaviour
 {
     public SkinnedMeshRenderer largeRenderer, smallRenderer;
+    public Transform largeTransform, smallTransform;
     public MeshRenderer propellerRenderer;
 
     // Start is called before the first frame update
@@ -17,8 +18,10 @@ public class CharacterInfoUpdater : MonoBehaviour
 
         largeRenderer.sharedMesh = playerData.largeMesh;
         largeRenderer.materials = playerData.largeMaterials.ToArray();
+        largeTransform.localScale = playerData.largeScale;
         smallRenderer.sharedMesh = playerData.smallMesh;
         smallRenderer.materials = playerData.smallMaterials.ToArray();
+        smallTransform.localScale = playerData.smallScale;
 
         animator.Rebind();
 

@@ -39,12 +39,6 @@ public class PlayerData : ScriptableObject {
     public Avatar smallAvatar, largeAvatar;
     public bool shrinkBigToMakeSmall = false;
 
-    [Header("Hat Settings")]
-    public bool hasHat = true;
-    public Vector3 hatPosition = new Vector3(0.0011f, 0.0017f, -0.0502f);
-    public Vector3 hatRotation = new Vector3(-180f, 0f, 0f);
-    public float hatScale = 0.6f;
-
     [Header("Propeller Settings")]
     public Vector3 propellerOffset;
     public bool editPropellerRot = false;
@@ -58,8 +52,8 @@ public class PlayerData : ScriptableObject {
     public Vector3 shellRotation;
 
     [Header("Handcase")]
-    public Vector3 handcasePosition;
-    public Vector3 handcaseRotation;
+    public Vector3 handcasePosition = new Vector3(0.0005f, -0.0069f, -0.0007f);
+    public Vector3 handcaseRotation = new Vector3(7f, 2.42f, 0f);
 }
 
 public enum SpecialBehaviour : short
