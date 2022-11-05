@@ -74,4 +74,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Levels/LavaLevel.unity
     guid: 930111c6d2bf0b84699d2254ada5aa07
+  - enabled: 1
+    path: Assets/Scenes/Levels/New York.unity
+    guid: a3217e86e6d7d3746a7eb9e3b1c904a2
   m_configObjects: {}
