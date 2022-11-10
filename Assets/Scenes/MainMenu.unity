@@ -33611,6 +33611,7 @@ MonoBehaviour:
   - Longest Level
   - Lava
   - New York
+  - Smallest Level
   debugMaps:
   - '[WIP] Desert'
   - '[WIP] Bonus'
@@ -33637,6 +33638,7 @@ MonoBehaviour:
   - 1280 blocks wide
   - 
   - oof
+  - 26 blocks long!!
 --- !u!4 &887693662
 Transform:
   m_ObjectHideFlags: 0

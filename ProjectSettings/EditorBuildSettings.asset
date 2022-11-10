@@ -77,4 +77,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Levels/New York.unity
     guid: a3217e86e6d7d3746a7eb9e3b1c904a2
+  - enabled: 1
+    path: Assets/Scenes/Levels/Smallest Level.unity
+    guid: 90f57b8225889d34289cc98c231cf23e
   m_configObjects: {}
