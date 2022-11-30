@@ -80,4 +80,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Levels/Smallest Level.unity
     guid: 90f57b8225889d34289cc98c231cf23e
+  - enabled: 1
+    path: Assets/Scenes/Levels/SleepyBus.unity
+    guid: f8fa983cb5fa0ce4fa62aafe478d7ad5
   m_configObjects: {}

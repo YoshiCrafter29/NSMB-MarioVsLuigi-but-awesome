@@ -21,7 +21,7 @@ public class BusAutoFollow : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
-        if (!move.photonView.IsMine) return;
+        //if (!move.photonView.IsMine) return;
 
         Collider2D closest = null;
         Vector2 closestPosition = Vector2.zero;
