@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdfa5a2abf2b9ea429f8eb9973f6774a, type: 3}
+  m_Name: Sleepy Bus Squared
+  m_EditorClassIdentifier: 
+  levelName: "Sleepy Bus\xB2"
+  levelIcon: {fileID: 21300000, guid: 8714f5743abe45f45a3a0b62fd957f31, type: 3}
+  chatMessage: Don't wake THEM up

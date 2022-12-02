@@ -83,4 +83,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Levels/SleepyBus.unity
     guid: f8fa983cb5fa0ce4fa62aafe478d7ad5
+  - enabled: 1
+    path: Assets/Scenes/Levels/SleepyBusSquared.unity
+    guid: af156b3bf3bee73469428986ccd4dc5b
   m_configObjects: {}
