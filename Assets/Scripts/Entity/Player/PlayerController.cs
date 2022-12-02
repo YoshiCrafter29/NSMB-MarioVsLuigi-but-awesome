@@ -834,8 +834,10 @@ public class PlayerController : MonoBehaviourPun, IFreezableEntity, ICustomSeria
                         return;
 
                     int count = 0;
+                    Utils.GetCustomProperty(Enums.NetRoomProperties.ChaosMode, out bool chaos);
+
                     foreach (FireballMover existingFire in FindObjectsOfType<FireballMover>()) {
-                        if (existingFire.photonView.IsMine && ++count >= 6)
+                        if (existingFire.photonView.IsMine && ++count >= (chaos ? 35 : 6))
                             return;
                     }
 

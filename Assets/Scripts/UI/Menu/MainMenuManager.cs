@@ -617,7 +617,7 @@ public class MainMenuManager : MonoBehaviour, ILobbyCallbacks, IInRoomCallbacks,
 
         PhotonNetwork.LocalPlayer.SetCustomProperties(new() {
             [Enums.NetPlayerProperties.GameState] = null,
-            [Enums.NetPlayerProperties.Status] = Debug.isDebugBuild || Application.isEditor,
+            [Enums.NetPlayerProperties.Status] = Debug.isDebugBuild || Application.isEditor
         });
         if (updatePingCoroutine == null)
             updatePingCoroutine = StartCoroutine(UpdatePing());
@@ -895,8 +895,8 @@ public class MainMenuManager : MonoBehaviour, ILobbyCallbacks, IInRoomCallbacks,
             return;
 
         ChangeLevel(newLevelIndex);
-        string message = null;
-        GlobalChatMessage("Map set to: " + levels[newLevelIndex].name + (message == null ? "" : $"\n{levels[newLevelIndex].chatMessage}"), ColorToVector(Color.red));
+        string message = levels[newLevelIndex].chatMessage;
+        GlobalChatMessage("Map set to: " + levels[newLevelIndex].name + (string.IsNullOrEmpty(message) ? "" : $"\n{message}"), ColorToVector(Color.red));
         
         
         ExitGames.Client.Photon.Hashtable table = new() {

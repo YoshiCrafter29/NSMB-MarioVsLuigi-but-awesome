@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Sky
   m_EditorClassIdentifier: 
   levelName: '[C] Sky'
-  levelIcon: {fileID: 0}
+  levelIcon: {fileID: 21300000, guid: 3a4fd3d1e2531ab428a15472529f81bf, type: 3}
   chatMessage: 
