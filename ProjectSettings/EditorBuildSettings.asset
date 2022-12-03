@@ -86,4 +86,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Levels/SleepyBusSquared.unity
     guid: af156b3bf3bee73469428986ccd4dc5b
+  - enabled: 1
+    path: Assets/Scenes/Levels/Trash.unity
+    guid: 7946f03c596d6e44a8d7f687d445aadf
   m_configObjects: {}

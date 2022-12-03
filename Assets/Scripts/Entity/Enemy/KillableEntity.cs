@@ -6,7 +6,7 @@ public abstract class KillableEntity : MonoBehaviourPun, IFreezableEntity {
 
     public bool Frozen { get; set; }
 
-    public bool dead, left = true, collide = true, iceCarryable = true, flying;
+    public bool dead, left = true, collide = true, iceCarryable = true, shouldKill = true, flying;
     public Rigidbody2D body;
     public BoxCollider2D hitbox;
     protected Animator animator;
@@ -80,7 +80,7 @@ public abstract class KillableEntity : MonoBehaviourPun, IFreezableEntity {
             player.photonView.RPC("PlaySound", RpcTarget.All, Enums.Sounds.Enemy_Generic_Stomp);
             player.drill = false;
         }
-        else if (player.hitInvincibilityCounter <= 0)
+        else if (player.hitInvincibilityCounter <= 0 && shouldKill)
         {
             player.photonView.RPC("Powerdown", RpcTarget.All, false);
             photonView.RPC("SetLeft", RpcTarget.All, damageDirection.x < 0);
