@@ -10,6 +10,9 @@ public class KeepChildInFocus : MonoBehaviour, IPointerEnterHandler, IPointerExi
     private ScrollRect rect;
     private float scrollPos = 0;
 
+    private readonly List<ScrollRect> components = new();
+
+#if !UNITY_ANDROID
     void Awake() {
         rect = GetComponent<ScrollRect>();
     }
@@ -31,7 +34,6 @@ public class KeepChildInFocus : MonoBehaviour, IPointerEnterHandler, IPointerExi
         }
     }
 
-    private readonly List<ScrollRect> components = new();
     private bool IsFirstParent(Transform target) {
         do {
             if (target.GetComponent<IFocusIgnore>() != null)
@@ -54,6 +56,14 @@ public class KeepChildInFocus : MonoBehaviour, IPointerEnterHandler, IPointerExi
     public void OnPointerExit(PointerEventData eventData) {
         mouseOver = false;
     }
+#else
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+    }
+    public void OnPointerExit(PointerEventData eventData)
+    {
+    }
+#endif
 
     public interface IFocusIgnore { }
 }

@@ -58,6 +58,7 @@ MonoBehaviour:
   left: 1
   collide: 1
   iceCarryable: 0
+  shouldKill: 1
   flying: 0
   body: {fileID: -1029166702606754831}
   hitbox: {fileID: 0}
