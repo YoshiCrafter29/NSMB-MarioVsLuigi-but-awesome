@@ -180,6 +180,7 @@ MonoBehaviour:
   left: 0
   collide: 1
   iceCarryable: 1
+  shouldKill: 1
   flying: 0
   body: {fileID: 0}
   hitbox: {fileID: 0}
