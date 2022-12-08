@@ -1,12 +1,13 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BusAutoFollow : MonoBehaviour
+public class BusAutoFollow : MonoBehaviourPun
 {
-    BusWalk move;
-    KillableEntity moveEntity;
-    Rigidbody2D body;
+    public BusWalk move;
+    public KillableEntity moveEntity;
+    public Rigidbody2D body;
     public GameObject playerWhoSpawnedIt;
     private float __speed, __defaultSpeed;
     // Start is called before the first frame update

@@ -189,6 +189,8 @@ MonoBehaviour:
   deathTimer: -1
   terminalVelocity: -8
   ride: {fileID: 2716620536645413003}
+  canHurt: 1
+  enableRide: 1
 --- !u!212 &7523289063499453457
 SpriteRenderer:
   m_ObjectHideFlags: 0

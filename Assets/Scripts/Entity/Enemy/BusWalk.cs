@@ -7,6 +7,7 @@ public class BusWalk : KillableEntity {
     [SerializeField] public float speed, deathTimer = -1, terminalVelocity = -8;
     [SerializeField] BoxCollider2D ride;
     Vector3 basePos;
+    public bool canHurt = true, enableRide = true;
 
     public new void Start() {
         base.Start();
@@ -27,12 +28,13 @@ public class BusWalk : KillableEntity {
     {
         this.speed = speed;
     }
+   
 
     Dictionary<int, Vector3> offsets = new Dictionary<int, Vector3>();
     Dictionary<int, Vector3> lastPosition = new Dictionary<int, Vector3>();
     public void OnTriggerStay2D(Collider2D collision)
     {
-
+        if (!enableRide) return;
         PlayerController controller;
         if ((controller = collision.gameObject.GetComponent<PlayerController>()) == null) return;
         if (controller.photonView.IsMine)
@@ -49,6 +51,7 @@ public class BusWalk : KillableEntity {
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
+        if (!enableRide) return;
         PlayerController controller;
         if ((controller = collision.gameObject.GetComponent<PlayerController>()) == null) return;
         if (controller.photonView.IsMine)
@@ -63,6 +66,7 @@ public class BusWalk : KillableEntity {
 
     public void OnTriggerExit2D(Collider2D collision)
     {
+        if (!enableRide) return;
         PlayerController controller;
         if ((controller = collision.gameObject.GetComponent<PlayerController>()) == null) return;
         if (controller.photonView.IsMine)
@@ -75,7 +79,7 @@ public class BusWalk : KillableEntity {
 
     public override void InteractWithPlayer(PlayerController p)
     {
-        if (!ride.IsTouching(p.MainHitbox))
+        if (!ride.IsTouching(p.MainHitbox) && canHurt)
         {
             base.InteractWithPlayer(p);
             return;

@@ -93,7 +93,7 @@ public class MainMenuManager : MonoBehaviour, ILobbyCallbacks, IInRoomCallbacks,
         List<string> invalidRooms = new();
 
         foreach (RoomInfo room in roomList) {
-            if (!room.IsVisible || room.RemovedFromList || room.MaxPlayers > 10 || room.MaxPlayers == 0) {
+            if (!room.IsVisible || room.RemovedFromList || room.MaxPlayers > 20 || room.MaxPlayers == 0) {
                 invalidRooms.Add(room.Name);
                 continue;
             }

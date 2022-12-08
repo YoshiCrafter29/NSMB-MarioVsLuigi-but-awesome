@@ -189,6 +189,8 @@ MonoBehaviour:
   deathTimer: -1
   terminalVelocity: -8
   ride: {fileID: 2716620536645413003}
+  canHurt: 1
+  enableRide: 1
 --- !u!212 &7523289063499453457
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -556,6 +558,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79a14215d19ac9447b7c1cba9a2d74ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  move: {fileID: 0}
+  moveEntity: {fileID: 0}
+  body: {fileID: 0}
   playerWhoSpawnedIt: {fileID: 0}
 --- !u!1 &7523289063554791230
 GameObject:
