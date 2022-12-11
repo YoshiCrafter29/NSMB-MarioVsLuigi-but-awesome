@@ -191,7 +191,7 @@ public class PlayerAnimationController : MonoBehaviourPun {
         }
 
         if (controller.cameraController.controlCamera)
-            HorizontalCamera.OFFSET_TARGET = (controller.flying || controller.propeller) ? 0.5f : 0f;
+            HorizontalCamera.OFFSET_TARGET *= (controller.flying || controller.propeller) ? 1.5f : 1f;
 
         if (controller.crouching || controller.sliding || controller.skidding) {
             dust.transform.localPosition = Vector2.zero;

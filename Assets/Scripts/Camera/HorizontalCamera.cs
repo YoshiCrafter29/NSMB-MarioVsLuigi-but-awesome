@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class HorizontalCamera : MonoBehaviour {
+    public static float OFFSET_RATIO = 1f;
     public static float OFFSET_TARGET = 0f;
     public static float OFFSET_VELOCITY, OFFSET = 0f;
     private Camera ourCamera;
@@ -12,6 +13,7 @@ public class HorizontalCamera : MonoBehaviour {
     private static readonly float orthoSize = 3.5f;
 
     void Start() {
+        OFFSET_RATIO = 1f;
         ourCamera = GetComponent<Camera>();
         AdjustCamera();
     }
@@ -22,6 +24,7 @@ public class HorizontalCamera : MonoBehaviour {
         ourCamera.targetTexture = renderToTextureIfAvailable && Settings.Instance.ndsResolution && SceneManager.GetActiveScene().buildIndex != 0 
             ? GlobalController.Instance.ndsTexture 
             : null;
+        OFFSET_TARGET = 0;
     }
 
     private void AdjustCamera() {

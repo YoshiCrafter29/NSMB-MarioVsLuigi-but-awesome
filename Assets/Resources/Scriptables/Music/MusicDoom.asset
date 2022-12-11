@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: MusicDoom
   m_EditorClassIdentifier: 
   clip: {fileID: 8300000, guid: 1d54decb95b67b34e843a02bb23f41cf, type: 3}
-  loopStartSample: 0
-  loopEndSample: 1e+10
+  loopStartSample: 57.6
+  loopEndSample: 172.8

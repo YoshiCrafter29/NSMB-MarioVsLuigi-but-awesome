@@ -95,6 +95,7 @@ MonoBehaviour:
   - UpdateSpeed
   - PlayJumpSFX
   - ActivateSwitch
+  - Kaboom
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

@@ -575,6 +575,12 @@ namespace NSMB.Utils {
                 tileCache[tilename] = Resources.Load(tilename) as TileBase;
         }
 
+        public static float Map(float s, float a1, float a2, float b1, float b2)
+        {
+            return b1 + (s - a1) * (b2 - b1) / (a2 - a1);
+        }
+
+
         private static readonly Dictionary<char, int> uiSymbols = new() {
             ['c'] = 6,
             ['0'] = 11,

@@ -78,12 +78,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   activated: 0
+  cooldownRangeMin: 3
+  cooldownRangeMax: 6
+  giftsNumRangeMin: 1
+  giftsNumRangeMax: 4
+  giftPrefab: Prefabs/Enemy/Gift
   audioSource: {fileID: 1574089572193727998}
   earthquakeSFX: {fileID: 3868763647694966294}
   AllIWantForChristmasIsYou: {fileID: 6114750548375771366}
   switchModel: {fileID: 7034814350044496674}
   mariahCarey: {fileID: 0}
   mariahMusicData: {fileID: 11400000, guid: c74ed6a633e9c364aa3795357f5fd02d, type: 2}
+  nextTime: 0
 --- !u!82 &1574089572193727998
 AudioSource:
   m_ObjectHideFlags: 0
@@ -335,7 +341,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 1d54decb95b67b34e843a02bb23f41cf, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 1
@@ -498,6 +504,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7635826562936255635, guid: 2b9226ee0189e374ab4b4f847ada62e0,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 244be4688c08ab34897d32b714d38b9c, type: 2}
     - target: {fileID: 919132149155446097, guid: 2b9226ee0189e374ab4b4f847ada62e0,
         type: 3}
       propertyPath: m_Name

@@ -5,6 +5,7 @@ using UnityEngine;
 public class CameraController : MonoBehaviour {
 
     public static float ScreenShake = 0;
+    public static bool OnlyShakeOnGround = true;
     public bool controlCamera = false;
     public Vector3 currentPosition;
 
@@ -21,6 +22,9 @@ public class CameraController : MonoBehaviour {
 
     void Awake() {
         //only control the camera if we're the local player.
+        ScreenShake = 0f;
+        OnlyShakeOnGround = true;
+
         targetCamera = Camera.main;
         startingZ = targetCamera.transform.position.z;
         controller = GetComponent<PlayerController>();
@@ -35,7 +39,7 @@ public class CameraController : MonoBehaviour {
             if ((ScreenShake -= Time.deltaTime) > 0)
                 shakeOffset = new Vector3((Random.value - 0.5f) * ScreenShake, (Random.value - 0.5f) * ScreenShake);
 
-            if (!controller.onGround)
+            if (OnlyShakeOnGround && !controller.onGround)
                 shakeOffset = Vector3.zero;
 
             targetCamera.transform.position = currentPosition + shakeOffset;
@@ -44,6 +48,8 @@ public class CameraController : MonoBehaviour {
 
             secondaryPositioners.RemoveAll(scp => scp == null);
             secondaryPositioners.ForEach(scp => scp.UpdatePosition());
+
+            OnlyShakeOnGround = true;
         }
     }
 
