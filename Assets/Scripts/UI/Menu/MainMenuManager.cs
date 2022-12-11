@@ -896,7 +896,7 @@ public class MainMenuManager : MonoBehaviour, ILobbyCallbacks, IInRoomCallbacks,
 
         ChangeLevel(newLevelIndex);
         string message = levels[newLevelIndex].chatMessage;
-        GlobalChatMessage("Map set to: " + levels[newLevelIndex].name + (string.IsNullOrEmpty(message) ? "" : $"\n{message}"), ColorToVector(Color.red));
+        GlobalChatMessage("Map set to: " + levels[newLevelIndex].levelName + (string.IsNullOrEmpty(message) ? "" : $"\n{message}"), ColorToVector(Color.red));
         
         
         ExitGames.Client.Photon.Hashtable table = new() {

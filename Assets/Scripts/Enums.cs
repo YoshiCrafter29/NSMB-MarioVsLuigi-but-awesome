@@ -65,7 +65,8 @@ public static class Enums {
         Normal,
         MegaMushroom,
         Starman,
-        Underground
+        Underground,
+        Doomsday
     }
     //Sound effects
     public enum Sounds : byte {
