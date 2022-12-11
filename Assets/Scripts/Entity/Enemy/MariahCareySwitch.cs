@@ -64,8 +64,8 @@ public class MariahCareySwitch : MonoBehaviourPun
         CameraController.OnlyShakeOnGround = false;
         HorizontalCamera.OFFSET = HorizontalCamera.OFFSET_TARGET += Mathf.Clamp(Utils.Map(time, 10.550f, 54.550f, 0f, 4f), 0f, 3f);
 
-        if (time > 172.30f)
-            time = AllIWantForChristmasIsYou.time = 57.6f;
+        if (time > 175.9f)
+            time = AllIWantForChristmasIsYou.time = 60.8f;
 
         if (!photonView.IsMine || time < 54.550f) return;
 

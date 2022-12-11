@@ -92,4 +92,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Levels/BusAllStars.unity
     guid: 2358a6db758bb944b892f7a798e409a6
+  - enabled: 1
+    path: Assets/Scenes/Levels/MariahCarey.unity
+    guid: e93ae6873d2bfd94dba6408b7c282761
   m_configObjects: {}
