@@ -4875,6 +4875,7 @@ MonoBehaviour:
   left: 1
   collide: 0
   iceCarryable: 1
+  shouldKill: 1
   flying: 1
   body: {fileID: 0}
   hitbox: {fileID: 0}
@@ -5039,6 +5040,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   soundRange: 12
+  maxVolume: 1
+  type: 0
   soundOrigin: {fileID: 2627485830306083583}
   audioSources:
   - {fileID: 5407584048357268515}
