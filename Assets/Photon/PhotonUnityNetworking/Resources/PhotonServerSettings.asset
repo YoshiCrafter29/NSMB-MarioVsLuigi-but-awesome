@@ -96,6 +96,7 @@ MonoBehaviour:
   - PlayJumpSFX
   - ActivateSwitch
   - Kaboom
+  - OpenDoor
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

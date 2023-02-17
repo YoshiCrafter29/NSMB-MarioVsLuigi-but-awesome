@@ -14,6 +14,7 @@ using TMPro;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 using NSMB.Utils;
 using System.IO;
+using System;
 
 public class GameManager : MonoBehaviour, IOnEventCallback, IInRoomCallbacks, IConnectionCallbacks, IMatchmakingCallbacks {
     private static GameManager _instance;
@@ -35,6 +36,7 @@ public class GameManager : MonoBehaviour, IOnEventCallback, IInRoomCallbacks, IC
     public int levelMinTileX, levelMinTileY, levelWidthTile, levelHeightTile;
     public float cameraMinY, cameraHeightY, cameraMinX = -1000, cameraMaxX = 1000;
     public bool loopingLevel = true;
+    public bool showReadyScreen = true;
     public Vector3 spawnpoint;
     public Tilemap tilemap;
     [ColorUsage(false)] public Color levelUIColor = new(24, 178, 170);
@@ -44,6 +46,7 @@ public class GameManager : MonoBehaviour, IOnEventCallback, IInRoomCallbacks, IC
     BoundsInt origin;
     GameObject currentStar = null;
     GameObject[] starSpawns;
+    public Dictionary<int, DoorManager> doors = new Dictionary<int, DoorManager>();
     readonly List<GameObject> remainingSpawns = new();
     float spawnStarCount;
     public int startServerTime, endServerTime = -1;
@@ -475,6 +478,15 @@ public class GameManager : MonoBehaviour, IOnEventCallback, IInRoomCallbacks, IC
             PhotonNetwork.RaiseEvent((byte) Enums.NetEventIds.PlayerFinishedLoading, null, options, SendOptions.SendReliable);
         }
 
+        if (!GameManager.Instance.showReadyScreen) {
+            try {
+                SceneManager.UnloadSceneAsync("Loading");
+            } catch (Exception e)
+            {
+                //do nothing! fuck you
+            }
+        }
+            
         yield return new WaitForSeconds(Mathf.Max(1f, (startTimestamp - PhotonNetwork.ServerTimestamp) / 1000f));
 
         GameObject canvas = GameObject.FindGameObjectWithTag("LoadingCanvas");
@@ -534,7 +546,14 @@ public class GameManager : MonoBehaviour, IOnEventCallback, IInRoomCallbacks, IC
         GlobalController.Instance.discordController.UpdateActivity();
 
         if (canvas)
-            SceneManager.UnloadSceneAsync("Loading");
+            try
+            {
+                SceneManager.UnloadSceneAsync("Loading");
+            }
+            catch (Exception e)
+            {
+                //do nothing! fuck you
+            }
     }
 
     IEnumerator EndGame(Player winner) {
@@ -631,7 +650,7 @@ public class GameManager : MonoBehaviour, IOnEventCallback, IInRoomCallbacks, IC
                     if (remainingSpawns.Count <= 0)
                         remainingSpawns.AddRange(starSpawns);
 
-                    int index = Random.Range(0, remainingSpawns.Count);
+                    int index = UnityEngine.Random.Range(0, remainingSpawns.Count);
                     Vector3 spawnPos = remainingSpawns[index].transform.position;
                     bool isMoon = remainingSpawns[index].tag == "MoonSpawn";
                     //Check for people camping spawn

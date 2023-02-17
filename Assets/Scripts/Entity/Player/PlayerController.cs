@@ -71,6 +71,9 @@ public class PlayerController : MonoBehaviourPun, IFreezableEntity, ICustomSeria
 
     public GameObject onSpinner;
     public PipeManager pipeEntering;
+    public DoorManager doorEntering;
+    public float doorEnteringTime = 0f;
+    public int doorEnteringStep = 0;
     public bool step, alreadyGroundpounded;
     private int starDirection;
     public PlayerData character;
@@ -361,17 +364,23 @@ public class PlayerController : MonoBehaviourPun, IFreezableEntity, ICustomSeria
 
         previousOnGround = onGround;
         if (!dead && !pipeEntering) {
-            HandleBlockSnapping();
-            bool snapped = state == Enums.PowerupState.OppressorMKII ? false : GroundSnapCheck();
-            HandleGroundCollision();
-            onGround |= snapped;
-            doGroundSnap = onGround;
-            HandleTileProperties();
-            TickCounters();
-            HandleMovement(Time.fixedDeltaTime);
-            HandleGiantTiles(true);
-            HandleCoins();
-            UpdateHitbox();
+            if (doorEntering)
+            {
+                HandleDoorEntering();
+            } else
+            {
+                HandleBlockSnapping();
+                bool snapped = state == Enums.PowerupState.OppressorMKII ? false : GroundSnapCheck();
+                HandleGroundCollision();
+                onGround |= snapped;
+                doGroundSnap = onGround;
+                HandleTileProperties();
+                TickCounters();
+                HandleMovement(Time.fixedDeltaTime);
+                HandleGiantTiles(true);
+                HandleCoins();
+                UpdateHitbox();
+            }
         }
         if (holding && holding.dead)
             holding = null;
@@ -662,7 +671,7 @@ public class PlayerController : MonoBehaviourPun, IFreezableEntity, ICustomSeria
     }
 
     public void OnTriggerEnter2D(Collider2D collider) {
-        if (!photonView.IsMine || dead || Frozen || pipeEntering || !MainHitbox.IsTouching(collider))
+        if (!photonView.IsMine || dead || Frozen || pipeEntering || doorEntering || !MainHitbox.IsTouching(collider))
             return;
 
         HoldableEntity holdable = collider.GetComponentInParent<HoldableEntity>();
@@ -703,7 +712,7 @@ public class PlayerController : MonoBehaviourPun, IFreezableEntity, ICustomSeria
             if (!fireball.isIceball) {
                 photonView.RPC("Knockback", RpcTarget.All, fireball.left, 1, true, fireball.photonView.ViewID);
             } else {
-                if (!Frozen && !frozenObject && !pipeEntering) {
+                if (!Frozen && !frozenObject && !pipeEntering && !doorEntering) {
                     GameObject cube = PhotonNetwork.Instantiate("Prefabs/FrozenCube", transform.position, Quaternion.identity, 0, new object[] { photonView.ViewID });
                     frozenObject = cube.GetComponent<FrozenCube>();
                     return;
@@ -820,7 +829,7 @@ public class PlayerController : MonoBehaviourPun, IFreezableEntity, ICustomSeria
     }
 
     private void ActivatePowerupAction() {
-        if (knockback || pipeEntering || GameManager.Instance.gameover || dead || Frozen || holding)
+        if (knockback || pipeEntering || doorEntering || GameManager.Instance.gameover || dead || Frozen || holding)
             return;
 
         switch (state) {
@@ -1357,6 +1366,7 @@ public class PlayerController : MonoBehaviourPun, IFreezableEntity, ICustomSeria
         dead = true;
         onSpinner = null;
         pipeEntering = null;
+        doorEntering = null;
         inShell = false;
         propeller = false;
         propellerSpinTimer = 0;
@@ -1893,8 +1903,69 @@ public class PlayerController : MonoBehaviourPun, IFreezableEntity, ICustomSeria
         return false;
     }
 
-#region -- PIPES --
+    #region -- DOORS --
 
+    void DoorCheck()
+    {
+        if (!photonView.IsMine || pipeEntering != null || doorEntering != null || joystick.y < analogDeadzone || state == Enums.PowerupState.MegaMushroom || !onGround || knockback || inShell)
+            return;
+
+
+        foreach (RaycastHit2D hit in Physics2D.RaycastAll(body.position, Vector2.down, 0.1f))
+        {
+            GameObject obj = hit.transform.gameObject;
+            if (!obj.CompareTag("Door"))
+                continue;
+            DoorManager man = obj.GetComponent<DoorManager>();
+            photonView.RPC("OpenDoor", RpcTarget.All, man.doorID);
+        }
+    }
+    [PunRPC]
+    void OpenDoor(int doorID)
+    {
+        if (GameManager.Instance.doors.TryGetValue(doorID, out doorEntering))
+        {
+            ResetStuff();
+            AnimationController.models.SetActive(false);
+            doorEntering.OpenDoor();
+            doorEnteringTime = 0f;
+            doorEnteringStep = 0;
+            if (!photonView.IsMine) return;
+        }
+    }
+
+    void HandleDoorEntering()
+    {
+        doorEnteringTime += Time.fixedDeltaTime;
+        switch(doorEnteringStep)
+        {
+            case 0:
+                if (doorEnteringTime > 0.25f)
+                {
+                    doorEnteringStep = 1;
+                    if (photonView.IsMine)
+                        fadeOut.FadeOutAndIn(0.45f, 0.1f);
+                }
+                break;
+            case 1:
+                if (doorEnteringTime > 0.8f)
+                {
+                    doorEnteringStep = 2;
+                    transform.position = doorEntering.otherDoor.spawnPos.position;
+                    doorEntering.otherDoor.OpenDoor();
+                    cameraController.Recenter();
+                }
+                
+                break;
+            case 2:
+                if (doorEnteringTime > 1f)
+                    doorEntering = null;
+                break;
+        }
+    }
+    #endregion
+
+    #region -- PIPES --
     void DownwardsPipeCheck() {
         if (!photonView.IsMine || joystick.y > -analogDeadzone || state == Enums.PowerupState.MegaMushroom || !onGround || knockback || inShell)
             return;
@@ -1928,18 +1999,24 @@ public class PlayerController : MonoBehaviourPun, IFreezableEntity, ICustomSeria
             pipeEntering = pipe;
             pipeDirection = Vector2.down;
 
+            ResetStuff();
             body.velocity = Vector2.down;
             transform.position = body.position = new Vector2(obj.transform.position.x, transform.position.y);
 
             photonView.RPC("PlaySound", RpcTarget.All, Enums.Sounds.Player_Sound_Powerdown);
-            crouching = false;
-            sliding = false;
-            propeller = false;
-            drill = false;
-            usedPropellerThisJump = false;
-            groundpound = false;
             break;
         }
+    }
+
+    void ResetStuff()
+    {
+        body.velocity = Vector2.zero;
+        crouching = false;
+        sliding = false;
+        propeller = false;
+        drill = false;
+        usedPropellerThisJump = false;
+        groundpound = false;
     }
 
     void UpwardsPipeCheck() {
@@ -2646,15 +2723,22 @@ public class PlayerController : MonoBehaviourPun, IFreezableEntity, ICustomSeria
         }
 
         //pipes > stuck in block, else the animation gets janked.
-        if (pipeEntering || giantStartTimer > 0 || (giantEndTimer > 0 && stationaryGiantEnd) || animator.GetBool("pipe"))
+        if (doorEntering || pipeEntering || giantStartTimer > 0 || (giantEndTimer > 0 && stationaryGiantEnd) || animator.GetBool("pipe"))
             return;
         if (HandleStuckInBlock())
             return;
 
-        //Pipes
-        if (!paused && pipeTimer <= 0) {
-            DownwardsPipeCheck();
-            UpwardsPipeCheck();
+        //Pipes & Doors
+        if (!paused) {
+            if (pipeTimer <= 0)
+            {
+                DownwardsPipeCheck();
+                UpwardsPipeCheck();
+            }
+            if (!doorEntering)
+            {
+                DoorCheck();
+            }
         }
 
         if (knockback) {
