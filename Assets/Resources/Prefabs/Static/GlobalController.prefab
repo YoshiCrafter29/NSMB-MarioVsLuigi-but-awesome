@@ -247,6 +247,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d7475a4e46283e742ac43243f9f51f71, type: 2}
   - {fileID: 11400000, guid: 0212ff7de29abc54db8b298e165c20ce, type: 2}
   - {fileID: 11400000, guid: 76203886ec3a71f468840952bcaa6acf, type: 2}
+  - {fileID: 11400000, guid: cada17a1f1d89334daee5a7ebb91b425, type: 2}
   - {fileID: 11400000, guid: bcfcc0a84d6fa9a4b8398b3bff544e97, type: 2}
   settings: {fileID: 0}
   discordController: {fileID: 0}
