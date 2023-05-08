@@ -98,4 +98,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Levels/Simpsons.unity
     guid: a3e22b2cad3a1414cb27eaedeeb4d686
+  - enabled: 1
+    path: Assets/Scenes/Levels/Baldi.unity
+    guid: f5697c0ba8e025a42bdc17bdac6cc815
   m_configObjects: {}

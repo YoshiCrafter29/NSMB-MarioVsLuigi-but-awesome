@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 public class UpdateChecker {
 
-    private static readonly string API_URL = "http://api.github.com/repos/FoxelTheFennic/NSMB-MarioVsLuigi-but-awesome/releases/latest";
+    private static readonly string API_URL = "http://api.github.com/repos/YoshiCrafter29/NSMB-MarioVsLuigiVsHomerAllStars/releases/latest";
 
     /// <summary>
     /// Returns if we're up to date, OR newer, compared to the latest GitHub release version number
@@ -18,7 +18,7 @@ public class UpdateChecker {
         //get http results
         HttpWebRequest request = (HttpWebRequest) WebRequest.Create(API_URL);
         request.Accept = "application/json";
-        request.UserAgent = "FoxelTheFennic/NSMB-MarioVsLuigi-but-awesome";
+        request.UserAgent = "YoshiCrafter29/NSMB-MarioVsLuigiVsHomerAllStars";
 
         HttpWebResponse response = (HttpWebResponse) await request.GetResponseAsync();
 

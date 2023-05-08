@@ -22,10 +22,9 @@ public class MainMenuManager : MonoBehaviour, ILobbyCallbacks, IInRoomCallbacks,
     public GameObject lobbiesContent, lobbyPrefab;
     bool quit, validName;
     public GameObject connecting;
-    public GameObject title, bg, mainMenu, optionsMenu, lobbyMenu, createLobbyPrompt, inLobbyMenu, creditsMenu, controlsMenu, mapSelectionMenu, privatePrompt, updateBox, steveURLFieldParent;
+    public GameObject title, bg, mainMenu, optionsMenu, lobbyMenu, createLobbyPrompt, inLobbyMenu, creditsMenu, controlsMenu, mapSelectionMenu, charSelectionMenu, privatePrompt, updateBox, steveURLFieldParent;
     public GameObject[] levelCameraPositions;
     public GameObject sliderText, lobbyText, currentMaxPlayers, settingsPanel, lobbyCode;
-    public TMP_Dropdown characterDropdown;
     public RoomIcon selectedRoomIcon, privateJoinRoom;
     public Button joinRoomBtn, createRoomBtn, startGameBtn;
     public Toggle ndsResolutionToggle, fullscreenToggle, livesEnabled, moddedPowerupsEnabled, powerupsEnabled, chaosModeEnabled, timeEnabled, drawTimeupToggle, fireballToggle, vsyncToggle, privateToggle, privateToggleRoom, aspectToggle, spectateToggle;
@@ -34,13 +33,17 @@ public class MainMenuManager : MonoBehaviour, ILobbyCallbacks, IInRoomCallbacks,
     public Slider musicSlider, sfxSlider, masterSlider, lobbyPlayersSlider, changePlayersSlider;
     public GameObject mainMenuSelected, optionsSelected, lobbySelected, currentLobbySelected, createLobbySelected, creditsSelected, controlsSelected, privateSelected, reconnectSelected, updateBoxSelected;
     public GameObject errorBox, errorButton, rebindPrompt, reconnectBox;
-    public TMP_Text errorText, rebindCountdown, rebindText, reconnectText, updateText, mapLabel;
+    public TMP_Text errorText, rebindCountdown, rebindText, reconnectText, updateText, mapLabel, charLabel;
     public TMP_Dropdown region;
     public RebindManager rebindManager;
 
     // MAP SELECTION MENU
     public MapItem templateMapItem;
     public GameObject mapContentObject;
+
+    // CHAR SELECTION MENU
+    public MapItem templateCharItem;
+    public GameObject charContentObject;
 
     public static string lastRegion;
     public string connectThroughSecret = "";
@@ -443,7 +446,6 @@ public class MainMenuManager : MonoBehaviour, ILobbyCallbacks, IInRoomCallbacks,
         ChangeLevel(Random.Range(0, levels.Count));
         //levelDropdown.AddOptions(maps);
 
-        // TODO: map list
         foreach(MarioLevel map in levels)
         {
             GameObject newObj = Instantiate(templateMapItem.gameObject, mapContentObject.transform);
@@ -451,6 +453,18 @@ public class MainMenuManager : MonoBehaviour, ILobbyCallbacks, IInRoomCallbacks,
             mItem.SetMap(map.levelName, map.levelIcon);
             newObj.SetActive(true);
         }
+
+
+        foreach (PlayerData chr in GlobalController.Instance.characters)
+        {
+            if (chr == GlobalController.Instance.characters.Last()) break;
+
+            GameObject newObj = Instantiate(templateCharItem.gameObject, charContentObject.transform);
+            MapItem mItem = newObj.GetComponent<MapItem>();
+            mItem.SetMap(chr.characterName, chr.readySprite);
+            newObj.SetActive(true);
+        }
+
 
         LoadSettings(!PhotonNetwork.InRoom);
 
@@ -529,6 +543,11 @@ public class MainMenuManager : MonoBehaviour, ILobbyCallbacks, IInRoomCallbacks,
         mapSelectionMenu.SetActive(true);
     }
 
+    public void OpenChangeCharacterMenu()
+    {
+        charSelectionMenu.SetActive(true);
+    }
+
     private void LoadSettings(bool nickname) {
         if (nickname)
             nicknameField.text = Settings.Instance.nickname;
@@ -595,13 +614,7 @@ public class MainMenuManager : MonoBehaviour, ILobbyCallbacks, IInRoomCallbacks,
 
         OpenInLobbyMenu();
 
-        // refresh levels
-        characterDropdown.ClearOptions();
-        List<string> characters = new List<string>();
-        for (int i = 0; i < GlobalController.Instance.characters.Length - 1; i++)
-            characters.Add(GlobalController.Instance.characters[i].characterName);
-        characterDropdown.AddOptions(characters);
-        characterDropdown.SetValueWithoutNotify(Utils.GetCharacterIndex());
+        ChangeCharacter(Utils.GetCharacterIndex(), false);
 
         if (PhotonNetwork.IsMasterClient)
             LocalChatMessage("You are the room's host! You can use chat commands like /ban, /mute, /kick, etc. to control your room. Do /help for help.", ColorToVector(Color.red));
@@ -644,6 +657,7 @@ public class MainMenuManager : MonoBehaviour, ILobbyCallbacks, IInRoomCallbacks,
         createLobbyPrompt.SetActive(false);
         inLobbyMenu.SetActive(false);
         mapSelectionMenu.SetActive(false);
+        charSelectionMenu.SetActive(false);
         creditsMenu.SetActive(false);
         privatePrompt.SetActive(false);
 
@@ -659,6 +673,7 @@ public class MainMenuManager : MonoBehaviour, ILobbyCallbacks, IInRoomCallbacks,
         createLobbyPrompt.SetActive(false);
         inLobbyMenu.SetActive(false);
         mapSelectionMenu.SetActive(false);
+        charSelectionMenu.SetActive(false);
         creditsMenu.SetActive(false);
         privatePrompt.SetActive(false);
         updateBox.SetActive(false);
@@ -676,6 +691,7 @@ public class MainMenuManager : MonoBehaviour, ILobbyCallbacks, IInRoomCallbacks,
         createLobbyPrompt.SetActive(false);
         inLobbyMenu.SetActive(false);
         mapSelectionMenu.SetActive(false);
+        charSelectionMenu.SetActive(false);
         creditsMenu.SetActive(false);
         privatePrompt.SetActive(false);
 
@@ -691,6 +707,7 @@ public class MainMenuManager : MonoBehaviour, ILobbyCallbacks, IInRoomCallbacks,
         createLobbyPrompt.SetActive(true);
         inLobbyMenu.SetActive(false);
         mapSelectionMenu.SetActive(false);
+        charSelectionMenu.SetActive(false);
         creditsMenu.SetActive(false);
         privatePrompt.SetActive(false);
 
@@ -708,6 +725,7 @@ public class MainMenuManager : MonoBehaviour, ILobbyCallbacks, IInRoomCallbacks,
         createLobbyPrompt.SetActive(false);
         inLobbyMenu.SetActive(false);
         mapSelectionMenu.SetActive(false);
+        charSelectionMenu.SetActive(false);
         creditsMenu.SetActive(false);
         privatePrompt.SetActive(false);
 
@@ -723,6 +741,7 @@ public class MainMenuManager : MonoBehaviour, ILobbyCallbacks, IInRoomCallbacks,
         createLobbyPrompt.SetActive(false);
         inLobbyMenu.SetActive(false);
         mapSelectionMenu.SetActive(false);
+        charSelectionMenu.SetActive(false);
         creditsMenu.SetActive(false);
         privatePrompt.SetActive(false);
 
@@ -753,6 +772,7 @@ public class MainMenuManager : MonoBehaviour, ILobbyCallbacks, IInRoomCallbacks,
         createLobbyPrompt.SetActive(false);
         inLobbyMenu.SetActive(true);
         mapSelectionMenu.SetActive(false);
+        charSelectionMenu.SetActive(false);
         creditsMenu.SetActive(false);
         privatePrompt.SetActive(false);
 
@@ -805,6 +825,11 @@ public class MainMenuManager : MonoBehaviour, ILobbyCallbacks, IInRoomCallbacks,
     public void CloseMapSelectionMenu()
     {
         mapSelectionMenu.SetActive(false);
+    }
+
+    public void CloseCharSelectionMenu()
+    {
+        charSelectionMenu.SetActive(false);
     }
     public void StartGame() {
 
@@ -1082,15 +1107,7 @@ public class MainMenuManager : MonoBehaviour, ILobbyCallbacks, IInRoomCallbacks,
             }
             case "selfinsert":
             {
-                Hashtable prop = new()
-                {
-                    { Enums.NetPlayerProperties.Character, GlobalController.Instance.characters.Length-1}
-                };
-                PhotonNetwork.LocalPlayer.SetCustomProperties(prop);
-                PlayerData data = GlobalController.Instance.characters.Last();
-                sfx.PlayOneShot(Enums.Sounds.Player_Voice_Selected.GetClip(data));
-                steveURLFieldParent.SetActive(false);
-                characterDropdown.captionText.text = data.characterName;
+                ChangeCharacter(GlobalController.Instance.characters.Length - 1);
                 LocalChatMessage("biggest self insert ever smh", ColorToVector(Color.green));
                 return;
             }
@@ -1185,24 +1202,27 @@ public class MainMenuManager : MonoBehaviour, ILobbyCallbacks, IInRoomCallbacks,
         return;
     }
 
+    public void ChangeCharacter(int id, bool notify = true)
+    {
+        Hashtable prop = new()
+        {
+            { Enums.NetPlayerProperties.Character, id }
+        };
+        PhotonNetwork.LocalPlayer.SetCustomProperties(prop);
+        PlayerData data = GlobalController.Instance.characters[id];
+        if (notify)
+            sfx.PlayOneShot(Enums.Sounds.Player_Voice_Selected.GetClip(data));
+        charLabel.text = data.uistring + data.characterName;
+
+        // additional stuff
+        steveURLFieldParent.SetActive(id == 3);
+    }
     IEnumerator SelectNextFrame(TMP_InputField input) {
         yield return new WaitForEndOfFrame();
         input.ActivateInputField();
     }
     public static Vector3 ColorToVector(Color color) {
         return new Vector3(color.r, color.g, color.b);
-    }
-    public void SwapCharacter(TMP_Dropdown dropdown) {
-        Hashtable prop = new() {
-            { Enums.NetPlayerProperties.Character, dropdown.value }
-        };
-        PhotonNetwork.LocalPlayer.SetCustomProperties(prop);
-
-        PlayerData data = GlobalController.Instance.characters[dropdown.value];
-
-        sfx.PlayOneShot(Enums.Sounds.Player_Voice_Selected.GetClip(data));
-
-        steveURLFieldParent.SetActive(dropdown.value == 3);
     }
 
     public void SetPlayerColor(int index) {
@@ -1252,7 +1272,7 @@ public class MainMenuManager : MonoBehaviour, ILobbyCallbacks, IInRoomCallbacks,
         textComp.color = color;
     }
     public void OpenLinks() {
-        Application.OpenURL("https://github.com/ipodtouch0218/NSMB-MarioVsLuigi/blob/master/LINKS.md");
+        Application.OpenURL("https://github.com/YoshiCrafter29/NSMB-MarioVsLuigiVsHomerAllStars/blob/master/LINKS.md");
     }
     public void Quit() {
         if (quit)
@@ -1325,7 +1345,7 @@ public class MainMenuManager : MonoBehaviour, ILobbyCallbacks, IInRoomCallbacks,
     }
 
     public void OpenDownloadsPage() {
-        Application.OpenURL("https://github.com/ipodtouch0218/NSMB-MarioVsLuigi/releases/latest");
+        Application.OpenURL("https://github.com/YoshiCrafter29/NSMB-MarioVsLuigiVsHomerAllStars/releases/latest");
         OpenMainMenu();
     }
 

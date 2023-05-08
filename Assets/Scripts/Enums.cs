@@ -174,7 +174,7 @@ public static class Enums {
         // ADDON SHIT LMAO
         [SoundData("powerup/smoke_weed_everyday")]              Powerup_Weed = 88,
         [SoundData("powerup/bigmac")]                           Powerup_BigMac = 89,
-        [SoundData("powerup/mcdonalds")]                        Powerup_McDonalds = 90,
+        [SoundData("powerup/mcdonalds")]                        Powerup_McDonalds = 90
     }
 
     public enum AudioType : byte

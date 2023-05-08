@@ -9,6 +9,8 @@ public class MapItem : MonoBehaviour
     public TextMeshProUGUI text;
     public Image image;
     public MainMenuManager mainMenuManager;
+
+    public bool isChar = false;
     
     public void SetMap(string mapName, Sprite mapIcon = null)
     {
@@ -19,7 +21,14 @@ public class MapItem : MonoBehaviour
 
     public void OnPress()
     {
-        mainMenuManager.SetLevelIndex(transform.GetSiblingIndex() - 1);
-        mainMenuManager.CloseMapSelectionMenu();
+        if (isChar)
+        {
+            mainMenuManager.ChangeCharacter(transform.GetSiblingIndex() - 1);
+            mainMenuManager.CloseCharSelectionMenu();
+        } else
+        {
+            mainMenuManager.SetLevelIndex(transform.GetSiblingIndex() - 1);
+            mainMenuManager.CloseMapSelectionMenu();
+        }
     }
 }

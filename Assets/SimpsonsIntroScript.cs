@@ -12,7 +12,18 @@ public class SimpsonsIntroScript : MonoBehaviour
     void Start()
     {
         videoPlayer.started += VideoPlayer_started;
+        videoPlayer.loopPointReached += VideoPlayer_loopPointReached;
         blackPanel.SetActive(true);
+    }
+
+    private void VideoPlayer_loopPointReached(VideoPlayer source)
+    {
+        RemoveSimpsonsScreen();
+    }
+
+    public void RemoveSimpsonsScreen()
+    {
+        gameObject.SetActive(false);
     }
 
     private void VideoPlayer_started(VideoPlayer source)
