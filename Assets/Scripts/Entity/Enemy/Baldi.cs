@@ -1,3 +1,4 @@
+using NSMB.Utils;
 using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
@@ -19,16 +20,30 @@ public class Baldi : KillableEntity
 
     public float slapSpeed = 30f;
 
+    public float minSpeed = 1.75f;
+    public float maxSpeed = 0.45f;
+
     public Rigidbody2D rb;
 
     // focused player
     PlayerController player = null;
 
+    bool chaosChecked = false;
     // Update is called once per frame
     void Update()
     {
         if (angry)
         {
+            if (!chaosChecked)
+            {
+                Utils.GetCustomProperty(Enums.NetRoomProperties.ChaosMode, out bool chaos);
+                if (chaos)
+                {
+                    minSpeed = 1.35f;
+                    maxSpeed = 0.20f;
+                }
+                chaosChecked = true;
+            }
             if (GameManager.Instance.music != null)
                 GameManager.Instance.music.volume = 0f;
 
@@ -91,17 +106,20 @@ public class Baldi : KillableEntity
             slapTime += Time.deltaTime;
             if (photonView.IsMine)
             {
-                if (slapTime > Mathf.Lerp(2f, 0.85f, ((float)starsCount) / ((float)GameManager.Instance.starRequirement)))
+                float speed = Mathf.Lerp(minSpeed, maxSpeed, ((float)starsCount) / ((float)GameManager.Instance.starRequirement));
+                // Debug.Log(((float)starsCount) / ((float)GameManager.Instance.starRequirement));
+                // Debug.Log(speed);
+                if (slapTime > speed)
                 {
                     photonView.RPC("Slap", RpcTarget.All, left ? -15f : 15f);
                 }
-                // animation update
-                spr.sprite = slapSprites[Mathf.FloorToInt(Mathf.Clamp(slapTime * 15f, 0, slapSprites.Count - 1))];
             }
             if (slapTime > 0.125f)
             {
                 rb.velocity = new Vector2();
             }
+            // animation update
+            spr.sprite = slapSprites[Mathf.FloorToInt(Mathf.Clamp(slapTime * 15f, 0, slapSprites.Count - 1))];
         }
     }
 
