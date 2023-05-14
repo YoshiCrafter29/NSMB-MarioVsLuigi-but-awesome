@@ -12,6 +12,8 @@ public class GiftBomb : KillableEntity
     public int explosionTileSize = 5;
     public float fallingSpeed = 0.75f;
 
+    public List<Sprite> sprites;
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         // kaboom!
@@ -22,6 +24,12 @@ public class GiftBomb : KillableEntity
     {
         // kaboom!
         photonView.RPC("Kaboom", RpcTarget.All);
+    }
+
+    private new void Start()
+    {
+        base.Start();
+        GetComponent<SpriteRenderer>().sprite = sprites[Random.Range(0, sprites.Count-1)];
     }
 
     private void Update()

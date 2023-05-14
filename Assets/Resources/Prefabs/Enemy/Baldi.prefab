@@ -468,6 +468,8 @@ MonoBehaviour:
   spr: {fileID: 5068896713164469403}
   slapTime: 0
   slapSpeed: 30
+  minSpeed: 1.75
+  maxSpeed: 0.75
   rb: {fileID: 5068896713164469381}
 --- !u!82 &8694950827840533868
 AudioSource:

@@ -39,6 +39,15 @@ public class GayTile : BreakableBrickTile
 
         if (spawnResult != null)
         {
+
+            Utils.GetCustomProperty(Enums.NetRoomProperties.ChaosMode, out bool chaos);
+            if (chaos && Random.Range(0, 50) == 32)
+            {
+                // spawn mio honda
+                PhotonNetwork.InstantiateRoomObject("Prefabs/Enemy/Mio Honda", worldLocation + new Vector3(0.5f, 2.5f, 0f), Quaternion.identity);
+                spawnResult = null;
+            }
+
             Bump(interacter, direction, worldLocation);
 
             object[] parametersBump = new object[] { tileLocation.x, tileLocation.y, direction == InteractionDirection.Down, resultTile, spawnResult };
