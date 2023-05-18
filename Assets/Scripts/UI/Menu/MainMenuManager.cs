@@ -78,7 +78,7 @@ public class MainMenuManager : MonoBehaviour, ILobbyCallbacks, IInRoomCallbacks,
             { Enums.NetPlayerProperties.Ping, PhotonNetwork.GetPing() },
             { Enums.NetPlayerProperties.PlayerColor, 0 },
             { Enums.NetPlayerProperties.Spectator, false },
-            { Enums.NetPlayerProperties.SteveSpriteURL, "Steve" }
+            { Enums.NetPlayerProperties.SteveSpriteURL, "" }
         };
         PhotonNetwork.LocalPlayer.SetCustomProperties(prop);
 

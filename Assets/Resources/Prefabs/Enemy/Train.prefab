@@ -122,6 +122,7 @@ MonoBehaviour:
   left: 0
   collide: 1
   iceCarryable: 1
+  shouldKill: 1
   flying: 0
   body: {fileID: 0}
   hitbox: {fileID: 0}
@@ -503,6 +504,7 @@ MonoBehaviour:
   left: 0
   collide: 1
   iceCarryable: 1
+  shouldKill: 1
   flying: 0
   body: {fileID: 0}
   hitbox: {fileID: 0}
@@ -510,6 +512,8 @@ MonoBehaviour:
   deathTimer: -1
   terminalVelocity: -8
   ride: {fileID: 0}
+  canHurt: 0
+  enableRide: 1
 --- !u!1 &7523289063554791230
 GameObject:
   m_ObjectHideFlags: 0

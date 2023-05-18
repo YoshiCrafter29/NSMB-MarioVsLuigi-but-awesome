@@ -20,7 +20,7 @@ public class SteveTextureDownloader : MonoBehaviourPun
         {
             if (player != null)
             {
-                UnityWebRequest www = UnityWebRequestTexture.GetTexture(textureURLPrefix + player);
+                UnityWebRequest www = UnityWebRequestTexture.GetTexture(textureURLPrefix + (player ?? ""));
                 yield return www.SendWebRequest();
 
                 Texture myTexture = DownloadHandlerTexture.GetContent(www);

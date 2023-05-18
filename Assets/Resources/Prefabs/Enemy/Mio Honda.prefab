@@ -469,6 +469,7 @@ MonoBehaviour:
   - {fileID: -500315988, guid: de6b1c814187e0f42b0bdb4f9ac86639, type: 3}
   jumpSprite: {fileID: 1844679912, guid: de6b1c814187e0f42b0bdb4f9ac86639, type: 3}
   spriteRenderer: {fileID: 7523289063499453457}
+  firstJump: 1
 --- !u!82 &3665421140773180189
 AudioSource:
   m_ObjectHideFlags: 0
