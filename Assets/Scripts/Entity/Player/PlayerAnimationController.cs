@@ -21,6 +21,10 @@ public class PlayerAnimationController : MonoBehaviourPun {
     private List<Renderer> renderers = new();
     private MaterialPropertyBlock materialBlock;
 
+    [Header("Models")]
+    [SerializeField] private SkinnedMeshRenderer largeModelRenderer;
+    [SerializeField] private SkinnedMeshRenderer smallModelRenderer;
+
     public Color GlowColor {
         get {
             if (_glowColor == null)
@@ -46,6 +50,12 @@ public class PlayerAnimationController : MonoBehaviourPun {
         drillParticleAudio = drillParticle.GetComponent<AudioSource>();
 
         DisableAllModels();
+
+        largeModelRenderer.sharedMesh = controller.character.largeMarioModel;
+        largeModelRenderer.materials = controller.character.largeMarioMaterials;
+
+        smallModelRenderer.sharedMesh = controller.character.smallMarioModel;
+        smallModelRenderer.materials = controller.character.smallMarioMaterials;
 
         if (photonView) {
             enableGlow = !photonView.IsMine;

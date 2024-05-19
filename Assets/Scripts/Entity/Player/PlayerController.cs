@@ -213,6 +213,8 @@ public class PlayerController : MonoBehaviourPun, IFreezableEntity, ICustomSeria
 
     #region Unity Methods
     public void Awake() {
+        character = GlobalController.Instance.characters[(int)photonView.InstantiationData[0] % GlobalController.Instance.characters.Length];
+
         cameraController = GetComponent<CameraController>();
         cameraController.IsControllingCamera = photonView.IsMineOrLocal();
 
@@ -262,6 +264,7 @@ public class PlayerController : MonoBehaviourPun, IFreezableEntity, ICustomSeria
     }
 
     public void Start() {
+
         hitboxes = GetComponents<BoxCollider2D>();
         trackIcon = UIUpdater.Instance.CreatePlayerIcon(this);
         transform.position = body.position = GameManager.Instance.spawnpoint;
@@ -269,6 +272,8 @@ public class PlayerController : MonoBehaviourPun, IFreezableEntity, ICustomSeria
         LoadFromGameState();
         spawned = true;
         cameraController.Recenter();
+
+
     }
 
     public void OnDestroy() {

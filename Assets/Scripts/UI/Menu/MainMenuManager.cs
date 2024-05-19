@@ -14,6 +14,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 using NSMB.Utils;
+using UnityEditor.U2D.Animation;
 
 public class MainMenuManager : MonoBehaviour, ILobbyCallbacks, IInRoomCallbacks, IOnEventCallback, IConnectionCallbacks, IMatchmakingCallbacks {
 
@@ -151,7 +152,7 @@ public class MainMenuManager : MonoBehaviour, ILobbyCallbacks, IInRoomCallbacks,
     public void OnPlayerPropertiesUpdate(Player player, Hashtable playerProperties) {
         // increase or remove when toadette or another character is added
         Utils.GetCustomProperty(Enums.NetRoomProperties.Debug, out bool debug);
-        if (PhotonNetwork.IsMasterClient && Utils.GetCharacterIndex(player) > 1 && !debug) {
+        if (PhotonNetwork.IsMasterClient && Utils.GetCharacterIndex(player) >= GlobalController.Instance.characters.Length && !debug) {
             PhotonNetwork.CloseConnection(player);
         }
         UpdateSettingEnableStates();
@@ -487,6 +488,11 @@ public class MainMenuManager : MonoBehaviour, ILobbyCallbacks, IInRoomCallbacks,
 
         GlobalController.Instance.DiscordController.UpdateActivity();
         EventSystem.current.SetSelectedGameObject(title);
+
+        characterDropdown.options.Clear();
+        foreach(PlayerData ch in GlobalController.Instance.characters) {
+            characterDropdown.options.Add(new TMP_Dropdown.OptionData(ch.charName));
+        }
 
 #if PLATFORM_WEBGL
         fullscreenToggle.interactable = false;

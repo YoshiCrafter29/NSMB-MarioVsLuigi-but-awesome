@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d06d6d68827b8e4ea85daa354fc2aef, type: 3}
+  m_Name: Homer
+  m_EditorClassIdentifier: 
+  charName: Homer
+  useLuigiBase: 0
+  shrinkModelForSmall: 1
+  largeMarioModel: {fileID: 4281324698017192035, guid: 83efa06cb7e376b4cbb1b9c9b60aab12,
+    type: 3}
+  largeMarioMaterials:
+  - {fileID: 2100000, guid: 9ff550585db2ee84fbc611a8a4afdfca, type: 2}
+  - {fileID: 2100000, guid: 74879dbeac3cde6438e61c4b441b541b, type: 2}
+  smallMarioModel: {fileID: 4281324698017192035, guid: 83efa06cb7e376b4cbb1b9c9b60aab12,
+    type: 3}
+  smallMarioMaterials:
+  - {fileID: 2100000, guid: 9ff550585db2ee84fbc611a8a4afdfca, type: 2}
+  - {fileID: 2100000, guid: 74879dbeac3cde6438e61c4b441b541b, type: 2}
+  soundFolder: homer
+  uistring: 
+  loadingSmallSprite: {fileID: 0}
+  loadingBigSprite: {fileID: 0}
+  readySprite: {fileID: 0}
+  smallOverrides: {fileID: 22100000, guid: 347b7f77a47c4db4b85584fbfdecf63b, type: 2}
+  largeOverrides: {fileID: 9100000, guid: fa2b2fc953f5f444291d26193e0ac7fb, type: 2}
