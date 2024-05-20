@@ -13,19 +13,7 @@ MonoBehaviour:
   m_Name: Mario
   m_EditorClassIdentifier: 
   charName: Mario
-  useLuigiBase: 0
-  shrinkModelForSmall: 0
-  largeMarioModel: {fileID: -2609601416848798982, guid: 024ceb223bceebd488dbc425555f4df0,
-    type: 3}
-  largeMarioMaterials:
-  - {fileID: 2100000, guid: dcfc5c5d3209d9b42b8b314c0e6d0dba, type: 2}
-  - {fileID: 2100000, guid: 3c2958cf90b1bd64295f8ae254f80d0a, type: 2}
-  smallMarioModel: {fileID: -6852372355584245671, guid: e0d3ef6bcff32414dbd34fc6ac031292,
-    type: 3}
-  smallMarioMaterials:
-  - {fileID: 2100000, guid: d5cbc95593d66124ca0bf3566ac22dc8, type: 2}
-  - {fileID: 2100000, guid: dcfc5c5d3209d9b42b8b314c0e6d0dba, type: 2}
-  - {fileID: 2100000, guid: b152dade7ca68d548aaea3e41a7897c4, type: 2}
+  prefab: Mario
   soundFolder: mario
   uistring: <sprite=3>
   loadingSmallSprite: {fileID: 1040450253486601905, guid: a7245cae141f3ee449147539ebd2a2c9,

@@ -22,7 +22,7 @@ public class ScoreboardEntry : MonoBehaviour {
         }
 
         playerId = target.playerId;
-        nameText.text = target.photonView.Owner.GetUniqueNickname();
+        nameText.text = target.character.uistring + target.photonView.Owner.GetUniqueNickname();
 
         Color c = target.AnimationController.GlowColor;
         background.color = new(c.r, c.g, c.b, 0.5f);

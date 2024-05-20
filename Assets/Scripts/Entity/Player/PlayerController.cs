@@ -213,7 +213,7 @@ public class PlayerController : MonoBehaviourPun, IFreezableEntity, ICustomSeria
 
     #region Unity Methods
     public void Awake() {
-        character = GlobalController.Instance.characters[(int)photonView.InstantiationData[0] % GlobalController.Instance.characters.Length];
+        // character = GlobalController.Instance.characters[(int)photonView.InstantiationData[0] % GlobalController.Instance.characters.Length];
 
         cameraController = GetComponent<CameraController>();
         cameraController.IsControllingCamera = photonView.IsMineOrLocal();

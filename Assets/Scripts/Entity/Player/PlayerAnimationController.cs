@@ -20,6 +20,7 @@ public class PlayerAnimationController : MonoBehaviourPun {
     private BoxCollider2D mainHitbox;
     private List<Renderer> renderers = new();
     private MaterialPropertyBlock materialBlock;
+    private Vector3 largeModelScale;
 
     [Header("Models")]
     [SerializeField] private SkinnedMeshRenderer largeModelRenderer;
@@ -48,14 +49,9 @@ public class PlayerAnimationController : MonoBehaviourPun {
         body = GetComponent<Rigidbody2D>();
         mainHitbox = GetComponent<BoxCollider2D>();
         drillParticleAudio = drillParticle.GetComponent<AudioSource>();
+        largeModelScale = largeModel.transform.localScale;
 
         DisableAllModels();
-
-        largeModelRenderer.sharedMesh = controller.character.largeMarioModel;
-        largeModelRenderer.materials = controller.character.largeMarioMaterials;
-
-        smallModelRenderer.sharedMesh = controller.character.smallMarioModel;
-        smallModelRenderer.materials = controller.character.smallMarioMaterials;
 
         if (photonView) {
             enableGlow = !photonView.IsMine;
@@ -296,14 +292,26 @@ public class PlayerAnimationController : MonoBehaviourPun {
         //Model changing
         bool large = controller.state >= Enums.PowerupState.Mushroom;
 
-        largeModel.SetActive(large);
-        smallModel.SetActive(!large);
+        if (controller.character.useLargeForSmallModel) {
+            largeModel.SetActive(true);
+            smallModel.SetActive(false);
+
+            animator.avatar = largeAvatar;
+            animator.runtimeAnimatorController = controller.character.largeOverrides;
+
+            largeModel.transform.localScale = large ? largeModelScale : new Vector3(largeModelScale.x, largeModelScale.y * 0.5f, largeModelScale.z);
+        } else {
+            largeModel.SetActive(large);
+            smallModel.SetActive(!large);
+
+            animator.avatar = large ? largeAvatar : smallAvatar;
+            animator.runtimeAnimatorController = large ? controller.character.largeOverrides : controller.character.smallOverrides;
+        }
+
         blueShell.SetActive(controller.state == Enums.PowerupState.BlueShell);
 
         largeShellExclude.SetActive(!animator.GetCurrentAnimatorStateInfo(0).IsName("in-shell"));
         propellerHelmet.SetActive(controller.state == Enums.PowerupState.PropellerMushroom);
-        animator.avatar = large ? largeAvatar : smallAvatar;
-        animator.runtimeAnimatorController = large ? controller.character.largeOverrides : controller.character.smallOverrides;
 
         HandleDeathAnimation();
         HandlePipeAnimation();

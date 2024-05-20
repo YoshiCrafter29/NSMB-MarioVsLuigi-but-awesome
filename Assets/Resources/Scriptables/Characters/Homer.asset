@@ -13,22 +13,12 @@ MonoBehaviour:
   m_Name: Homer
   m_EditorClassIdentifier: 
   charName: Homer
-  useLuigiBase: 0
-  shrinkModelForSmall: 1
-  largeMarioModel: {fileID: 4281324698017192035, guid: 83efa06cb7e376b4cbb1b9c9b60aab12,
-    type: 3}
-  largeMarioMaterials:
-  - {fileID: 2100000, guid: 9ff550585db2ee84fbc611a8a4afdfca, type: 2}
-  - {fileID: 2100000, guid: 74879dbeac3cde6438e61c4b441b541b, type: 2}
-  smallMarioModel: {fileID: 4281324698017192035, guid: 83efa06cb7e376b4cbb1b9c9b60aab12,
-    type: 3}
-  smallMarioMaterials:
-  - {fileID: 2100000, guid: 9ff550585db2ee84fbc611a8a4afdfca, type: 2}
-  - {fileID: 2100000, guid: 74879dbeac3cde6438e61c4b441b541b, type: 2}
+  prefab: Homer
+  useLargeForSmallModel: 1
   soundFolder: homer
-  uistring: 
+  uistring: <sprite=49>
   loadingSmallSprite: {fileID: 0}
   loadingBigSprite: {fileID: 0}
-  readySprite: {fileID: 0}
-  smallOverrides: {fileID: 22100000, guid: 347b7f77a47c4db4b85584fbfdecf63b, type: 2}
+  readySprite: {fileID: 1304872883, guid: 70672da71d9d71a4daaf5f3fc58531e6, type: 3}
+  smallOverrides: {fileID: 9100000, guid: fa2b2fc953f5f444291d26193e0ac7fb, type: 2}
   largeOverrides: {fileID: 9100000, guid: fa2b2fc953f5f444291d26193e0ac7fb, type: 2}

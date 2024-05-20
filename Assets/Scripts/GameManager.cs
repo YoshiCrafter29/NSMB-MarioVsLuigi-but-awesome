@@ -452,7 +452,7 @@ public class GameManager : MonoBehaviour, IOnEventCallback, IInRoomCallbacks, IC
         if (!GlobalController.Instance.joinedAsSpectator) {
             var data = Utils.GetCharacterData();
 
-            localPlayer = PhotonNetwork.Instantiate(data.useLuigiBase ? "Prefabs/PlayerLuigi" : "Prefabs/PlayerMario", spawnpoint, Quaternion.identity, 0, new object[] { Utils.GetCharacterIndex() });
+            localPlayer = PhotonNetwork.Instantiate("Prefabs/Characters/" + data.prefab, spawnpoint, Quaternion.identity, 0);
             localPlayer.GetComponent<Rigidbody2D>().isKinematic = true;
 
             RaiseEventOptions options = new() { Receivers = ReceiverGroup.Others, CachingOption = EventCaching.AddToRoomCache };
